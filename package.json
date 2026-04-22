@@ -6,5 +6,12 @@
   "unity": "2023.3",
   "author": {
     "name": "Qmrcl"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Complete Starter Kit",
+      "description": "Все примеры: демо-сцена, пресеты и настройки",
+      "path": "Samples~/DemoContent" 
+    }
+  ]
 }
