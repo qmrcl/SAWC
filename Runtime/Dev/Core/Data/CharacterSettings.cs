@@ -9,7 +9,7 @@ namespace SAWC.Core
         public bool CanJump = true;
         public bool CanSprint = true;
 
-        [Tooltip("Если включено, персонаж будет прыгать без остановки, пока зажата кнопка")]
+        [Tooltip("Если включено, персонаж будет прыгать без остановки, пока зажата кнопка.")]
         public bool EnableAutoJump = false;
 
         public float MoveSpeed = 5f;
