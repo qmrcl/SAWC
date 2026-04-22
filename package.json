@@ -1,16 +1,20 @@
 {
   "name": "com.qmrcl.sawc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "SAW Controller",
-  "description": "Standalone Advanced Walk Controller for Unity",
+  "description": "Standalone Advanced Walk Controller for Unity. Bleeding edge version.",
   "unity": "2023.3",
   "author": {
     "name": "Qmrcl"
   },
+  "dependencies": {
+    "com.unity.inputsystem": "1.19.0",
+    "com.unity.cinemachine": "3.1.6"
+  },
   "samples": [
     {
       "displayName": "Complete Starter Kit",
-      "description": "Все примеры: демо-сцена, пресеты и настройки",
+      "description": "Демо-сцена, пресеты и настройки",
       "path": "Samples~/DemoContent" 
     }
   ]
