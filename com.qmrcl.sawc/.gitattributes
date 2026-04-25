@@ -1,0 +1,36 @@
+* text=auto eol=lf
+
+*.cs text eol=lf diff=csharp
+*.json text eol=lf
+*.xml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.shader text eol=lf
+*.cginc text eol=lf
+*.compute text eol=lf
+*.meta text eol=lf
+
+*.unity text eol=lf
+*.asset text eol=lf
+*.prefab text eol=lf
+*.mat text eol=lf
+*.controller text eol=lf
+
+*.exe binary
+*.dll binary
+*.so binary
+*.pdb binary
+*.mdb binary
+*.zip binary
+*.7z binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.tga binary
+*.psd binary
+*.fbx binary
+*.obj binary
+*.wav binary
+*.mp3 binary
+*.ttf binary
+*.otf binary

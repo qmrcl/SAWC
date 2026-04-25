@@ -1,0 +1,25 @@
+{
+  "name": "com.qmrcl.sawc",
+  "version": "1.0.2",
+  "displayName": "SAWController",
+  "description": "Простой модульный контроллер.",
+  "unity": "2023.3",
+  "author": {
+    "name": "Qmrcl",
+    "url": "https://github.com/qmrcl"
+  },
+  "changelogUrl": "https://github.com/qmrcl/SAWC/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/qmrcl/SAWC/blob/main/LICENSE.md",
+  "documentationUrl": "https://qmrcl.github.io/SAWC-docs/",
+  "dependencies": {
+    "com.unity.inputsystem": "1.19.0",
+    "com.unity.cinemachine": "3.1.6"
+  },
+  "samples": [
+    {
+      "displayName": "Стартовый пак",
+      "description": "Демо-сцена, пресеты и настройки",
+      "path": "Samples~/DemoContent"
+    }
+  ]
+}
