@@ -5,6 +5,7 @@ namespace SAWC.Core
 {
     [AddComponentMenu("SAWC/Core/SAW Controller")]
     [RequireComponent(typeof(CharacterController))]
+    [DisallowMultipleComponent]
     public class SAWController : MonoBehaviour
     {
         [SerializeField] private CharacterSettings _settings;

@@ -3,18 +3,18 @@ using UnityEngine.EventSystems;
 
 namespace SAWC.Modules.Input.TouchControls
 {
-    public class TouchZone : MonoBehaviour, IDragHandler, IPointerUpHandler
+    public class LookPad : MonoBehaviour, IDragHandler, IPointerUpHandler
     {
-        [SerializeField] private LookPad _lookPad;
+        [SerializeField] private TouchInputReceiver touchInputReceiver;
 
         public void OnDrag(PointerEventData eventData)
         {
-            _lookPad.ReceiveDelta(eventData.delta);
+            touchInputReceiver.ReceiveDelta(eventData.delta);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _lookPad.ReceiveDelta(Vector2.zero);
+            touchInputReceiver.ReceiveDelta(Vector2.zero);
         }
     }
 }

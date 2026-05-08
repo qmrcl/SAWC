@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 623835571}
   - component: {fileID: 623835573}
   m_Layer: 5
-  m_Name: TouchZone
+  m_Name: LookPad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77e93a76f857f824396bca0b9dce81ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SAWC.Modules::SAWC.Modules.Input.TouchControls.TouchZone
-  _lookPad: {fileID: 9008978737484078430}
+  touchInputReceiver: {fileID: 9008978737484078430}
 --- !u!222 &623835572
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -397,7 +397,7 @@ MonoBehaviour:
   ReferenceFrame: 0
   RecenterTarget: 0
   PanAxis:
-    Value: 1.5797919
+    Value: 0
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -407,7 +407,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   TiltAxis:
-    Value: 1.6672214
+    Value: 0
     Center: 0
     Range: {x: -70, y: 70}
     Wrap: 0
@@ -623,37 +623,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2713714959820324793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299332948423221709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.UI.InputSystemUIInputModule
-  m_SendPointerHoverToParent: 1
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
-  m_ScrollDeltaPerTick: 6
 --- !u!114 &2726871016443850203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -835,7 +804,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1194032367688401823}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.014547356, y: 0.013784389, z: -0.0002005667, w: 0.99979913}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -951,7 +920,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6885540434001441865}
   - component: {fileID: 672897891604694886}
-  - component: {fileID: 2713714959820324793}
+  - component: {fileID: 6885540434001441866}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -982,9 +951,9 @@ MonoBehaviour:
   OnPointerDownEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9213079577649723370}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SAWC.Core.InputActionInputProvider, SAWC.Core
-        m_MethodName: UI_Jump
+        m_MethodName: UIJump
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -997,9 +966,9 @@ MonoBehaviour:
   OnPointerUpEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9213079577649723370}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SAWC.Core.InputActionInputProvider, SAWC.Core
-        m_MethodName: UI_Jump
+        m_MethodName: UISprint
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1179,8 +1148,8 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -945097064212792362, guid: 55f7522d00ca932438674c4da73e04f8, type: 3}
         Gain: 1
-        LegacyInput: 
-        LegacyGain: 1
+        LegacyInput: Mouse X
+        LegacyGain: 300
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -1192,8 +1161,8 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -945097064212792362, guid: 55f7522d00ca932438674c4da73e04f8, type: 3}
         Gain: -1
-        LegacyInput: 
-        LegacyGain: 1
+        LegacyInput: Mouse Y
+        LegacyGain: -300
         CancelDeltaTime: 0
       InputValue: -0
       Driver:
@@ -1399,6 +1368,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6885540434001441866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299332948423221709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.StandaloneInputModule
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!82 &6968819814327135673
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1671,7 +1660,7 @@ MonoBehaviour:
   CollideAgainst:
     serializedVersion: 2
     m_Bits: 1
-  IgnoreTag: 
+  IgnoreTag: Player
   TransparentLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1981,7 +1970,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2305926054784277331}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.014547356, y: 0.013784389, z: -0.0002005667, w: 0.99979913}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2058,12 +2047,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5420531895891106313}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c692e4142dc1b44cadf6146ac270f4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d7275923ae737f46be59c74342cc993, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SAWC.Core::SAWC.Core.InputActionInputProvider
-  _moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _jumpAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _sprintAction: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_EditorClassIdentifier: SAWC.Core::SAWC.Core.LegacyInputProvider
+  _horAxis: Horizontal
+  _verAxis: Vertical
+  _jumpButton: Jump
+  _sprintButton: Fire3
   _joystickObject: {fileID: 3359516296826523912}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

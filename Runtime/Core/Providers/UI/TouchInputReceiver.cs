@@ -4,8 +4,8 @@ using System;
 
 namespace SAWC.Modules.Input.TouchControls
 {
-    [AddComponentMenu("SAWC/Modules/Touchpad")]
-    public class LookPad : InputAxisControllerBase<LookPad.TouchReader>
+    [AddComponentMenu("SAWC/Modules/TouchInputReceiver")]
+    public class TouchInputReceiver : InputAxisControllerBase<TouchInputReceiver.TouchReader>
     {
         [SerializeField, Range(0.1f, 100f)] private float _sensitivity = 10f;
 
@@ -41,7 +41,7 @@ namespace SAWC.Modules.Input.TouchControls
 
             public float GetValue(UnityEngine.Object context, IInputAxisOwner.AxisDescriptor.Hints hint)
             {
-                var controller = context as LookPad;
+                var controller = context as TouchInputReceiver;
                 if (controller == null) return 0;
 
                 return _axisType == AxisType.Horizontal ? controller._currentDelta.x : -controller._currentDelta.y;
