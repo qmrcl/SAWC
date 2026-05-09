@@ -46,11 +46,15 @@ namespace SAWC.Modules.Camera
         {
             if (_noise == null) return;
 
-            bool isMoving = (_sawController.IsMoving || _sawController.IsSprinting) && _sawController.IsGrounded;
-            float targetAmplitude = isMoving ? _maxShake : 0f;
+            bool onGround = _sawController.State.IsGrounded;
+    
+            bool canShake = _sawController.State.IsMoving && onGround;
 
-            bool isSprinting = _sawController.IsSprinting && _sawController.IsGrounded;
-            float targetFrequency = isSprinting ? _sprintFrequency : _defaultFrequency;
+            float targetAmplitude = canShake ? _maxShake : 0f;
+    
+            float targetFrequency = (canShake && _sawController.State.IsSprinting) 
+                ? _sprintFrequency 
+                : _defaultFrequency;
 
             _currentAmplitude = Mathf.SmoothDamp(_currentAmplitude, targetAmplitude, ref _ampVelocity, _smoothTime);
             _currentFrequency = Mathf.SmoothDamp(_currentFrequency, targetFrequency, ref _freqVelocity, _smoothTime);

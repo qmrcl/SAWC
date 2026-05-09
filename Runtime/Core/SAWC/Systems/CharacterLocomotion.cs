@@ -13,6 +13,7 @@ namespace SAWC.Core
         private float _lastCameraYRotation;
 
         internal Vector3 CurrentHorizontalVelocity => _currentHorizontalVelocity;
+        internal bool IsSprintingActive { get; private set; }
 
         internal CharacterLocomotion(CharacterSettings settings, Transform transform, Transform cameraTransform)
         {
@@ -22,19 +23,19 @@ namespace SAWC.Core
             _lastCameraYRotation = cameraTransform.eulerAngles.y;
         }
 
-        internal void Tick(Vector2 moveInput, bool isSprinting, bool isGrounded, float deltaTime)
+        internal void Tick(ref FrameContext ctx)
         {
-            Vector3 inputDirection = GetInputDirection(moveInput);
+            Vector3 inputDirection = GetInputDirection(ctx.MoveInput);
             HandleRotation(inputDirection);
 
-            float speed = CalculateSpeed(moveInput, isSprinting);
+            float speed = CalculateSpeed(ctx.MoveInput, ctx.SprintInput, ctx.CrouchInput);
             Vector3 targetVelocity = inputDirection.normalized * speed;
-            float smoothing = GetSmoothingRate(targetVelocity, isGrounded);
+            float smoothing = GetSmoothingRate(targetVelocity, ctx.IsGrounded);
 
             _currentHorizontalVelocity = Vector3.MoveTowards(
                 _currentHorizontalVelocity,
                 targetVelocity,
-                smoothing * deltaTime
+                smoothing * ctx.DeltaTime
             );
         }
 
@@ -58,10 +59,19 @@ namespace SAWC.Core
             return camRight * moveInput.x + camForward * moveInput.y;
         }
 
-        private float CalculateSpeed(Vector2 moveInput, bool isSprinting)
+        private float CalculateSpeed(Vector2 moveInput, bool isSprinting, bool isCrouching)
         {
-            bool canSprint = isSprinting && moveInput.y > 0.1f && _settings.CanSprint;
-            return canSprint ? _settings.SprintSpeed : _settings.MoveSpeed;
+            if (isCrouching && _settings.CanCrouch)
+            {
+                IsSprintingActive = false;
+                return _settings.CrouchSpeed;
+            }
+
+            bool hasInput = moveInput.sqrMagnitude > 0.01f;
+            bool validDirection = _settings.SprintOnlyForward ? moveInput.y > 0.1f : hasInput;
+            
+            IsSprintingActive = isSprinting && validDirection && _settings.CanSprint;
+            return IsSprintingActive ? _settings.SprintSpeed : _settings.MoveSpeed;
         }
 
         private float GetSmoothingRate(Vector3 targetVelocity, bool isGrounded)

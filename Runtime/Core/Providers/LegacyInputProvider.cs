@@ -10,6 +10,7 @@ namespace SAWC.Core
         [SerializeField] private string _verAxis = "Vertical";
         [SerializeField] private string _jumpButton = "Jump";
         [SerializeField] private string _sprintButton = "Fire3";
+        [SerializeField] private string _crouchButton = "Crouch";
 
         [Header("Mobile Support")]
         [SerializeField] private GameObject _joystickObject;
@@ -29,9 +30,14 @@ namespace SAWC.Core
         public event Action JumpCanceled;
         public event Action SprintStarted;
         public event Action SprintCanceled;
+        
+        // Звонки для приседа
+        public event Action CrouchStarted;
+        public event Action CrouchCanceled;
 
         private bool _isJumpPressed;
         private bool _isSprintPressed;
+        private bool _isCrouchPressed;
 
         private void Awake() => _joystick = _joystickObject?.GetComponent<IJoystickProvider>();
 
@@ -39,6 +45,7 @@ namespace SAWC.Core
         {
             HandleButton(_jumpButton, ref _isJumpPressed, JumpStarted, JumpCanceled);
             HandleButton(_sprintButton, ref _isSprintPressed, SprintStarted, SprintCanceled);
+            HandleButton(_crouchButton, ref _isCrouchPressed, CrouchStarted, CrouchCanceled);
         }
 
         private void HandleButton(string buttonName, ref bool state, Action startEvent, Action cancelEvent)
@@ -61,5 +68,6 @@ namespace SAWC.Core
 
         public void UIJump(bool start) { if(start) JumpStarted?.Invoke(); else JumpCanceled?.Invoke(); }
         public void UISprint(bool start) { if(start) SprintStarted?.Invoke(); else SprintCanceled?.Invoke(); }
+        public void UICrouch(bool start) { if(start) CrouchStarted?.Invoke(); else CrouchCanceled?.Invoke(); }
     }
 }

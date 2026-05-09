@@ -1,5 +1,5 @@
-using UnityEngine;
 using System;
+using UnityEngine;
 
 namespace SAWC.Core
 {
@@ -10,5 +10,8 @@ namespace SAWC.Core
         event Action JumpCanceled;
         event Action SprintStarted;
         event Action SprintCanceled;
+        
+        event Action CrouchStarted;
+        event Action CrouchCanceled;
     }
 }

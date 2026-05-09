@@ -10,6 +10,7 @@ namespace SAWC.Core
         [SerializeField] private InputActionReference _moveAction;
         [SerializeField] private InputActionReference _jumpAction;
         [SerializeField] private InputActionReference _sprintAction;
+        [SerializeField] private InputActionReference _crouchAction;
 
         [Header("Mobile Support")]
         [SerializeField] private GameObject _joystickObject;
@@ -28,6 +29,9 @@ namespace SAWC.Core
         public event Action JumpCanceled;
         public event Action SprintStarted;
         public event Action SprintCanceled;
+        
+        public event Action CrouchStarted;
+        public event Action CrouchCanceled;
 
         private void Awake() => _joystick = _joystickObject?.GetComponent<IJoystickProvider>();
 
@@ -35,24 +39,39 @@ namespace SAWC.Core
         {
             _jumpAction.action.started += OnJumpStarted;
             _jumpAction.action.canceled += OnJumpCanceled;
+            
             _sprintAction.action.started += OnSprintStarted;
             _sprintAction.action.canceled += OnSprintCanceled;
+            
+            // Подписываемся на унижение
+            _crouchAction.action.started += OnCrouchStarted;
+            _crouchAction.action.canceled += OnCrouchCanceled;
         }
 
         private void OnDisable()
         {
             _jumpAction.action.started -= OnJumpStarted;
             _jumpAction.action.canceled -= OnJumpCanceled;
+            
             _sprintAction.action.started -= OnSprintStarted;
             _sprintAction.action.canceled -= OnSprintCanceled;
+            
+            _crouchAction.action.started -= OnCrouchStarted;
+            _crouchAction.action.canceled -= OnCrouchCanceled;
         }
 
         private void OnJumpStarted(InputAction.CallbackContext ctx) => JumpStarted?.Invoke();
         private void OnJumpCanceled(InputAction.CallbackContext ctx) => JumpCanceled?.Invoke();
+        
         private void OnSprintStarted(InputAction.CallbackContext ctx) => SprintStarted?.Invoke();
         private void OnSprintCanceled(InputAction.CallbackContext ctx) => SprintCanceled?.Invoke();
+        
+        // Прокидываем коллбеки
+        private void OnCrouchStarted(InputAction.CallbackContext ctx) => CrouchStarted?.Invoke();
+        private void OnCrouchCanceled(InputAction.CallbackContext ctx) => CrouchCanceled?.Invoke();
 
         public void UIJump(bool start) { if(start) JumpStarted?.Invoke(); else JumpCanceled?.Invoke(); }
         public void UISprint(bool start) { if(start) SprintStarted?.Invoke(); else SprintCanceled?.Invoke(); }
+        public void UICrouch(bool start) { if(start) CrouchStarted?.Invoke(); else CrouchCanceled?.Invoke(); }
     }
 }

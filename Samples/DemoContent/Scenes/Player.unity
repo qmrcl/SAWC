@@ -698,7 +698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf7480f9234258409cae85a6f230052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorSystem
-  _startLocked: 0
+  _startLocked: 1
   _defaultLockMode: 1
   _toggleAction:
     m_Name: Toggle
@@ -1197,7 +1197,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4083133437056251015}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23619281, y: 0.00000003237726, z: -0.0000000078699465, w: 0.9717062}
+  m_LocalRotation: {x: 0.23619281, y: -0.000000016145755, z: 0.0000000039245514, w: 0.9717063}
   m_LocalPosition: {x: 0, y: 3.25, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2047,13 +2047,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5420531895891106313}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d7275923ae737f46be59c74342cc993, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c692e4142dc1b44cadf6146ac270f4d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SAWC.Core::SAWC.Core.LegacyInputProvider
-  _horAxis: Horizontal
-  _verAxis: Vertical
-  _jumpButton: Jump
-  _sprintButton: Fire3
+  m_EditorClassIdentifier: SAWC.Core::SAWC.Core.InputActionInputProvider
+  _moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _jumpAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _sprintAction: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _crouchAction: {fileID: 7040659881675835329, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _joystickObject: {fileID: 3359516296826523912}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

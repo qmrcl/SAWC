@@ -16,7 +16,7 @@ namespace SAWC.Modules.Audio
 
         private void Awake()
         {
-            if (_controller == null) Debug.LogError("SAWController не привязан", this);
+            if (_controller == null) Debug.LogError("SAWController пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", this);
             if (_step != null) _step.loop = true;
         }
 
@@ -26,22 +26,22 @@ namespace SAWC.Modules.Audio
         private void SubscribeToEvents()
         {
             if (_controller == null) return;
-            _controller.JumpPerformed += OnJumpPerformed;
-            _controller.LandPerformed += OnLandPerformed;
+            _controller.State.JumpPerformed += OnJumpPerformed;
+            _controller.State.LandPerformed += OnLandPerformed;
         }
 
         private void UnsubscribeFromEvents()
         {
             if (_controller == null) return;
-            _controller.JumpPerformed -= OnJumpPerformed;
-            _controller.LandPerformed -= OnLandPerformed;
+            _controller.State.JumpPerformed -= OnJumpPerformed;
+            _controller.State.LandPerformed -= OnLandPerformed;
         }
 
         private void Update()
         {
             if (_controller == null || _step == null) return;
 
-            if (_controller.IsMoving && _controller.IsGrounded)
+            if (_controller.State.IsMoving && _controller.State.IsGrounded)
             {
                 if (!_step.isPlaying) PlayContainer(_step);
             }

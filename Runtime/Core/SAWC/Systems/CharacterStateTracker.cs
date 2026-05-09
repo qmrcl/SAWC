@@ -3,48 +3,106 @@ using UnityEngine;
 
 namespace SAWC.Core
 {
-    internal sealed class CharacterStateTracker
+    internal sealed class CharacterStateTracker : ICharacterState
     {
-        private bool _wasGrounded;
-        private bool _isMoving;
+        public enum MovementState { Idle, Walking, Sprinting }
+        public enum AirState { Grounded, Jumping, Falling }
 
-        internal bool IsMoving => _isMoving;
+        private MovementState _moveState = MovementState.Idle;
+        private AirState _airState = AirState.Grounded;
+        private bool _isCrouching = false;
 
-        internal event Action LandPerformed;
-        internal event Action StartMoving;
-        internal event Action StopMoving;
+        public bool IsMoving => _moveState != MovementState.Idle;
+        public bool IsSprinting => _moveState == MovementState.Sprinting;
+        public bool IsJumping => _airState == AirState.Jumping;
+        public bool IsFalling => _airState == AirState.Falling;
+        public bool IsCrouching => _isCrouching;
+        public bool IsGrounded => _airState == AirState.Grounded;
+
+        public event Action JumpPerformed;
+        public event Action LandPerformed;
+        public event Action FallStarted;
+        public event Action StartMoving;
+        public event Action StopMoving;
+        public event Action SprintStarted;
+        public event Action SprintCanceled;
+        public event Action CrouchStarted;
+        public event Action CrouchCanceled;
 
         internal void Initialize(bool isGrounded)
         {
-            _wasGrounded = isGrounded;
+            _airState = isGrounded ? AirState.Grounded : AirState.Falling;
         }
 
-        internal void Tick(bool isGrounded, Vector3 horizontalVelocity)
+        internal void Tick(ref FrameContext ctx, Vector3 actualVelocity, bool sprintActive, float minMoveThreshold)
         {
-            CheckLanding(isGrounded);
-            CheckMovementState(horizontalVelocity);
-            _wasGrounded = isGrounded;
+            UpdateAirState(ctx.IsGrounded, actualVelocity.y);
+            UpdateStance(ctx.CrouchInput);
+            
+            Vector3 horizontalVelocity = actualVelocity;
+            horizontalVelocity.y = 0;
+            UpdateMovementState(horizontalVelocity.sqrMagnitude, sprintActive, minMoveThreshold);
         }
 
-        private void CheckLanding(bool isGrounded)
+        private void UpdateStance(bool crouchActive)
         {
-            if (!_wasGrounded && isGrounded) LandPerformed?.Invoke();
+            if (_isCrouching == crouchActive) return;
+            
+            _isCrouching = crouchActive;
+            
+            if (_isCrouching) CrouchStarted?.Invoke();
+            else CrouchCanceled?.Invoke();
         }
 
-        private void CheckMovementState(Vector3 horizontalVelocity)
+        private void UpdateAirState(bool isGrounded, float verticalVelocity)
         {
-            float speedSq = horizontalVelocity.sqrMagnitude;
+            AirState nextState = _airState;
 
-            if (speedSq > 0.01f && !_isMoving)
+            if (isGrounded)
             {
-                _isMoving = true;
-                StartMoving?.Invoke();
+                nextState = AirState.Grounded;
             }
-            else if (speedSq <= 0.005f && _isMoving)
+            else if (verticalVelocity > 0.1f)
             {
-                _isMoving = false;
-                StopMoving?.Invoke();
+                nextState = AirState.Jumping;
             }
+            else if (verticalVelocity < -0.1f)
+            {
+                nextState = AirState.Falling;
+            }
+
+            if (nextState == _airState) return;
+            
+            if (nextState == AirState.Grounded) LandPerformed?.Invoke();
+            if (nextState == AirState.Jumping) JumpPerformed?.Invoke();
+            if (nextState == AirState.Falling) FallStarted?.Invoke();
+                
+            _airState = nextState;
+        }
+
+        private void UpdateMovementState(float speedSq, bool sprintActive, float minMoveThreshold)
+        {
+            MovementState nextState = _moveState;
+            float thresholdSq = minMoveThreshold * minMoveThreshold;
+
+            if (speedSq > thresholdSq)
+            {
+                nextState = sprintActive ? MovementState.Sprinting : MovementState.Walking;
+            }
+            else if (speedSq <= thresholdSq * 0.8f)
+            {
+                nextState = MovementState.Idle;
+            }
+
+            if (nextState == _moveState) return;
+            
+            if (_moveState == MovementState.Idle) StartMoving?.Invoke();
+            if (_moveState == MovementState.Sprinting) SprintCanceled?.Invoke();
+            
+            if (nextState == MovementState.Idle) StopMoving?.Invoke();
+            if (nextState == MovementState.Sprinting) SprintStarted?.Invoke();                                      
+                                       
+            _moveState = nextState;               
         }
     }
 }

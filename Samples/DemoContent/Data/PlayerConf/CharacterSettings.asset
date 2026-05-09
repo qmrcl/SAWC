@@ -14,17 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSettings
   CanJump: 1
   CanSprint: 1
+  SprintOnlyForward: 1
   EnableAutoJump: 1
   MoveSpeed: 3
-  SprintSpeed: 5
-  JumpForce: 6
+  SprintSpeed: 6
+  JumpForce: 5
+  CanCrouch: 1
+  CrouchSpeed: 1
+  StandingHeight: 2
+  CrouchHeight: 1.1
+  CrouchSmoothTime: 0.2
   Gravity: -9.8
   TerminalVelocity: -50
-  Acceleration: 100
-  Deceleration: 100
+  GroundedGravity: -2
+  FallMultiplier: 2
+  MinMoveThreshold: 0.5
+  Acceleration: 20
+  Deceleration: 20
   AirControlMultiplier: 0.8
   RotateWithMovement: 0
   MovementRotationSmoothTime: 0.165
   StrafeRotationSmoothTime: 0.01
-  GroundedGravity: -2
-  FallMultiplier: 2

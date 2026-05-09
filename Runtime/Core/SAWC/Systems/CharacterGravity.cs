@@ -5,12 +5,10 @@ namespace SAWC.Core
     internal sealed class CharacterGravity
     {
         private readonly CharacterSettings _settings;
-
         private float _verticalVelocity;
         private bool _jumpHeld;
 
         internal float VerticalVelocity => _verticalVelocity;
-        internal event Action JumpPerformed;
 
         internal CharacterGravity(CharacterSettings settings)
         {
@@ -19,10 +17,10 @@ namespace SAWC.Core
 
         internal void SetJumpHeld(bool held) => _jumpHeld = held;
 
-        internal void Tick(bool isGrounded, float deltaTime)
+        internal void Tick(ref FrameContext ctx)
         {
-            ApplyGravity(isGrounded, deltaTime);
-            HandleJump(isGrounded);
+            ApplyGravity(ctx.IsGrounded, ctx.DeltaTime);
+            HandleJump(ctx.IsGrounded);
         }
 
         private void ApplyGravity(bool isGrounded, float deltaTime)
@@ -47,7 +45,6 @@ namespace SAWC.Core
             if (_jumpHeld && isGrounded)
             {
                 _verticalVelocity = _settings.JumpForce;
-                JumpPerformed?.Invoke();
                 if (!_settings.EnableAutoJump) _jumpHeld = false;
             }
         }
