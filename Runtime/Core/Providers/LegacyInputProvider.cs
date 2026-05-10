@@ -31,7 +31,6 @@ namespace SAWC.Core
         public event Action SprintStarted;
         public event Action SprintCanceled;
         
-        // Звонки для приседа
         public event Action CrouchStarted;
         public event Action CrouchCanceled;
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 namespace SAWC.Core
 {
@@ -17,9 +18,10 @@ namespace SAWC.Core
 
         internal CharacterLocomotion(CharacterSettings settings, Transform transform, Transform cameraTransform)
         {
-            _settings = settings;
-            _transform = transform;
-            _cameraTransform = cameraTransform;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings), "CharacterSettings cannot be null.");
+            _transform = transform ?? throw new ArgumentNullException(nameof(transform), "Player Transform cannot be null.");
+            _cameraTransform = cameraTransform ?? throw new ArgumentNullException(nameof(cameraTransform), "Camera Transform cannot be null.");
+    
             _lastCameraYRotation = cameraTransform.eulerAngles.y;
         }
 

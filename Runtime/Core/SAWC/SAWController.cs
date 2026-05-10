@@ -5,6 +5,7 @@ namespace SAWC.Core
     [AddComponentMenu("SAWC/Core/SAW Controller")]
     [RequireComponent(typeof(CharacterController))]
     [DisallowMultipleComponent]
+    [SelectionBase]
     public class SAWController : MonoBehaviour
     {
         public ICharacterState State => _stateTracker;

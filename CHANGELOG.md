@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0] - 2026-05-10
+
+### Added
+
+- Added camera synchronization with crouching.
+- Added `SelectionBase` attribute to the player object.
+
+### Changed
+
+- Refactored the core architecture.
+
 ---
 
 ## [0.2.0] - 2026-05-09

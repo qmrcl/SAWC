@@ -43,7 +43,6 @@ namespace SAWC.Core
             _sprintAction.action.started += OnSprintStarted;
             _sprintAction.action.canceled += OnSprintCanceled;
             
-            // Подписываемся на унижение
             _crouchAction.action.started += OnCrouchStarted;
             _crouchAction.action.canceled += OnCrouchCanceled;
         }
@@ -66,7 +65,6 @@ namespace SAWC.Core
         private void OnSprintStarted(InputAction.CallbackContext ctx) => SprintStarted?.Invoke();
         private void OnSprintCanceled(InputAction.CallbackContext ctx) => SprintCanceled?.Invoke();
         
-        // Прокидываем коллбеки
         private void OnCrouchStarted(InputAction.CallbackContext ctx) => CrouchStarted?.Invoke();
         private void OnCrouchCanceled(InputAction.CallbackContext ctx) => CrouchCanceled?.Invoke();
 

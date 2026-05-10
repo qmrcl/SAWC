@@ -12,7 +12,7 @@ namespace SAWC.Core
 
         internal CharacterGravity(CharacterSettings settings)
         {
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings), "CharacterSettings cannot be null.");
         }
 
         internal void SetJumpHeld(bool held) => _jumpHeld = held;
