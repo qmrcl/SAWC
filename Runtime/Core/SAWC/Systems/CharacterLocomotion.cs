@@ -18,9 +18,9 @@ namespace SAWC.Core
 
         internal CharacterLocomotion(CharacterSettings settings, Transform transform, Transform cameraTransform)
         {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings), "CharacterSettings cannot be null.");
-            _transform = transform ?? throw new ArgumentNullException(nameof(transform), "Player Transform cannot be null.");
-            _cameraTransform = cameraTransform ?? throw new ArgumentNullException(nameof(cameraTransform), "Camera Transform cannot be null.");
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _transform = transform ?? throw new ArgumentNullException(nameof(transform));
+            _cameraTransform = cameraTransform ?? throw new ArgumentNullException(nameof(cameraTransform));
     
             _lastCameraYRotation = cameraTransform.eulerAngles.y;
         }
@@ -46,7 +46,7 @@ namespace SAWC.Core
             Vector3 camForward = Vector3.ProjectOnPlane(_cameraTransform.forward, Vector3.up);
             Vector3 camRight = Vector3.ProjectOnPlane(_cameraTransform.right, Vector3.up);
 
-            if (camForward.sqrMagnitude < 0.001f || camRight.sqrMagnitude < 0.001f)
+            if (camForward.sqrMagnitude < _settings.InputThresholdSq || camRight.sqrMagnitude < _settings.InputThresholdSq)
             {
                 camForward = Quaternion.Euler(0f, _lastCameraYRotation, 0f) * Vector3.forward;
                 camRight = Quaternion.Euler(0f, _lastCameraYRotation, 0f) * Vector3.right;
@@ -69,8 +69,8 @@ namespace SAWC.Core
                 return _settings.CrouchSpeed;
             }
 
-            bool hasInput = moveInput.sqrMagnitude > 0.01f;
-            bool validDirection = _settings.SprintOnlyForward ? moveInput.y > 0.1f : hasInput;
+            bool hasInput = moveInput.sqrMagnitude > _settings.InputThresholdSq;
+            bool validDirection = _settings.SprintOnlyForward ? moveInput.y > _settings.InputThreshold : hasInput;
             
             IsSprintingActive = isSprinting && validDirection && _settings.CanSprint;
             return IsSprintingActive ? _settings.SprintSpeed : _settings.MoveSpeed;
@@ -78,7 +78,7 @@ namespace SAWC.Core
 
         private float GetSmoothingRate(Vector3 targetVelocity, bool isGrounded)
         {
-            float rate = targetVelocity.sqrMagnitude > 0.01f ? _settings.Acceleration : _settings.Deceleration;
+            float rate = targetVelocity.sqrMagnitude > _settings.InputThresholdSq ? _settings.Acceleration : _settings.Deceleration;
             if (!isGrounded) rate *= _settings.AirControlMultiplier;
             return rate;
         }
@@ -87,7 +87,7 @@ namespace SAWC.Core
         {
             if (_settings.RotateWithMovement)
             {
-                if (inputDirection.sqrMagnitude >= 0.01f)
+                if (inputDirection.sqrMagnitude >= _settings.InputThresholdSq)
                 {
                     float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg;
                     float angle = Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetAngle, ref _rotationVelocity, _settings.MovementRotationSmoothTime);
