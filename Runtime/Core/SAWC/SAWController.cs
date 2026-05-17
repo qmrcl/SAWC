@@ -17,7 +17,7 @@ namespace SAWC.Core
         private CharacterGravity _gravity;
         private CharacterPosture _posture;
         private CharacterStateTracker _stateTracker = new CharacterStateTracker();
-        
+
         private IInputProvider _input;
 
         private bool _sprintInput;
@@ -30,7 +30,13 @@ namespace SAWC.Core
             _input = GetComponent<IInputProvider>();
 
             var cam = Camera.main?.transform;
-            if (cam == null || _settings == null) return;
+
+            if (cam == null || _settings == null)
+            {
+                Debug.LogError($"[SAWController] На объекте {gameObject.name} не назначены Settings или нет MainCamera.");
+                enabled = false;
+                return;
+            }
 
             _locomotion = new CharacterLocomotion(_settings, transform, cam);
             _gravity = new CharacterGravity(_settings);
@@ -41,23 +47,24 @@ namespace SAWC.Core
         {
             if (_input == null)
             {
-                Debug.LogError("SAWController: IInputProvider not found on GameObject!", this);
+                Debug.LogError($"[SAWController] Нет Input Provider.");
                 enabled = false;
                 return;
             }
+            _controller.Move(Vector3.zero);
 
-            _stateTracker.Initialize(_controller.isGrounded);
+            _stateTracker.Initialize(_controller.isGrounded, _settings);
         }
 
         private void OnEnable()
         {
             if (_input == null) return;
 
-            _input.JumpStarted    += OnJumpStarted;
-            _input.JumpCanceled   += OnJumpCanceled;
-            _input.SprintStarted  += OnSprintStarted;
+            _input.JumpStarted += OnJumpStarted;
+            _input.JumpCanceled += OnJumpCanceled;
+            _input.SprintStarted += OnSprintStarted;
             _input.SprintCanceled += OnSprintCanceled;
-            _input.CrouchStarted  += OnCrouchStarted;
+            _input.CrouchStarted += OnCrouchStarted;
             _input.CrouchCanceled += OnCrouchCanceled;
         }
 
@@ -65,11 +72,11 @@ namespace SAWC.Core
         {
             if (_input == null) return;
 
-            _input.JumpStarted    -= OnJumpStarted;
-            _input.JumpCanceled   -= OnJumpCanceled;
-            _input.SprintStarted  -= OnSprintStarted;
+            _input.JumpStarted -= OnJumpStarted;
+            _input.JumpCanceled -= OnJumpCanceled;
+            _input.SprintStarted -= OnSprintStarted;
             _input.SprintCanceled -= OnSprintCanceled;
-            _input.CrouchStarted  -= OnCrouchStarted;
+            _input.CrouchStarted -= OnCrouchStarted;
             _input.CrouchCanceled -= OnCrouchCanceled;
         }
 
@@ -92,16 +99,16 @@ namespace SAWC.Core
             Vector3 finalMovement = _locomotion.CurrentHorizontalVelocity + Vector3.up * _gravity.VerticalVelocity;
             _controller.Move(finalMovement * context.DeltaTime);
 
-            _stateTracker.Tick(ref context, _controller.velocity, _locomotion.IsSprintingActive, _settings.MinMoveThreshold);
-            
+            _stateTracker.Tick(ref context, finalMovement, _locomotion.IsSprintingActive);
+
             _posture.Tick(_stateTracker.IsCrouching);
         }
 
-        private void OnJumpStarted()    => _gravity.SetJumpHeld(true);
-        private void OnJumpCanceled()   => _gravity.SetJumpHeld(false);
-        private void OnSprintStarted()  => _sprintInput = true;
+        private void OnJumpStarted() => _gravity.SetJumpHeld(true);
+        private void OnJumpCanceled() => _gravity.SetJumpHeld(false);
+        private void OnSprintStarted() => _sprintInput = true;
         private void OnSprintCanceled() => _sprintInput = false;
-        private void OnCrouchStarted()  => _crouchInput = true;
+        private void OnCrouchStarted() => _crouchInput = true;
         private void OnCrouchCanceled() => _crouchInput = false;
     }
 }

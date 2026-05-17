@@ -4,7 +4,7 @@ using System;
 
 namespace SAWC.Core
 {
-    [AddComponentMenu("SAWC/Input/Input Action Provider (New)")]
+    [AddComponentMenu("SAWC/Core/Input/Input Action Provider (New)")]
     public class InputActionInputProvider : MonoBehaviour, IInputProvider
     {
         [SerializeField] private InputActionReference _moveAction;

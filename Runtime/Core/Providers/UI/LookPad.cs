@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace SAWC.Modules.Input.TouchControls
 {
+    [AddComponentMenu("SAWC/Core/Input/UI/LookPad")]
     public class LookPad : MonoBehaviour, IDragHandler, IPointerUpHandler
     {
         [SerializeField] private TouchInputReceiver touchInputReceiver;

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace SAWC.Core
 {
@@ -10,14 +11,20 @@ namespace SAWC.Core
         bool IsFalling { get; }
         bool IsCrouching { get; }
         bool IsGrounded { get; }
+        
+        Vector3 Velocity { get; }
 
         event Action JumpPerformed;
         event Action LandPerformed;
+
         event Action FallStarted;
+
         event Action StartMoving;
         event Action StopMoving;
+
         event Action SprintStarted;
         event Action SprintCanceled;
+
         event Action CrouchStarted;
         event Action CrouchCanceled;
     }

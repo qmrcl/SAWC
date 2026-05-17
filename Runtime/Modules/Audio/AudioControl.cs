@@ -16,7 +16,7 @@ namespace SAWC.Modules.Audio
 
         private void Awake()
         {
-            if (_controller == null) Debug.LogError("SAWController �� ��������", this);
+            if (_controller == null) Debug.LogError("SAWController не найден", this);
             if (_step != null) _step.loop = true;
         }
 

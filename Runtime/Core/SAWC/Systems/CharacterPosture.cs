@@ -17,9 +17,9 @@ namespace SAWC.Core
 
         internal CharacterPosture(CharacterSettings settings, CharacterController controller, Transform transform)
         {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings), "CharacterSettings cannot be null.");
-            _controller = controller ?? throw new ArgumentNullException(nameof(controller), "CharacterController cannot be null.");
-            _transform = transform ?? throw new ArgumentNullException(nameof(transform), "Player Transform cannot be null.");
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _controller = controller ?? throw new ArgumentNullException(nameof(controller));
+            _transform = transform ?? throw new ArgumentNullException(nameof(transform));
 
             SetHeight(_settings.StandingHeight);
         }
@@ -42,8 +42,16 @@ namespace SAWC.Core
 
         private void SetHeight(float height)
         {
+            float previousHeight = _controller.height;
+            Vector3 previousCenter = _controller.center;
+            float heightDifference = height - previousHeight;
+
             _controller.height = height;
-            _controller.center = new Vector3(0f, height * 0.5f, 0f);
+            _controller.center = new Vector3(
+                previousCenter.x,
+                previousCenter.y + heightDifference * 0.5f,
+                previousCenter.z
+            );
         }
 
         private bool CanStandUp()
@@ -56,7 +64,7 @@ namespace SAWC.Core
 
             int hitCount = Physics.SphereCastNonAlloc(
                 rayStart, radius, Vector3.up, _hitBuffer, distance,
-                ~0, QueryTriggerInteraction.Ignore
+                _settings.EnvironmentMask, QueryTriggerInteraction.Ignore
             );
 
             for (int i = 0; i < hitCount; i++)

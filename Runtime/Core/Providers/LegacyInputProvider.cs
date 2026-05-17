@@ -3,7 +3,7 @@ using System;
 
 namespace SAWC.Core
 {
-    [AddComponentMenu("SAWC/Input/Legacy Input Provider (Old)")]
+    [AddComponentMenu("SAWC/Core/Input/Legacy Input Provider (Old)")]
     public class LegacyInputProvider : MonoBehaviour, IInputProvider
     {
         [SerializeField] private string _horAxis = "Horizontal";
@@ -16,21 +16,22 @@ namespace SAWC.Core
         [SerializeField] private GameObject _joystickObject;
         private IJoystickProvider _joystick;
 
-        public Vector2 MoveInput 
+        public Vector2 MoveInput
         {
-            get 
+            get
             {
                 Vector2 joy = _joystick?.JoystickDirection ?? Vector2.zero;
                 if (joy.sqrMagnitude > 0.01f) return joy;
+
                 return new Vector2(Input.GetAxisRaw(_horAxis), Input.GetAxisRaw(_verAxis));
             }
         }
-        
+
         public event Action JumpStarted;
         public event Action JumpCanceled;
         public event Action SprintStarted;
         public event Action SprintCanceled;
-        
+
         public event Action CrouchStarted;
         public event Action CrouchCanceled;
 
@@ -49,24 +50,20 @@ namespace SAWC.Core
 
         private void HandleButton(string buttonName, ref bool state, Action startEvent, Action cancelEvent)
         {
-            try
+            if (Input.GetButtonDown(buttonName) && !state)
             {
-                if (Input.GetButtonDown(buttonName) && !state)
-                {
-                    state = true;
-                    startEvent?.Invoke();
-                }
-                else if (Input.GetButtonUp(buttonName) && state)
-                {
-                    state = false;
-                    cancelEvent?.Invoke();
-                }
+                state = true;
+                startEvent?.Invoke();
             }
-            catch { }
+            else if (Input.GetButtonUp(buttonName) && state)
+            {
+                state = false;
+                cancelEvent?.Invoke();
+            }
         }
 
-        public void UIJump(bool start) { if(start) JumpStarted?.Invoke(); else JumpCanceled?.Invoke(); }
-        public void UISprint(bool start) { if(start) SprintStarted?.Invoke(); else SprintCanceled?.Invoke(); }
-        public void UICrouch(bool start) { if(start) CrouchStarted?.Invoke(); else CrouchCanceled?.Invoke(); }
+        public void UIJump(bool start) { if (start) JumpStarted?.Invoke(); else JumpCanceled?.Invoke(); }
+        public void UISprint(bool start) { if (start) SprintStarted?.Invoke(); else SprintCanceled?.Invoke(); }
+        public void UICrouch(bool start) { if (start) CrouchStarted?.Invoke(); else CrouchCanceled?.Invoke(); }
     }
 }

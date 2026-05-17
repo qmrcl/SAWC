@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace SAWC.Core
 {
-    [AddComponentMenu("SAWC/UI/Universal Joystick")]
+    [AddComponentMenu("SAWC/Core/Input/UI/Universal Joystick")]
     [RequireComponent(typeof(RectTransform))]
     public class UniversalJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler, IJoystickProvider
     {
@@ -25,7 +25,7 @@ namespace SAWC.Core
             
             if (_handle == null)
             {
-                Debug.LogError($"[UniversalJoystick] На объекте {name} не назначена ссылка на Handle! Работать не буду.");
+                Debug.LogError($"[UniversalJoystick] На объекте {name} не назначена ссылка на Handle!");
                 enabled = false;
                 return;
             }

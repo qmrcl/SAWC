@@ -18,7 +18,7 @@ namespace SAWC.Editor
         {
             VisualElement root = rootVisualElement;
 
-            Label label = new Label("¡≈“¿");
+            Label label = new Label("–¢–ï–°–¢");
             label.style.fontSize = 18;
             label.style.unityFontStyleAndWeight = FontStyle.Bold;
             label.style.alignSelf = Align.Center;
@@ -26,7 +26,7 @@ namespace SAWC.Editor
             root.Add(label);
 
             Button button = new Button();
-            button.text = "“≈—“";
+            button.text = "–¢–ï–°–¢";
             button.style.height = 40;
             button.style.marginTop = 10;
             root.Add(button);

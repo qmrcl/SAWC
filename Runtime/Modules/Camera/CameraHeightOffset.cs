@@ -3,7 +3,7 @@ using SAWC.Core;
 
 namespace SAWC.Modules.CameraUtils
 {
-    [AddComponentMenu("SAWC/Modules/Player Camera Controller")]
+    [AddComponentMenu("SAWC/Modules/Camera Height Offset")]
     public class CameraHeightOffset : MonoBehaviour
     {
         [Header("References")]
@@ -19,7 +19,7 @@ namespace SAWC.Modules.CameraUtils
         private void Awake()
         {
             if (_controller == null)
-                Debug.LogError("Камере нужен SAWController, иначе она так и будет смотреть в хуй.", this);
+                Debug.LogError("Камере нужен SAWController", this);
         }
 
         private void Update()

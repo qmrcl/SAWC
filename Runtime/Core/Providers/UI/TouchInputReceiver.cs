@@ -4,7 +4,7 @@ using System;
 
 namespace SAWC.Modules.Input.TouchControls
 {
-    [AddComponentMenu("SAWC/Modules/TouchInputReceiver")]
+    [AddComponentMenu("SAWC/Core/Input/UI/Touch Input Receiver")]
     public class TouchInputReceiver : InputAxisControllerBase<TouchInputReceiver.TouchReader>
     {
         [SerializeField, Range(0.1f, 100f)] private float _sensitivity = 10f;
