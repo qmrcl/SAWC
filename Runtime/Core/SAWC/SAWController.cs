@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using SAWC.Input;
+using UnityEngine;
+using SAWC.Pipeline;
 
 namespace SAWC.Core
 {
@@ -9,6 +11,7 @@ namespace SAWC.Core
     public class SAWController : MonoBehaviour
     {
         public ICharacterState State => _stateTracker;
+        public CharacterPipeline Pipeline { get; } = new CharacterPipeline();
 
         [SerializeField] private CharacterSettings _settings;
 
@@ -20,25 +23,20 @@ namespace SAWC.Core
 
         private IInputProvider _input;
 
-        private bool _sprintInput;
-        private bool _crouchInput;
-
         private void Awake()
         {
             _controller = GetComponent<CharacterController>();
             _controller.minMoveDistance = 0f;
             _input = GetComponent<IInputProvider>();
 
-            var cam = Camera.main?.transform;
-
-            if (cam == null || _settings == null)
+            if (_settings == null)
             {
-                Debug.LogError($"[SAWController] На объекте {gameObject.name} не назначены Settings или нет MainCamera.");
+                Debug.LogError($"[SAWController] На {gameObject.name} не назначены Settings");
                 enabled = false;
                 return;
             }
 
-            _locomotion = new CharacterLocomotion(_settings, transform, cam);
+            _locomotion = new CharacterLocomotion(_settings, transform);
             _gravity = new CharacterGravity(_settings);
             _posture = new CharacterPosture(_settings, _controller, transform);
         }
@@ -52,32 +50,21 @@ namespace SAWC.Core
                 return;
             }
             _controller.Move(Vector3.zero);
-
             _stateTracker.Initialize(_controller.isGrounded, _settings);
         }
 
         private void OnEnable()
         {
             if (_input == null) return;
-
             _input.JumpStarted += OnJumpStarted;
             _input.JumpCanceled += OnJumpCanceled;
-            _input.SprintStarted += OnSprintStarted;
-            _input.SprintCanceled += OnSprintCanceled;
-            _input.CrouchStarted += OnCrouchStarted;
-            _input.CrouchCanceled += OnCrouchCanceled;
         }
 
         private void OnDisable()
         {
             if (_input == null) return;
-
             _input.JumpStarted -= OnJumpStarted;
             _input.JumpCanceled -= OnJumpCanceled;
-            _input.SprintStarted -= OnSprintStarted;
-            _input.SprintCanceled -= OnSprintCanceled;
-            _input.CrouchStarted -= OnCrouchStarted;
-            _input.CrouchCanceled -= OnCrouchCanceled;
         }
 
         private void Update()
@@ -87,28 +74,30 @@ namespace SAWC.Core
             var context = new FrameContext
             {
                 MoveInput = _input.MoveInput,
+                WorldMoveDirection = _input.WorldMoveDirection,
+                WorldLookDirection = _input.WorldLookDirection,
                 IsGrounded = _controller.isGrounded,
-                SprintInput = _sprintInput,
-                CrouchInput = _posture.CheckCrouchState(_crouchInput),
+                SprintInput = _input.SprintHeld,
+                CrouchInput = _posture.CheckCrouchState(_input.CrouchHeld),
                 DeltaTime = Time.deltaTime
             };
+
+            Pipeline.ProcessContext(ref context);
 
             _locomotion.Tick(ref context);
             _gravity.Tick(ref context);
 
             Vector3 finalMovement = _locomotion.CurrentHorizontalVelocity + Vector3.up * _gravity.VerticalVelocity;
+
+            finalMovement = Pipeline.ProcessVelocity(finalMovement, ref context);
+
             _controller.Move(finalMovement * context.DeltaTime);
 
             _stateTracker.Tick(ref context, finalMovement, _locomotion.IsSprintingActive);
-
             _posture.Tick(_stateTracker.IsCrouching);
         }
 
         private void OnJumpStarted() => _gravity.SetJumpHeld(true);
         private void OnJumpCanceled() => _gravity.SetJumpHeld(false);
-        private void OnSprintStarted() => _sprintInput = true;
-        private void OnSprintCanceled() => _sprintInput = false;
-        private void OnCrouchStarted() => _crouchInput = true;
-        private void OnCrouchCanceled() => _crouchInput = false;
     }
 }

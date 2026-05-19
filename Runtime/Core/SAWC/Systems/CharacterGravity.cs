@@ -11,6 +11,7 @@ namespace SAWC.Core
 
         private float _timeSinceGrounded;
         private float _jumpBufferTimer;
+        private bool _coyoteJumpConsumed;
 
         internal float VerticalVelocity => _verticalVelocity;
 
@@ -27,8 +28,15 @@ namespace SAWC.Core
 
         internal void Tick(ref FrameContext ctx)
         {
-            if (ctx.IsGrounded) _timeSinceGrounded = 0f;
-            else _timeSinceGrounded += ctx.DeltaTime;
+            if (ctx.IsGrounded)
+            {
+                _timeSinceGrounded = 0f;
+                _coyoteJumpConsumed = false;
+            }
+            else
+            {
+                _timeSinceGrounded += ctx.DeltaTime;
+            }
 
             if (_jumpBufferTimer > 0f) _jumpBufferTimer -= ctx.DeltaTime;
 
@@ -55,7 +63,7 @@ namespace SAWC.Core
         {
             if (!_settings.CanJump) return;
 
-            bool canCoyoteJump = _timeSinceGrounded <= _settings.CoyoteTime;
+            bool canCoyoteJump = !_coyoteJumpConsumed && _timeSinceGrounded <= _settings.CoyoteTime;
             bool hasJumpInput = _jumpBufferTimer > 0f || (_settings.EnableAutoJump && _jumpHeld);
 
             if (hasJumpInput && canCoyoteJump)
@@ -63,7 +71,7 @@ namespace SAWC.Core
                 _verticalVelocity = _settings.JumpForce;
                 _jumpBufferTimer = 0f;
 
-                _timeSinceGrounded = _settings.CoyoteTime + 1f;
+                _coyoteJumpConsumed = true;
             }
         }
     }

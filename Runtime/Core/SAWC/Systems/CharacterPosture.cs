@@ -11,7 +11,7 @@ namespace SAWC.Core
         private readonly CharacterSettings _settings;
         private readonly CharacterController _controller;
         private readonly Transform _transform;
-        private readonly RaycastHit[] _hitBuffer = new RaycastHit[5];
+        private readonly RaycastHit[] _hitBuffer = new RaycastHit[16];
 
         private float _heightVelocity;
 

@@ -11,8 +11,11 @@ namespace SAWC.Core
         bool IsFalling { get; }
         bool IsCrouching { get; }
         bool IsGrounded { get; }
-        
+
         Vector3 Velocity { get; }
+
+        Vector3 IntendedMoveDirection { get; }
+        Vector3 LookDirection { get; }
 
         event Action JumpPerformed;
         event Action LandPerformed;

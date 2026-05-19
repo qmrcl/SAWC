@@ -22,6 +22,8 @@ namespace SAWC.Core
         public bool IsGrounded => _airState == AirState.Grounded;
 
         public Vector3 Velocity { get; private set; }
+        public Vector3 IntendedMoveDirection { get; private set; }
+        public Vector3 LookDirection { get; private set; }
 
         public event Action JumpPerformed;
         public event Action LandPerformed;
@@ -42,6 +44,8 @@ namespace SAWC.Core
         internal void Tick(ref FrameContext ctx, Vector3 intendedVelocity, bool sprintActive)
         {
             Velocity = intendedVelocity;
+            IntendedMoveDirection = ctx.WorldMoveDirection;
+            LookDirection = ctx.WorldLookDirection;
 
             UpdateAirState(ctx.IsGrounded, intendedVelocity.y);
             UpdateStance(ctx.CrouchInput);

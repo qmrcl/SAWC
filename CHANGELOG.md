@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.5.0] - 2026-05-19
+### Added
+- Introduced a modular extension architecture (`SAWC.Pipeline`), featuring `IFrameMiddleware` and `IVelocityModifier` interfaces, enabling non-destructive injection of custom gameplay mechanics into the character's physics loop.
+- Added `IntendedMoveDirection` and `LookDirection` properties to `ICharacterState`, exposing finalized world-space vectors to external systems (e.g., IK, animators, combat modules) without compromising encapsulation.
+- Established a dedicated directory structure for baseline pipeline extensions to separate core physics logic from modular mechanics.
+
+### Changed
+- Refactored camera dependency: completely decoupled the camera transform resolution from the core locomotion logic, delegating world-space view calculations entirely to the `IInputProvider` layer.
+- Overhauled namespace architecture, segregating the codebase into strict, independent domains (`SAWC.Core`, `SAWC.Input`, `SAWC.Pipeline`) to resolve cross-dependencies and ensure proper UPM package compliance.
+
 ## [0.4.0]
 ### Added
 - Added new threshold parameters to `CharacterSettings` (`InputThreshold`, `VerticalVelocityThreshold`, `IdleTransitionMultiplier`) with corresponding safe rules in `OnValidate` to prevent physics anomalies and state machine bugs.

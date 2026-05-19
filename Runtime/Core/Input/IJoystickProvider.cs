@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SAWC.Core
+namespace SAWC.Input
 {
     public interface IJoystickProvider
     {
