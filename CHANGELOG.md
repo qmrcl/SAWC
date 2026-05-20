@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.1] - 2026-05-20
+
+### Fixed
+- Fixed issues related to joystick behavior.
+
+### Changed
+- Refactored core internal code structure.
+- Slightly refined and adjusted settings configuration.
+
 ## [0.5.0] - 2026-05-19
 ### Added
 - Introduced a modular extension architecture (`SAWC.Pipeline`), featuring `IFrameMiddleware` and `IVelocityModifier` interfaces, enabling non-destructive injection of custom gameplay mechanics into the character's physics loop.

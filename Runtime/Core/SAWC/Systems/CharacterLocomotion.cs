@@ -28,7 +28,8 @@ namespace SAWC.Core
 
             float speed = CalculateSpeed(ctx.MoveInput, ctx.SprintInput, ctx.CrouchInput);
             Vector3 targetVelocity = inputDirection * speed;
-            float smoothing = GetSmoothingRate(targetVelocity, ctx.IsGrounded);
+
+            float smoothing = GetSmoothingRate(_currentHorizontalVelocity, targetVelocity, ctx.IsGrounded);
 
             _currentHorizontalVelocity = Vector3.MoveTowards(
                 _currentHorizontalVelocity,
@@ -52,11 +53,33 @@ namespace SAWC.Core
             return IsSprintingActive ? _settings.SprintSpeed : _settings.MoveSpeed;
         }
 
-        private float GetSmoothingRate(Vector3 targetVelocity, bool isGrounded)
+        private float GetSmoothingRate(Vector3 currentVelocity, Vector3 targetVelocity, bool isGrounded)
         {
-            float rate = targetVelocity.sqrMagnitude > _settings.InputThresholdSq ? _settings.Acceleration : _settings.Deceleration;
-            if (!isGrounded) rate *= _settings.AirControlMultiplier;
-            return rate;
+            if (targetVelocity.sqrMagnitude <= _settings.InputThresholdSq)
+            {
+                float brakeRatio = Mathf.Clamp01(currentVelocity.magnitude / _settings.SprintSpeed);
+                float rate = _settings.BaseDeceleration * _settings.DecelerationCurve.Evaluate(brakeRatio);
+                return isGrounded ? rate : rate * _settings.AirControlMultiplier;
+            }
+
+            Vector3 currentDir = currentVelocity.normalized;
+            Vector3 targetDir = targetVelocity.normalized;
+            float directionMatch = Vector3.Dot(currentDir, targetDir);
+
+            if (directionMatch < 0f)
+            {
+                float brakeRatio = Mathf.Clamp01(currentVelocity.magnitude / _settings.SprintSpeed);
+                float rate = _settings.BaseDeceleration * _settings.DecelerationCurve.Evaluate(brakeRatio);
+                return isGrounded ? rate : rate * _settings.AirControlMultiplier;
+            }
+
+            float speedInTargetDirection = Vector3.Dot(currentVelocity, targetDir);
+            float maxSpeed = targetVelocity.magnitude > 0.1f ? targetVelocity.magnitude : _settings.MoveSpeed;
+
+            float speedRatio = Mathf.Clamp01(speedInTargetDirection / maxSpeed);
+            float accelRate = _settings.BaseAcceleration * _settings.AccelerationCurve.Evaluate(speedRatio);
+
+            return isGrounded ? accelRate : accelRate * _settings.AirControlMultiplier;
         }
 
         private void HandleRotation(Vector3 inputDirection, Vector3 lookDirection)

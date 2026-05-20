@@ -15,7 +15,7 @@ MonoBehaviour:
   CanJump: 1
   CanSprint: 1
   SprintOnlyForward: 1
-  EnableAutoJump: 0
+  EnableAutoJump: 1
   MoveSpeed: 3
   SprintSpeed: 6
   JumpForce: 5
@@ -34,9 +34,75 @@ MonoBehaviour:
   GroundedGravity: -2
   FallMultiplier: 2
   MinMoveThreshold: 0.5
-  Acceleration: 30
-  Deceleration: 30
-  AirControlMultiplier: 0.8
+  BaseAcceleration: 40
+  AccelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.01033783
+      value: 1.0505371
+      inSlope: -0.33744103
+      outSlope: -0.33744103
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.27600375
+      value: 0.96089053
+      inSlope: -0.14171107
+      outSlope: -0.14171107
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.05401888
+      outSlope: 0.05401888
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  BaseDeceleration: 15
+  DecelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.28105092
+      value: 0.84699935
+      inSlope: 0.49698195
+      outSlope: 0.49698195
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5148449
+      value: 0.96319073
+      inSlope: 0.28642654
+      outSlope: 0.28642654
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.07587113
+      outSlope: 0.07587113
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  AirControlMultiplier: 0.6
   RotateWithMovement: 0
   MovementRotationSmoothTime: 0.165
   StrafeRotationSmoothTime: 0.01

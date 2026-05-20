@@ -42,10 +42,17 @@ namespace SAWC.Core
         [Header("Thresholds")]
         public float MinMoveThreshold = 0.5f;
 
-        [Header("Acceleration & Air Control")]
-        [Range(1f, 100f)] public float Acceleration = 25f;
-        [Range(1f, 100f)] public float Deceleration = 35f;
-        [Range(0f, 1f)] public float AirControlMultiplier = 0.5f;
+        [Header("Dynamic Acceleration (Кривые)")]
+        public float BaseAcceleration = 25f;
+        [Tooltip("Ось X: прогресс разгона (от 0 до 1). Ось Y: множитель силы разгона.")]
+        public AnimationCurve AccelerationCurve = AnimationCurve.Linear(0f, 1f, 1f, 0.2f);
+
+        public float BaseDeceleration = 35f;
+        [Tooltip("Ось X: текущая скорость к максималке (0-1). Ось Y: множитель торможения.")]
+        public AnimationCurve DecelerationCurve = AnimationCurve.Linear(0f, 1f, 1f, 0.5f);
+
+        [Header("Air Control")]
+        [Range(0f, 5f)] public float AirControlMultiplier = 0.5f;
 
         [Header("Rotation")]
         public bool RotateWithMovement = false;

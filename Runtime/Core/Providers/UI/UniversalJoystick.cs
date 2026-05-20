@@ -16,35 +16,33 @@ namespace SAWC.Core
         [SerializeField] private float _handleLimit = 1f;
 
         private RectTransform _container;
-        private float _radius;
 
         public Vector2 JoystickDirection { get; private set; }
 
         private void Awake()
         {
             _container = GetComponent<RectTransform>();
-            
+
             if (_handle == null)
             {
-                Debug.LogError($"[UniversalJoystick] На объекте {name} не назначена ссылка на Handle!");
+                Debug.LogError($"[UniversalJoystick] На объекте {name} не назначена ссылка на Handle! Уволю.");
                 enabled = false;
-                return;
             }
-
-            _radius = _container.sizeDelta.x / 2f;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_container, eventData.position, eventData.pressEventCamera, out var pos))
             {
-                Vector2 direction = pos / _radius;
+                float radius = _container.rect.width / 2f;
+                if (radius == 0) return;
 
-                JoystickDirection = (direction.magnitude > _deadZone) ? direction : Vector2.zero;
-                
-                JoystickDirection = Vector2.ClampMagnitude(JoystickDirection, 1f);
+                Vector2 rawDirection = pos / radius;
+                Vector2 clampedDirection = Vector2.ClampMagnitude(rawDirection, 1f);
 
-                _handle.anchoredPosition = JoystickDirection * _radius * _handleLimit;
+                _handle.anchoredPosition = clampedDirection * radius * _handleLimit;
+
+                JoystickDirection = (clampedDirection.magnitude > _deadZone) ? clampedDirection : Vector2.zero;
             }
         }
 
@@ -52,16 +50,21 @@ namespace SAWC.Core
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            JoystickDirection = Vector2.zero;
-            _handle.anchoredPosition = Vector2.zero;
+            ResetJoystick();
         }
 
         private void OnDisable()
         {
-            JoystickDirection = Vector2.zero;
-            _handle.anchoredPosition = Vector2.zero;
+            ResetJoystick();
         }
-        
+
+        private void ResetJoystick()
+        {
+            JoystickDirection = Vector2.zero;
+            if (_handle != null)
+                _handle.anchoredPosition = Vector2.zero;
+        }
+
         private void OnValidate()
         {
             if (_handle == null && transform.childCount > 0)

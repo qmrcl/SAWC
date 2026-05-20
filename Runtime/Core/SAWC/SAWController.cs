@@ -69,8 +69,6 @@ namespace SAWC.Core
 
         private void Update()
         {
-            if (_controller == null || !_controller.enabled) return;
-
             var context = new FrameContext
             {
                 MoveInput = _input.MoveInput,
