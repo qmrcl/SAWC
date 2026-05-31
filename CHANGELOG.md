@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.6.0] - 2026-06-01
+
+### Added
+- Added gravity and inertia toggle checkboxes to character settings configuration.
+- Added directional configuration restrictions for sprinting (forward, backward, left, and right).
+- Exposed `IInputProvider` and `BaseSettings` directly via `SAWController` API, and added `EffectiveSettings` to `ICharacterState`.
+- Introduced `CharacterRotation` module to handle character orientation in a separate, dedicated class.
+- Introduced a unified `CharacterModifierBase` abstract class, enabling multi-interface registration (`IContextModifier`, `IVelocityModifier`) on a single component.
+
+### Changed
+- Refactored `CharacterSettings`: overhauled configuration parameters into nested data structures, and the settings asset is now passed into `FrameContext` as a copy to ensure safe, isolated frame-by-frame calculations.
+- Refactored `CharacterPosture` to be stateless: removed the local `CharacterSettings` dependency, modified `CheckCrouchState` to accept `CharacterSettingsData` by reference along with explicit state arguments (`isCurrentlyCrouching`, `canStandUp`), and adjusted height snapping/clearance thresholds.
+- Refactored `LookPad` to be completely independent, exposing only look delta values.
+- Unified input handling through `MasterInputProvider` abstractions to work simultaneously across all input devices.
+- Refactored `SAWController` to explicitly drive execution order via sequential pipeline calls (`_locomotion.Tick()`, `_gravity.Tick()`, `_rotation.Tick()`).
+- Refactored `CharacterLocomotion`: removed orientation logic, removed the unused `_transform` reference, eliminated duplicate ground/air ternary checks, and optimized sprint direction checks via early returns.
+- Optimized `MasterInputProvider` by adding an early guard clause to `EvaluateActiveDeviceByMovement` to bypass redundant device loops when an active device is processing input.
+- Optimized `CharacterGravity`: consolidated all time-dependent mechanics (coyote time, jump buffer, cooldowns) into a synchronous `UpdateTimersAndBuffers` method and cached the `ctx.Settings.Physics` structure locally to reduce deep memory lookups.
+- Refactored `CharacterStateTracker` to isolate threshold calculations into `EvaluateMovementState` and encapsulated delta evaluation inside `CheckTransitions` for cleaner atomic event invocation.
+- Overhauled the Modifiers registration pipeline to utilize C# pattern matching (`this is T`) inside `OnEnable` and `OnDisable` for automatic list routing.
+
+### Fixed
+- Fixed namespace mismatches and domain architecture issues across core systems.
+
+### Removed
+- Deprecated and removed the legacy `VelocityModifierBase` class.
+
 ## [0.5.1] - 2026-05-20
 
 ### Fixed
@@ -19,7 +46,7 @@
 - Refactored camera dependency: completely decoupled the camera transform resolution from the core locomotion logic, delegating world-space view calculations entirely to the `IInputProvider` layer.
 - Overhauled namespace architecture, segregating the codebase into strict, independent domains (`SAWC.Core`, `SAWC.Input`, `SAWC.Pipeline`) to resolve cross-dependencies and ensure proper UPM package compliance.
 
-## [0.4.0]
+## [0.4.0] - 2026-05-15
 ### Added
 - Added new threshold parameters to `CharacterSettings` (`InputThreshold`, `VerticalVelocityThreshold`, `IdleTransitionMultiplier`) with corresponding safe rules in `OnValidate` to prevent physics anomalies and state machine bugs.
 - Added dynamic FOV adjustment functionality.

@@ -11,101 +11,93 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41c0e725945989d4a913bda444940be7, type: 3}
   m_Name: CharacterSettings
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterSettings
-  CanJump: 1
-  CanSprint: 1
-  SprintOnlyForward: 1
-  EnableAutoJump: 1
-  MoveSpeed: 3
-  SprintSpeed: 6
-  JumpForce: 5
-  JumpBufferTime: 0.2
-  CoyoteTime: 0.3
-  CanCrouch: 1
-  CrouchSpeed: 1
-  StandingHeight: 2
-  CrouchHeight: 1.1
-  CrouchSmoothTime: 0.2
-  EnvironmentMask:
-    serializedVersion: 2
-    m_Bits: 1
-  Gravity: -9.8
-  TerminalVelocity: -50
-  GroundedGravity: -2
-  FallMultiplier: 2
-  MinMoveThreshold: 0.5
-  BaseAcceleration: 40
-  AccelerationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.01033783
-      value: 1.0505371
-      inSlope: -0.33744103
-      outSlope: -0.33744103
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.27600375
-      value: 0.96089053
-      inSlope: -0.14171107
-      outSlope: -0.14171107
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.05401888
-      outSlope: 0.05401888
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  BaseDeceleration: 15
-  DecelerationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.28105092
-      value: 0.84699935
-      inSlope: 0.49698195
-      outSlope: 0.49698195
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5148449
-      value: 0.96319073
-      inSlope: 0.28642654
-      outSlope: 0.28642654
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.07587113
-      outSlope: 0.07587113
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  AirControlMultiplier: 0.6
-  RotateWithMovement: 0
-  MovementRotationSmoothTime: 0.165
-  StrafeRotationSmoothTime: 0.01
-  InputThreshold: 0.01
-  VerticalVelocityThreshold: 0.1
-  IdleTransitionMultiplier: 0.8
+  m_EditorClassIdentifier: SAWC.Core::SAWC.Core.CharacterSettings
+  Data:
+    Movement:
+      CanMove: 1
+      CanSprint: 1
+      AllowedSprintDirections: 1
+      UseInertia: 1
+      MoveSpeed: 3
+      SprintSpeed: 6
+      MinMoveThreshold: 0.5
+      BaseAcceleration: 30
+      AccelerationCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: -0.8
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 0.2
+          inSlope: -0.8
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      BaseDeceleration: 30
+      DecelerationCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: -0.5
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 0.5
+          inSlope: -0.5
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    Jump:
+      CanJump: 1
+      EnableAutoJump: 1
+      JumpForce: 4
+      JumpBufferTime: 0.2
+      CoyoteTime: 0.2
+      AirControlMultiplier: 0.6
+    Crouch:
+      CanCrouch: 1
+      CanJumpWhileCrouching: 0
+      CrouchSpeed: 1
+      StandingHeight: 2
+      CrouchHeight: 1
+      EnvironmentMask:
+        serializedVersion: 2
+        m_Bits: 1
+    Physics:
+      UseGravity: 1
+      Gravity: -9.8
+      TerminalVelocity: -50
+      GroundedGravity: -2
+      FallMultiplier: 2
+    Rotation:
+      RotateWithMovement: 0
+      MovementRotationSmoothTime: 0.165
+      StrafeRotationSmoothTime: 0.01
+    Thresholds:
+      InputThreshold: 0.01
+      VerticalVelocityThreshold: 0.1
+      IdleTransitionMultiplier: 0.2

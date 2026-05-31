@@ -1,6 +1,7 @@
-﻿using SAWC.Input;
-using UnityEngine;
-using SAWC.Pipeline;
+﻿using UnityEngine;
+using SAWC.Modifiers;
+using SAWC.Core.Input;
+using SAWC.Core.Data;
 
 namespace SAWC.Core
 {
@@ -11,7 +12,10 @@ namespace SAWC.Core
     public class SAWController : MonoBehaviour
     {
         public ICharacterState State => _stateTracker;
-        public CharacterPipeline Pipeline { get; } = new CharacterPipeline();
+        public IInputProvider Input { get; private set; }
+
+        public CharacterModifiers Modifiers { get; } = new CharacterModifiers();
+        public CharacterSettingsData BaseSettings => _settings.Data;
 
         [SerializeField] private CharacterSettings _settings;
 
@@ -19,83 +23,74 @@ namespace SAWC.Core
         private CharacterLocomotion _locomotion;
         private CharacterGravity _gravity;
         private CharacterPosture _posture;
+        private CharacterRotation _rotation;
         private CharacterStateTracker _stateTracker = new CharacterStateTracker();
-
-        private IInputProvider _input;
 
         private void Awake()
         {
             _controller = GetComponent<CharacterController>();
-            _controller.minMoveDistance = 0f;
-            _input = GetComponent<IInputProvider>();
+            Input = GetComponent<IInputProvider>();
 
             if (_settings == null)
             {
-                Debug.LogError($"[SAWController] На {gameObject.name} не назначены Settings");
+                Debug.LogError($"[SAWController]. На {gameObject.name} не назначены Settings", this);
                 enabled = false;
                 return;
             }
 
-            _locomotion = new CharacterLocomotion(_settings, transform);
-            _gravity = new CharacterGravity(_settings);
-            _posture = new CharacterPosture(_settings, _controller, transform);
+            _locomotion = new CharacterLocomotion();
+            _gravity = new CharacterGravity();
+            _posture = new CharacterPosture(_controller, transform, ref _settings.Data);
+            _rotation = new CharacterRotation(transform);
         }
 
         private void Start()
         {
-            if (_input == null)
+            if (Input == null)
             {
-                Debug.LogError($"[SAWController] Нет Input Provider.");
+                Debug.LogError($"[SAWController]. На {gameObject.name} Нет Input Provider", this);
                 enabled = false;
                 return;
             }
             _controller.Move(Vector3.zero);
-            _stateTracker.Initialize(_controller.isGrounded, _settings);
-        }
-
-        private void OnEnable()
-        {
-            if (_input == null) return;
-            _input.JumpStarted += OnJumpStarted;
-            _input.JumpCanceled += OnJumpCanceled;
-        }
-
-        private void OnDisable()
-        {
-            if (_input == null) return;
-            _input.JumpStarted -= OnJumpStarted;
-            _input.JumpCanceled -= OnJumpCanceled;
+            _stateTracker.Initialize(_controller.isGrounded);
         }
 
         private void Update()
         {
             var context = new FrameContext
             {
-                MoveInput = _input.MoveInput,
-                WorldMoveDirection = _input.WorldMoveDirection,
-                WorldLookDirection = _input.WorldLookDirection,
+                Settings = _settings.Data,
+                MoveInput = Input.MoveInput,
+                WorldMoveDirection = Input.WorldMoveDirection,
+                WorldLookDirection = Input.WorldLookDirection,
                 IsGrounded = _controller.isGrounded,
-                SprintInput = _input.SprintHeld,
-                CrouchInput = _posture.CheckCrouchState(_input.CrouchHeld),
+                JumpInput = Input.JumpHeld,
+                SprintInput = Input.SprintHeld,
+                HitCeiling = (_controller.collisionFlags & CollisionFlags.Above) != 0,
                 DeltaTime = Time.deltaTime
             };
 
-            Pipeline.ProcessContext(ref context);
+            context.CanStandUp = _posture.CanStandUp(ref context.Settings);
+            context.CrouchInput = _posture.CheckCrouchState(Input.CrouchHeld, _stateTracker.IsCrouching, context.CanStandUp, ref context.Settings);
+
+            Modifiers.ProcessContext(ref context);
 
             _locomotion.Tick(ref context);
             _gravity.Tick(ref context);
+            _rotation.Tick(ref context);
 
             Vector3 finalMovement = _locomotion.CurrentHorizontalVelocity + Vector3.up * _gravity.VerticalVelocity;
 
-            finalMovement = Pipeline.ProcessVelocity(finalMovement, ref context);
+            finalMovement = Modifiers.ProcessVelocity(finalMovement, ref context);
+
+            _posture.Tick(context.CrouchInput, ref context.Settings);
 
             _controller.Move(finalMovement * context.DeltaTime);
 
-            _stateTracker.Tick(ref context, finalMovement, _locomotion.IsSprintingActive);
-            _posture.Tick(_stateTracker.IsCrouching);
-        }
+            context.IsGrounded = _controller.isGrounded;
 
-        private void OnJumpStarted() => _gravity.SetJumpHeld(true);
-        private void OnJumpCanceled() => _gravity.SetJumpHeld(false);
+            _stateTracker.Tick(ref context, _controller.velocity, _locomotion.IsSprintingActive);
+        }
     }
 }

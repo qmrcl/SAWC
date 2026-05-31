@@ -1,3 +1,4 @@
+using SAWC.Core.Data;
 using System;
 using UnityEngine;
 
@@ -5,22 +6,26 @@ namespace SAWC.Core
 {
     internal sealed class CharacterStateTracker : ICharacterState
     {
-        public enum MovementState { Idle, Walking, Sprinting }
-        public enum AirState { Grounded, Jumping, Falling }
+        private struct StateFlags
+        {
+            public bool IsMoving;
+            public bool IsSprinting;
+            public bool IsJumping;
+            public bool IsFalling;
+            public bool IsCrouching;
+            public bool IsGrounded;
+        }
 
-        private MovementState _moveState = MovementState.Idle;
-        private AirState _airState = AirState.Grounded;
-        private bool _isCrouching = false;
+        private StateFlags _flags;
 
-        private CharacterSettings _settings;
+        public bool IsMoving => _flags.IsMoving;
+        public bool IsSprinting => _flags.IsSprinting;
+        public bool IsJumping => _flags.IsJumping;
+        public bool IsFalling => _flags.IsFalling;
+        public bool IsCrouching => _flags.IsCrouching;
+        public bool IsGrounded => _flags.IsGrounded;
 
-        public bool IsMoving => _moveState != MovementState.Idle;
-        public bool IsSprinting => _moveState == MovementState.Sprinting;
-        public bool IsJumping => _airState == AirState.Jumping;
-        public bool IsFalling => _airState == AirState.Falling;
-        public bool IsCrouching => _isCrouching;
-        public bool IsGrounded => _airState == AirState.Grounded;
-
+        public CharacterSettingsData EffectiveSettings { get; private set; }
         public Vector3 Velocity { get; private set; }
         public Vector3 IntendedMoveDirection { get; private set; }
         public Vector3 LookDirection { get; private set; }
@@ -35,85 +40,87 @@ namespace SAWC.Core
         public event Action CrouchStarted;
         public event Action CrouchCanceled;
 
-        internal void Initialize(bool isGrounded, CharacterSettings settings)
+        internal void Initialize(bool isGrounded)
         {
-            _settings = settings;
-            _airState = isGrounded ? AirState.Grounded : AirState.Falling;
+            _flags.IsGrounded = isGrounded;
+            _flags.IsFalling = !isGrounded;
         }
 
         internal void Tick(ref FrameContext ctx, Vector3 intendedVelocity, bool sprintActive)
         {
+            SaveFrameContext(ref ctx, intendedVelocity);
+
+            StateFlags old = _flags;
+
+            UpdateCurrentFlags(ref ctx, intendedVelocity, sprintActive, old);
+
+            CheckTransitions(old, _flags);
+        }
+
+        private void SaveFrameContext(ref FrameContext ctx, Vector3 intendedVelocity)
+        {
+            EffectiveSettings = ctx.Settings;
             Velocity = intendedVelocity;
             IntendedMoveDirection = ctx.WorldMoveDirection;
             LookDirection = ctx.WorldLookDirection;
-
-            UpdateAirState(ctx.IsGrounded, intendedVelocity.y);
-            UpdateStance(ctx.CrouchInput);
-
-            Vector3 horizontalVelocity = intendedVelocity;
-            horizontalVelocity.y = 0;
-            UpdateMovementState(horizontalVelocity.sqrMagnitude, sprintActive);
         }
 
-        private void UpdateStance(bool crouchActive)
+        private void UpdateCurrentFlags(ref FrameContext ctx, Vector3 intendedVelocity, bool sprintActive, StateFlags old)
         {
-            if (_isCrouching == crouchActive) return;
+            _flags.IsCrouching = ctx.CrouchInput;
+            _flags.IsGrounded = ctx.IsGrounded;
 
-            _isCrouching = crouchActive;
+            _flags.IsMoving = EvaluateMovementState(intendedVelocity, old.IsMoving, ref ctx.Settings);
+            _flags.IsSprinting = _flags.IsMoving && sprintActive;
 
-            if (_isCrouching) CrouchStarted?.Invoke();
-            else CrouchCanceled?.Invoke();
+            CalculateAirFlags(intendedVelocity.y, old, ref ctx.Settings);
         }
 
-        private void UpdateAirState(bool isGrounded, float verticalVelocity)
+        private bool EvaluateMovementState(Vector3 intendedVelocity, bool wasMoving, ref CharacterSettingsData settings)
         {
-            AirState nextState = _airState;
+            float speedSq = new Vector3(intendedVelocity.x, 0f, intendedVelocity.z).sqrMagnitude;
+            float moveThresholdSq = settings.Movement.MinMoveThreshold * settings.Movement.MinMoveThreshold;
 
-            if (isGrounded)
-            {
-                nextState = AirState.Grounded;
-            }
-            else if (verticalVelocity > _settings.VerticalVelocityThreshold)
-            {
-                nextState = AirState.Jumping;
-            }
-            else if (verticalVelocity < -_settings.VerticalVelocityThreshold)
-            {
-                nextState = AirState.Falling;
-            }
+            float currentMoveThreshold = wasMoving
+                ? moveThresholdSq * settings.Thresholds.IdleTransitionMultiplier
+                : moveThresholdSq;
 
-            if (nextState == _airState) return;
-
-            if (nextState == AirState.Grounded) LandPerformed?.Invoke();
-            if (nextState == AirState.Jumping) JumpPerformed?.Invoke();
-            if (nextState == AirState.Falling) FallStarted?.Invoke();
-
-            _airState = nextState;
+            return speedSq > currentMoveThreshold;
         }
 
-        private void UpdateMovementState(float speedSq, bool sprintActive)
+        private void CalculateAirFlags(float verticalVelocity, StateFlags old, ref CharacterSettingsData settings)
         {
-            MovementState nextState = _moveState;
-            float thresholdSq = _settings.MinMoveThreshold * _settings.MinMoveThreshold;
-
-            if (speedSq > thresholdSq)
+            if (_flags.IsGrounded)
             {
-                nextState = sprintActive ? MovementState.Sprinting : MovementState.Walking;
-            }
-            else if (speedSq <= thresholdSq * _settings.IdleTransitionMultiplier)
-            {
-                nextState = MovementState.Idle;
+                _flags.IsJumping = false;
+                _flags.IsFalling = false;
+                return;
             }
 
-            if (nextState == _moveState) return;
+            float upThreshold = settings.Thresholds.VerticalVelocityThreshold;
+            float downThreshold = settings.Physics.GroundedGravity - settings.Thresholds.VerticalVelocityThreshold;
 
-            if (_moveState == MovementState.Idle) StartMoving?.Invoke();
-            if (_moveState == MovementState.Sprinting) SprintCanceled?.Invoke();
+            _flags.IsJumping = verticalVelocity > upThreshold || (verticalVelocity >= downThreshold && old.IsJumping);
+            _flags.IsFalling = verticalVelocity < downThreshold || (verticalVelocity <= upThreshold && old.IsFalling);
+        }
 
-            if (nextState == MovementState.Idle) StopMoving?.Invoke();
-            if (nextState == MovementState.Sprinting) SprintStarted?.Invoke();
+        private void CheckTransitions(StateFlags old, StateFlags current)
+        {
+            ExecuteTransition(old.IsSprinting, current.IsSprinting, SprintStarted, SprintCanceled);
+            ExecuteTransition(old.IsMoving, current.IsMoving, StartMoving, StopMoving);
+            ExecuteTransition(old.IsCrouching, current.IsCrouching, CrouchStarted, CrouchCanceled);
 
-            _moveState = nextState;
+            ExecuteTransition(old.IsGrounded, current.IsGrounded, LandPerformed, null);
+            ExecuteTransition(old.IsJumping, current.IsJumping, JumpPerformed, null);
+            ExecuteTransition(old.IsFalling, current.IsFalling, FallStarted, null);
+        }
+
+        private void ExecuteTransition(bool oldVal, bool newVal, Action onBecomeTrue, Action onBecomeFalse)
+        {
+            if (oldVal == newVal) return;
+
+            Action actionToInvoke = newVal ? onBecomeTrue : onBecomeFalse;
+            actionToInvoke?.Invoke();
         }
     }
 }

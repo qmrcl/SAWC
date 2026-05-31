@@ -1,42 +1,45 @@
-using UnityEngine;
+using SAWC.Core.Data;
 using System;
+using UnityEngine;
 
 namespace SAWC.Core
 {
     internal sealed class CharacterPosture
     {
         private const float StandUpRadiusBias = 0.9f;
-        private const float HeightSnapThreshold = 0.001f;
+        private const float HeightSnapThreshold = 0.01f;
+        private const float StandUpClearance = 0.05f;
 
-        private readonly CharacterSettings _settings;
         private readonly CharacterController _controller;
         private readonly Transform _transform;
-        private readonly RaycastHit[] _hitBuffer = new RaycastHit[16];
 
-        private float _heightVelocity;
-
-        internal CharacterPosture(CharacterSettings settings, CharacterController controller, Transform transform)
+        internal CharacterPosture(CharacterController controller, Transform transform, ref CharacterSettingsData initialSettings)
         {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             _controller = controller ?? throw new ArgumentNullException(nameof(controller));
             _transform = transform ?? throw new ArgumentNullException(nameof(transform));
 
-            SetHeight(_settings.StandingHeight);
+            SetHeight(initialSettings.Crouch.StandingHeight);
         }
 
-        internal bool CheckCrouchState(bool crouchInput)
+        internal bool CheckCrouchState(bool crouchInput, bool isCurrentlyCrouching, bool canStandUp, ref CharacterSettingsData settings)
         {
-            if (!_settings.CanCrouch) return false;
-            return crouchInput || !CanStandUp();
+            if (!settings.Crouch.CanCrouch) return false;
+
+            if (isCurrentlyCrouching && !crouchInput)
+            {
+                return !canStandUp;
+            }
+
+            return crouchInput;
         }
 
-        internal void Tick(bool isCrouching)
+        internal void Tick(bool isCrouching, ref CharacterSettingsData settings)
         {
-            float targetHeight = isCrouching ? _settings.CrouchHeight : _settings.StandingHeight;
+            float targetHeight = isCrouching ? settings.Crouch.CrouchHeight : settings.Crouch.StandingHeight;
 
             if (Mathf.Abs(_controller.height - targetHeight) > HeightSnapThreshold)
             {
-                SetHeight(Mathf.SmoothDamp(_controller.height, targetHeight, ref _heightVelocity, _settings.CrouchSmoothTime));
+                SetHeight(targetHeight);
             }
         }
 
@@ -47,6 +50,7 @@ namespace SAWC.Core
             float heightDifference = height - previousHeight;
 
             _controller.height = height;
+
             _controller.center = new Vector3(
                 previousCenter.x,
                 previousCenter.y + heightDifference * 0.5f,
@@ -54,27 +58,28 @@ namespace SAWC.Core
             );
         }
 
-        private bool CanStandUp()
+        internal bool CanStandUp(ref CharacterSettingsData settings)
         {
-            float distance = _settings.StandingHeight - _controller.height;
-            if (distance <= 0f) return true;
+            float distanceToStand = settings.Crouch.StandingHeight - _controller.height;
 
+            if (distanceToStand <= StandUpClearance) return true;
+
+            return !HasCeilingObstacle(distanceToStand, ref settings);
+        }
+
+        private bool HasCeilingObstacle(float distanceToStand, ref CharacterSettingsData settings)
+        {
             float radius = _controller.radius * StandUpRadiusBias;
-            Vector3 rayStart = _transform.position + Vector3.up * _controller.height;
+            
+            Vector3 currentCenterWorld = _transform.position + _controller.center;
+            Vector3 rayStart = currentCenterWorld + Vector3.up * (_controller.height * 0.5f - radius);
+            
+            float castDistance = distanceToStand - StandUpClearance;
 
-            int hitCount = Physics.SphereCastNonAlloc(
-                rayStart, radius, Vector3.up, _hitBuffer, distance,
-                _settings.EnvironmentMask, QueryTriggerInteraction.Ignore
+            return Physics.SphereCast(
+                rayStart, radius, Vector3.up, out _, castDistance,
+                settings.Crouch.EnvironmentMask, QueryTriggerInteraction.Ignore
             );
-
-            for (int i = 0; i < hitCount; i++)
-            {
-                Transform hitTransform = _hitBuffer[i].transform;
-                if (hitTransform != _transform && !hitTransform.IsChildOf(_transform))
-                    return false;
-            }
-
-            return true;
         }
     }
 }

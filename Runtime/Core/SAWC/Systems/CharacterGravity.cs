@@ -1,77 +1,105 @@
-using System;
-
 namespace SAWC.Core
 {
     internal sealed class CharacterGravity
     {
-        private readonly CharacterSettings _settings;
+        private const float CeilingBounceVelocity = -1.5f;
+        private const float JumpCooldownDuration = 0.1f;
 
         private float _verticalVelocity;
-        private bool _jumpHeld;
+        private bool _wasJumpHeld;
+        private bool _coyoteJumpConsumed;
 
         private float _timeSinceGrounded;
         private float _jumpBufferTimer;
-        private bool _coyoteJumpConsumed;
+        private float _jumpCooldownTimer;
 
         internal float VerticalVelocity => _verticalVelocity;
 
-        internal CharacterGravity(CharacterSettings settings)
-        {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
-        }
-
-        internal void SetJumpHeld(bool held)
-        {
-            _jumpHeld = held;
-            if (held) _jumpBufferTimer = _settings.JumpBufferTime;
-        }
-
         internal void Tick(ref FrameContext ctx)
         {
-            if (ctx.IsGrounded)
+            UpdateTimersAndBuffers(ref ctx);
+
+            HandleCeilingCollision(ctx.HitCeiling);
+
+            ApplyGravityForces(ref ctx);
+
+            TryExecuteJump(ref ctx);
+
+            _wasJumpHeld = ctx.JumpInput;
+        }
+
+        private void UpdateTimersAndBuffers(ref FrameContext ctx)
+        {
+            float deltaTime = ctx.DeltaTime;
+
+            if (_jumpCooldownTimer > 0f) _jumpCooldownTimer -= deltaTime;
+            if (_jumpBufferTimer > 0f) _jumpBufferTimer -= deltaTime;
+
+            if (ctx.JumpInput && !_wasJumpHeld)
+            {
+                _jumpBufferTimer = ctx.Settings.Jump.JumpBufferTime;
+            }
+
+            if (ctx.IsGrounded && _verticalVelocity <= 0f)
             {
                 _timeSinceGrounded = 0f;
                 _coyoteJumpConsumed = false;
             }
             else
             {
-                _timeSinceGrounded += ctx.DeltaTime;
+                _timeSinceGrounded += deltaTime;
             }
-
-            if (_jumpBufferTimer > 0f) _jumpBufferTimer -= ctx.DeltaTime;
-
-            ApplyGravity(ctx.IsGrounded, ctx.DeltaTime);
-            HandleJump();
         }
 
-        private void ApplyGravity(bool isGrounded, float deltaTime)
+        private void HandleCeilingCollision(bool hitCeiling)
         {
-            if (isGrounded)
+            if (hitCeiling && _verticalVelocity > 0f)
             {
-                if (_verticalVelocity < 0f) _verticalVelocity = _settings.GroundedGravity;
+                _verticalVelocity = CeilingBounceVelocity;
+            }
+        }
+
+        private void ApplyGravityForces(ref FrameContext ctx)
+        {
+            var physics = ctx.Settings.Physics;
+
+            if (!physics.UseGravity)
+            {
+                if (ctx.IsGrounded && _verticalVelocity < 0f) _verticalVelocity = 0f;
                 return;
             }
 
-            float multiplier = _verticalVelocity < 0f ? _settings.FallMultiplier : 1f;
-            _verticalVelocity += _settings.Gravity * multiplier * deltaTime;
+            if (ctx.IsGrounded && _verticalVelocity <= 0f)
+            {
+                _verticalVelocity = physics.GroundedGravity;
+                return;
+            }
 
-            if (_verticalVelocity < _settings.TerminalVelocity)
-                _verticalVelocity = _settings.TerminalVelocity;
+            float multiplier = _verticalVelocity < 0f ? physics.FallMultiplier : 1f;
+            _verticalVelocity += physics.Gravity * multiplier * ctx.DeltaTime;
+
+            if (_verticalVelocity < physics.TerminalVelocity)
+            {
+                _verticalVelocity = physics.TerminalVelocity;
+            }
         }
 
-        private void HandleJump()
+        private void TryExecuteJump(ref FrameContext ctx)
         {
-            if (!_settings.CanJump) return;
+            var jump = ctx.Settings.Jump;
 
-            bool canCoyoteJump = !_coyoteJumpConsumed && _timeSinceGrounded <= _settings.CoyoteTime;
-            bool hasJumpInput = _jumpBufferTimer > 0f || (_settings.EnableAutoJump && _jumpHeld);
+            if (!jump.CanJump || !ctx.CanStandUp) return;
+            if (ctx.CrouchInput && !ctx.Settings.Crouch.CanJumpWhileCrouching) return;
 
-            if (hasJumpInput && canCoyoteJump)
+            bool canCoyoteJump = !_coyoteJumpConsumed && _timeSinceGrounded <= jump.CoyoteTime;
+            bool hasJumpInput = _jumpBufferTimer > 0f || (jump.EnableAutoJump && ctx.JumpInput);
+
+            if (hasJumpInput && canCoyoteJump && _jumpCooldownTimer <= 0f)
             {
-                _verticalVelocity = _settings.JumpForce;
+                _verticalVelocity = jump.JumpForce;
                 _jumpBufferTimer = 0f;
-
                 _coyoteJumpConsumed = true;
+                _jumpCooldownTimer = JumpCooldownDuration;
             }
         }
     }

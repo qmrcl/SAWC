@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace SAWC.Input
+namespace SAWC.Core.Input
 {
     public interface IInputProvider
     {
@@ -11,6 +11,7 @@ namespace SAWC.Input
 
         bool SprintHeld { get; }
         bool CrouchHeld { get; }
+        bool JumpHeld { get; }
 
         event Action JumpStarted;
         event Action JumpCanceled;

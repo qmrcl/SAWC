@@ -2,30 +2,27 @@ using UnityEngine;
 using Unity.Cinemachine;
 using System;
 
-namespace SAWC.Modules.Input.TouchControls
+namespace SAWC.Core.Input
 {
     [AddComponentMenu("SAWC/Core/Input/UI/Touch Input Receiver")]
     public class TouchInputReceiver : InputAxisControllerBase<TouchInputReceiver.TouchReader>
     {
+        [Header("References")]
+        [SerializeField] private LookPad _lookPad;
+
+        [Header("Settings")]
         [SerializeField, Range(0.1f, 100f)] private float _sensitivity = 10f;
 
-        private Vector2 _currentDelta;
+        private Vector2 CurrentSensitivityDelta => _lookPad != null ? _lookPad.Delta * _sensitivity : Vector2.zero;
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            _currentDelta = Vector2.zero;
         }
 
         private void Update()
         {
             UpdateControllers();
-            _currentDelta = Vector2.zero;
-        }
-
-        public void ReceiveDelta(Vector2 delta)
-        {
-            _currentDelta = delta * _sensitivity;
         }
 
         public void SetSensitivity(float newSensitivity)
@@ -44,7 +41,9 @@ namespace SAWC.Modules.Input.TouchControls
                 var controller = context as TouchInputReceiver;
                 if (controller == null) return 0;
 
-                return _axisType == AxisType.Horizontal ? controller._currentDelta.x : -controller._currentDelta.y;
+                return _axisType == AxisType.Horizontal
+                    ? controller.CurrentSensitivityDelta.x
+                    : -controller.CurrentSensitivityDelta.y;
             }
         }
     }

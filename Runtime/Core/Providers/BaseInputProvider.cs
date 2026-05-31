@@ -1,25 +1,16 @@
-using UnityEngine;
 using System;
+using UnityEngine;
 
-namespace SAWC.Input
+namespace SAWC.Core.Input
 {
     public abstract class BaseInputProvider : MonoBehaviour, IInputProvider
     {
         [Header("Camera Reference")]
         [SerializeField] protected Transform _cameraTransform;
 
-        [Header("Mobile Support")]
-        [SerializeField] protected GameObject _joystickObject;
-        protected IJoystickProvider _joystick;
-
-        private bool _uiJumpHeld;
-        private bool _uiSprintHeld;
-        private bool _uiCrouchHeld;
-
         private bool _jumpState;
         private bool _sprintState;
         private bool _crouchState;
-
         private float _lastCameraYRotation;
 
         public Vector3 WorldMoveDirection { get; private set; }
@@ -27,15 +18,12 @@ namespace SAWC.Input
 
         public bool SprintHeld => _sprintState;
         public bool CrouchHeld => _crouchState;
+        public bool JumpHeld => _jumpState;
 
-        public Vector2 MoveInput
-        {
-            get
-            {
-                Vector2 joy = _joystick?.JoystickDirection ?? Vector2.zero;
-                return joy.sqrMagnitude > 0.01f ? joy : GetRawMoveInput();
-            }
-        }
+        public abstract Vector2 MoveInput { get; }
+        protected abstract bool GetJumpInput();
+        protected abstract bool GetSprintInput();
+        protected abstract bool GetCrouchInput();
 
         public event Action JumpStarted;
         public event Action JumpCanceled;
@@ -46,32 +34,19 @@ namespace SAWC.Input
 
         protected virtual void Awake()
         {
-            _joystick = _joystickObject?.GetComponent<IJoystickProvider>();
-
             if (_cameraTransform == null && Camera.main != null)
                 _cameraTransform = Camera.main.transform;
-
             if (_cameraTransform != null)
                 _lastCameraYRotation = _cameraTransform.eulerAngles.y;
         }
 
         protected virtual void Update()
         {
-            bool isJumpNow = GetRawJumpInput() || _uiJumpHeld;
-            bool isSprintNow = GetRawSprintInput() || _uiSprintHeld;
-            bool isCrouchNow = GetRawCrouchInput() || _uiCrouchHeld;
-
-            ProcessAction(isJumpNow, ref _jumpState, JumpStarted, JumpCanceled);
-            ProcessAction(isSprintNow, ref _sprintState, SprintStarted, SprintCanceled);
-            ProcessAction(isCrouchNow, ref _crouchState, CrouchStarted, CrouchCanceled);
-
+            ProcessAction(GetJumpInput(), ref _jumpState, JumpStarted, JumpCanceled);
+            ProcessAction(GetSprintInput(), ref _sprintState, SprintStarted, SprintCanceled);
+            ProcessAction(GetCrouchInput(), ref _crouchState, CrouchStarted, CrouchCanceled);
             CalculateWorldDirection();
         }
-
-        protected abstract Vector2 GetRawMoveInput();
-        protected abstract bool GetRawJumpInput();
-        protected abstract bool GetRawSprintInput();
-        protected abstract bool GetRawCrouchInput();
 
         private void CalculateWorldDirection()
         {
@@ -86,7 +61,6 @@ namespace SAWC.Input
 
             Vector3 camForward = Vector3.ProjectOnPlane(_cameraTransform.forward, Vector3.up);
             Vector3 camRight = Vector3.ProjectOnPlane(_cameraTransform.right, Vector3.up);
-
             WorldLookDirection = camForward.normalized;
 
             if (camForward.sqrMagnitude < 0.001f || camRight.sqrMagnitude < 0.001f)
@@ -107,7 +81,8 @@ namespace SAWC.Input
                 return;
             }
 
-            WorldMoveDirection = (camRight * currentInput.x + camForward * currentInput.y).normalized;
+            Vector3 direction = camRight * currentInput.x + camForward * currentInput.y;
+            WorldMoveDirection = Vector3.ClampMagnitude(direction, 1f);
         }
 
         private void ProcessAction(bool isPressedNow, ref bool previousState, Action onStarted, Action onCanceled)
@@ -123,9 +98,5 @@ namespace SAWC.Input
                 onCanceled?.Invoke();
             }
         }
-
-        public void UIJump(bool state) => _uiJumpHeld = state;
-        public void UISprint(bool state) => _uiSprintHeld = state;
-        public void UICrouch(bool state) => _uiCrouchHeld = state;
     }
 }

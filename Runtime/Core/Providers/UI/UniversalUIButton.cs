@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-namespace SAWC.Core
+namespace SAWC.Core.Input
 {
     [AddComponentMenu("SAWC/Core/Input/UI/Universal UI Button")]
     public class UniversalUIButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler

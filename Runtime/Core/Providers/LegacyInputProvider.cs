@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace SAWC.Input
+namespace SAWC.Core.Input.Readers
 {
-    [AddComponentMenu("SAWC/Core/Input/Legacy Input Provider (Old)")]
-    public class LegacyInputProvider : BaseInputProvider
+    [AddComponentMenu("SAWC/Input/Readers/Legacy Input Reader")]
+    public class LegacyInputReader : BaseInputReader
     {
         [SerializeField] private string _horAxis = "Horizontal";
         [SerializeField] private string _verAxis = "Vertical";
@@ -11,11 +11,9 @@ namespace SAWC.Input
         [SerializeField] private string _sprintButton = "Fire3";
         [SerializeField] private string _crouchButton = "Crouch";
 
-        protected override Vector2 GetRawMoveInput() =>
-            new Vector2(UnityEngine.Input.GetAxisRaw(_horAxis), UnityEngine.Input.GetAxisRaw(_verAxis));
-
-        protected override bool GetRawJumpInput() => UnityEngine.Input.GetButton(_jumpButton);
-        protected override bool GetRawSprintInput() => UnityEngine.Input.GetButton(_sprintButton);
-        protected override bool GetRawCrouchInput() => UnityEngine.Input.GetButton(_crouchButton);
+        public override Vector2 Move => new Vector2(UnityEngine.Input.GetAxisRaw(_horAxis), UnityEngine.Input.GetAxisRaw(_verAxis));
+        public override bool Jump => UnityEngine.Input.GetButton(_jumpButton);
+        public override bool Sprint => UnityEngine.Input.GetButton(_sprintButton);
+        public override bool Crouch => UnityEngine.Input.GetButton(_crouchButton);
     }
 }

@@ -1,16 +1,16 @@
 using UnityEngine;
 using SAWC.Core;
 
-namespace SAWC.Pipeline
+namespace SAWC.Modifiers
 {
     public interface IPrioritized
     {
         int Priority { get; }
     }
 
-    public interface IFrameMiddleware : IPrioritized
+    public interface IContextModifier : IPrioritized
     {
-        void ProcessContext(ref FrameContext ctx);
+        void ModifyContext(ref FrameContext ctx);
     }
 
     public interface IVelocityModifier : IPrioritized
