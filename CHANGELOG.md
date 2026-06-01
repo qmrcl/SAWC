@@ -4,10 +4,14 @@
 
 ### Added
 - Added `SprintDirectionThreshold` parameter to `ThresholdSettings` structure inside `CharacterSettings.cs` to enable dynamic tuning of diagonal sprint cutoff angles directly via the Unity Inspector.
+- Added `FallVelocityThreshold` parameter to `ThresholdSettings` structure inside `CharacterSettings.cs` to define an independent, tunable vertical velocity checkpoint for air-state evaluation.
 
 ### Changed
 - Refactored `CharacterLocomotion.IsSprintDirectionAllowed` to dynamically query the new configuration data, completely purging the hardcoded `0.38f` magic constant from the core physics logic.
+- **Overhauled Air-State Evaluation:** Completely refactored `CharacterStateTracker.CalculateAirFlags`, purging the toxic dependency on the `GroundedGravity` physics anchor. Falling states are now evaluated cleanly against `FallVelocityThreshold`, completely eliminating animation lag and freeze frames when descending ledges or stepping into the void.
 
+### Fixed
+- **Fixed "Sliding Penguin" Animation Bug:** Overhauled `CharacterStateTracker.EvaluateMovementState` to query `IntendedMoveDirection.sqrMagnitude` (direct player input intent) instead of the character's raw physical velocity vector. This ensures animation states synchronize strictly with user commands rather than physical inertia, completely eliminating early animation decay, skating artifacts, and broken `Idle` transitions during deceleration.
 ## [0.6.1] - 2026-06-01
 
 ### Added

@@ -102,14 +102,14 @@ namespace SAWC.Core
 
         private bool EvaluateMovementState(Vector3 intendedVelocity, bool wasMoving, ref CharacterSettingsData settings)
         {
-            float speedSq = new Vector3(intendedVelocity.x, 0f, intendedVelocity.z).sqrMagnitude;
+            float inputSq = IntendedMoveDirection.sqrMagnitude;
             float moveThresholdSq = settings.Movement.MinMoveThreshold * settings.Movement.MinMoveThreshold;
 
             float currentMoveThreshold = wasMoving
                 ? moveThresholdSq * settings.Thresholds.IdleTransitionMultiplier
                 : moveThresholdSq;
 
-            return speedSq > currentMoveThreshold;
+            return inputSq > currentMoveThreshold;
         }
 
         private void CalculateAirFlags(float realVerticalVelocity, float gravityVerticalVelocity, StateFlags old, ref CharacterSettingsData settings)
@@ -122,10 +122,10 @@ namespace SAWC.Core
             }
 
             float upThreshold = settings.Thresholds.VerticalVelocityThreshold;
-            float downThreshold = settings.Physics.GroundedGravity - settings.Thresholds.VerticalVelocityThreshold;
+            float fallThreshold = settings.Thresholds.FallVelocityThreshold;
 
-            _flags.IsJumping = gravityVerticalVelocity > upThreshold || (gravityVerticalVelocity >= downThreshold && old.IsJumping);
-            _flags.IsFalling = realVerticalVelocity < downThreshold || (realVerticalVelocity <= upThreshold && old.IsFalling);
+            _flags.IsJumping = gravityVerticalVelocity > upThreshold || (gravityVerticalVelocity >= fallThreshold && old.IsJumping);
+            _flags.IsFalling = realVerticalVelocity < fallThreshold || (realVerticalVelocity <= upThreshold && old.IsFalling);
         }
 
         private void CheckTransitions(StateFlags old, StateFlags current)

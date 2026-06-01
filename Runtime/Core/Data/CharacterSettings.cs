@@ -96,8 +96,11 @@ namespace SAWC.Core.Data
 
         [Range(0.01f, 1f)] public float IdleTransitionMultiplier;
 
+        [Tooltip("Порог вертикальной скорости, ниже которого засчитывается падение (обычно от -0.5 до -1.0)")]
+        public float FallVelocityThreshold;
+
         [Tooltip("Время (в секундах) для фильтрации дребезга земли на крутых склонах. Персонаж должен стабильно находиться в воздухе это время, чтобы засчитать падение/приземление.")]
-        [Range(0f, 0.5f)] public float AirStateDebounceTime;
+        [Range(0f, 1f)] public float AirStateDebounceTime;
         [Tooltip("Порог отсечения диагонального ввода для спринта. Чем выше, тем строже проверка.")]
         [Range(0f, 1f)] public float SprintDirectionThreshold;
     }
@@ -168,7 +171,8 @@ namespace SAWC.Core.Data
                 VerticalVelocityThreshold = 0.1f,
                 IdleTransitionMultiplier = 0.8f,
                 AirStateDebounceTime = 0.15f,
-                SprintDirectionThreshold = 0.38f
+                SprintDirectionThreshold = 0.38f,
+                FallVelocityThreshold = -0.5f,
             }
         };
 
