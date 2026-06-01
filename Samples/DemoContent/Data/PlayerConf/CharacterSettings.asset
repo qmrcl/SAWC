@@ -102,3 +102,4 @@ MonoBehaviour:
       VerticalVelocityThreshold: 0.1
       IdleTransitionMultiplier: 0.2
       AirStateDebounceTime: 0.1
+      SprintDirectionThreshold: 0.38

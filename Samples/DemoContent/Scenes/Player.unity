@@ -4683,7 +4683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf7480f9234258409cae85a6f230052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorSystem
-  _startLocked: 1
+  _startLocked: 0
   _defaultLockMode: 1
   _toggleAction:
     m_Name: Toggle

@@ -98,6 +98,8 @@ namespace SAWC.Core.Data
 
         [Tooltip("Время (в секундах) для фильтрации дребезга земли на крутых склонах. Персонаж должен стабильно находиться в воздухе это время, чтобы засчитать падение/приземление.")]
         [Range(0f, 0.5f)] public float AirStateDebounceTime;
+        [Tooltip("Порог отсечения диагонального ввода для спринта. Чем выше, тем строже проверка.")]
+        [Range(0f, 1f)] public float SprintDirectionThreshold;
     }
 
     [Serializable]
@@ -165,7 +167,8 @@ namespace SAWC.Core.Data
                 InputThreshold = 0.01f,
                 VerticalVelocityThreshold = 0.1f,
                 IdleTransitionMultiplier = 0.8f,
-                AirStateDebounceTime = 0.06f
+                AirStateDebounceTime = 0.15f,
+                SprintDirectionThreshold = 0.38f
             }
         };
 

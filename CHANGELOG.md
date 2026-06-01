@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- Added `SprintDirectionThreshold` parameter to `ThresholdSettings` structure inside `CharacterSettings.cs` to enable dynamic tuning of diagonal sprint cutoff angles directly via the Unity Inspector.
+
+### Changed
+- Refactored `CharacterLocomotion.IsSprintDirectionAllowed` to dynamically query the new configuration data, completely purging the hardcoded `0.38f` magic constant from the core physics logic.
+
 ## [0.6.1] - 2026-06-01
 
 ### Added
