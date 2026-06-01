@@ -90,6 +90,8 @@ namespace SAWC.Core
 
             context.IsGrounded = _controller.isGrounded;
 
+            context.GravityVerticalVelocity = _gravity.VerticalVelocity;
+
             _stateTracker.Tick(ref context, _controller.velocity, _locomotion.IsSprintingActive);
         }
     }

@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.6.1] - 2026-06-01
+
+### Added
+- **Advanced Audio Architecture:** Introduced `AudioContainerSettings` configuration class, completely decoupling sound clip logic from primitive Unity `AudioSource` playback.
+- Added intelligent playback modes for clips: `Sequential`, `Shuffle`, and `Random` with active history buffering (`AvoidRepeatingLast`) to guarantee no immediate sound repetitions.
+- Added procedural audio modulation: dynamic volume and pitch randomization ranges per container.
+- Added adaptive action audio support for crouching states (`OnCrouchStarted` / `OnCrouchCanceled`).
+- Added a generic time-based `_antiSpamCooldown` factor to protect action audio channels from audio clipping and machine-gun event spam.
+- Added `AirStateDebounceTime` parameter to `ThresholdSettings` structure inside `CharacterSettings.cs` to filter out micro-grounding anomalies on jagged meshes.
+- Added `GravityVerticalVelocity` tracking to `FrameContext` to feed isolated gravity calculations into the state tracking engine.
+
+### Changed
+- **Overhauled PlayerAudioController:** Wiped out the naive and broken `AudioSource.loop` step implementation. Footsteps are now driven by a dedicated state-evaluator (`GetCurrentStepSettings`) that dynamically switches intervals and clip pools between Walking, Sprinting, and Crouching in real-time.
+- **Overhauled Camera-Relative Movement:** Completely wiped out the legacy тригонометрический цикл (`Mathf.Atan2`, `eulerAngles.y`) in `BaseInputProvider.CalculateWorldDirection()`. The system now operates purely on vector math via `Vector3.Cross(camRight, Vector3.up)`, achieving flat execution time and zero allocations.
+- Refactored `CharacterStateTracker.CalculateAirFlags`: decoupled physical movement from internal gravity intent by processing `realVerticalVelocity` and `gravityVerticalVelocity` as independent parameters.
+
+### Fixed
+- **Fixed Infinity Coyote Jump Exploit:** Restricted `EnableAutoJump` (bunny-hopping) strictly to grounded states (`ctx.IsGrounded`). Holding down the jump button while sliding down slopes or dropping from ledges no longer automatically consumes `CoyoteTime` in mid-air.
+- **Fixed Camera Snapping & Jitter (Gimbal Lock):** Eliminated vector collapse and sudden 180-degree teleports when looking strictly vertically (zenith/nadir). The calculation now anchors to a rock-solid horizontal `camRight` that never loses precision.
+- **Fixed Sprint Direction Circumvention:** Fixed a logical math flaw in `CharacterLocomotion.IsSprintDirectionAllowed` where diagonal stick input could bypass directional restrictions due to mismatched circular and linear thresholds. Input is now properly normalized before evaluation.
+- Fixed an issue where the character state tracker falsely triggered jumping animations when simply running up steep hills or riding elevators.
+
+### Removed
+- Wiped the dead `_lastCameraYRotation` tracking variable out of `BaseInputProvider.cs` and all related initialization blocks.
+
 ## [0.6.0] - 2026-06-01
 
 ### Added
@@ -18,7 +43,6 @@
 - Refactored `CharacterLocomotion`: removed orientation logic, removed the unused `_transform` reference, eliminated duplicate ground/air ternary checks, and optimized sprint direction checks via early returns.
 - Optimized `MasterInputProvider` by adding an early guard clause to `EvaluateActiveDeviceByMovement` to bypass redundant device loops when an active device is processing input.
 - Optimized `CharacterGravity`: consolidated all time-dependent mechanics (coyote time, jump buffer, cooldowns) into a synchronous `UpdateTimersAndBuffers` method and cached the `ctx.Settings.Physics` structure locally to reduce deep memory lookups.
-- Refactored `CharacterStateTracker` to isolate threshold calculations into `EvaluateMovementState` and encapsulated delta evaluation inside `CheckTransitions` for cleaner atomic event invocation.
 - Overhauled the Modifiers registration pipeline to utilize C# pattern matching (`this is T`) inside `OnEnable` and `OnDisable` for automatic list routing.
 
 ### Fixed

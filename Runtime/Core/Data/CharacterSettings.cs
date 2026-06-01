@@ -95,6 +95,9 @@ namespace SAWC.Core.Data
         [Min(0.01f)] public float VerticalVelocityThreshold;
 
         [Range(0.01f, 1f)] public float IdleTransitionMultiplier;
+
+        [Tooltip("Время (в секундах) для фильтрации дребезга земли на крутых склонах. Персонаж должен стабильно находиться в воздухе это время, чтобы засчитать падение/приземление.")]
+        [Range(0f, 0.5f)] public float AirStateDebounceTime;
     }
 
     [Serializable]
@@ -161,7 +164,8 @@ namespace SAWC.Core.Data
             {
                 InputThreshold = 0.01f,
                 VerticalVelocityThreshold = 0.1f,
-                IdleTransitionMultiplier = 0.8f
+                IdleTransitionMultiplier = 0.8f,
+                AirStateDebounceTime = 0.06f
             }
         };
 

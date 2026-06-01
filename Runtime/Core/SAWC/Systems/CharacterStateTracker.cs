@@ -40,6 +40,10 @@ namespace SAWC.Core
         public event Action CrouchStarted;
         public event Action CrouchCanceled;
 
+        private float _fallingTime;
+        private float _airborneTime;
+        private bool _fallEventFired;
+
         internal void Initialize(bool isGrounded)
         {
             _flags.IsGrounded = isGrounded;
@@ -54,7 +58,27 @@ namespace SAWC.Core
 
             UpdateCurrentFlags(ref ctx, intendedVelocity, sprintActive, old);
 
+            if (_flags.IsFalling)
+            {
+                _fallingTime += ctx.DeltaTime;
+            }
+            else
+            {
+                _fallingTime = 0f;
+                _fallEventFired = false;
+            }
+
+            if (!_flags.IsGrounded)
+            {
+                _airborneTime += ctx.DeltaTime;
+            }
+
             CheckTransitions(old, _flags);
+
+            if (_flags.IsGrounded)
+            {
+                _airborneTime = 0f;
+            }
         }
 
         private void SaveFrameContext(ref FrameContext ctx, Vector3 intendedVelocity)
@@ -73,7 +97,7 @@ namespace SAWC.Core
             _flags.IsMoving = EvaluateMovementState(intendedVelocity, old.IsMoving, ref ctx.Settings);
             _flags.IsSprinting = _flags.IsMoving && sprintActive;
 
-            CalculateAirFlags(intendedVelocity.y, old, ref ctx.Settings);
+            CalculateAirFlags(intendedVelocity.y, ctx.GravityVerticalVelocity, old, ref ctx.Settings);
         }
 
         private bool EvaluateMovementState(Vector3 intendedVelocity, bool wasMoving, ref CharacterSettingsData settings)
@@ -88,7 +112,7 @@ namespace SAWC.Core
             return speedSq > currentMoveThreshold;
         }
 
-        private void CalculateAirFlags(float verticalVelocity, StateFlags old, ref CharacterSettingsData settings)
+        private void CalculateAirFlags(float realVerticalVelocity, float gravityVerticalVelocity, StateFlags old, ref CharacterSettingsData settings)
         {
             if (_flags.IsGrounded)
             {
@@ -100,8 +124,8 @@ namespace SAWC.Core
             float upThreshold = settings.Thresholds.VerticalVelocityThreshold;
             float downThreshold = settings.Physics.GroundedGravity - settings.Thresholds.VerticalVelocityThreshold;
 
-            _flags.IsJumping = verticalVelocity > upThreshold || (verticalVelocity >= downThreshold && old.IsJumping);
-            _flags.IsFalling = verticalVelocity < downThreshold || (verticalVelocity <= upThreshold && old.IsFalling);
+            _flags.IsJumping = gravityVerticalVelocity > upThreshold || (gravityVerticalVelocity >= downThreshold && old.IsJumping);
+            _flags.IsFalling = realVerticalVelocity < downThreshold || (realVerticalVelocity <= upThreshold && old.IsFalling);
         }
 
         private void CheckTransitions(StateFlags old, StateFlags current)
@@ -109,10 +133,23 @@ namespace SAWC.Core
             ExecuteTransition(old.IsSprinting, current.IsSprinting, SprintStarted, SprintCanceled);
             ExecuteTransition(old.IsMoving, current.IsMoving, StartMoving, StopMoving);
             ExecuteTransition(old.IsCrouching, current.IsCrouching, CrouchStarted, CrouchCanceled);
-
-            ExecuteTransition(old.IsGrounded, current.IsGrounded, LandPerformed, null);
             ExecuteTransition(old.IsJumping, current.IsJumping, JumpPerformed, null);
-            ExecuteTransition(old.IsFalling, current.IsFalling, FallStarted, null);
+
+            float debounceLimit = EffectiveSettings.Thresholds.AirStateDebounceTime;
+
+            if (_fallingTime >= debounceLimit && !_fallEventFired)
+            {
+                FallStarted?.Invoke();
+                _fallEventFired = true;
+            }
+
+            if (!old.IsGrounded && current.IsGrounded)
+            {
+                if (_airborneTime >= debounceLimit)
+                {
+                    LandPerformed?.Invoke();
+                }
+            }
         }
 
         private void ExecuteTransition(bool oldVal, bool newVal, Action onBecomeTrue, Action onBecomeFalse)

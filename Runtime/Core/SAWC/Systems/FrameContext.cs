@@ -19,5 +19,6 @@ namespace SAWC.Core
         public bool HitCeiling;
 
         public float DeltaTime;
+        public float GravityVerticalVelocity;
     }
 }

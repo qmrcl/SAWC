@@ -11,7 +11,6 @@ namespace SAWC.Core.Input
         private bool _jumpState;
         private bool _sprintState;
         private bool _crouchState;
-        private float _lastCameraYRotation;
 
         public Vector3 WorldMoveDirection { get; private set; }
         public Vector3 WorldLookDirection { get; private set; }
@@ -36,8 +35,6 @@ namespace SAWC.Core.Input
         {
             if (_cameraTransform == null && Camera.main != null)
                 _cameraTransform = Camera.main.transform;
-            if (_cameraTransform != null)
-                _lastCameraYRotation = _cameraTransform.eulerAngles.y;
         }
 
         protected virtual void Update()
@@ -59,21 +56,12 @@ namespace SAWC.Core.Input
                 return;
             }
 
-            Vector3 camForward = Vector3.ProjectOnPlane(_cameraTransform.forward, Vector3.up);
-            Vector3 camRight = Vector3.ProjectOnPlane(_cameraTransform.right, Vector3.up);
-            WorldLookDirection = camForward.normalized;
+            Vector3 camRight = _cameraTransform.right;
+            camRight.y = 0f;
+            camRight.Normalize();
 
-            if (camForward.sqrMagnitude < 0.001f || camRight.sqrMagnitude < 0.001f)
-            {
-                camForward = Quaternion.Euler(0f, _lastCameraYRotation, 0f) * Vector3.forward;
-                camRight = Quaternion.Euler(0f, _lastCameraYRotation, 0f) * Vector3.right;
-            }
-            else
-            {
-                _lastCameraYRotation = Mathf.Atan2(camForward.x, camForward.z) * Mathf.Rad2Deg;
-                camForward.Normalize();
-                camRight.Normalize();
-            }
+            Vector3 camForward = Vector3.Cross(camRight, Vector3.up);
+            WorldLookDirection = camForward;
 
             if (currentInput.sqrMagnitude < 0.001f)
             {

@@ -101,3 +101,4 @@ MonoBehaviour:
       InputThreshold: 0.01
       VerticalVelocityThreshold: 0.1
       IdleTransitionMultiplier: 0.2
+      AirStateDebounceTime: 0.1

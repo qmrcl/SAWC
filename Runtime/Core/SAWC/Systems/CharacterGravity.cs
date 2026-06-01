@@ -91,10 +91,11 @@ namespace SAWC.Core
             if (!jump.CanJump || !ctx.CanStandUp) return;
             if (ctx.CrouchInput && !ctx.Settings.Crouch.CanJumpWhileCrouching) return;
 
-            bool canCoyoteJump = !_coyoteJumpConsumed && _timeSinceGrounded <= jump.CoyoteTime;
-            bool hasJumpInput = _jumpBufferTimer > 0f || (jump.EnableAutoJump && ctx.JumpInput);
+            bool hasIntent = _jumpBufferTimer > 0f || (jump.EnableAutoJump && ctx.JumpInput && ctx.IsGrounded);
 
-            if (hasJumpInput && canCoyoteJump && _jumpCooldownTimer <= 0f)
+            bool canCoyoteJump = !_coyoteJumpConsumed && _timeSinceGrounded <= jump.CoyoteTime;
+
+            if (hasIntent && canCoyoteJump && _jumpCooldownTimer <= 0f)
             {
                 _verticalVelocity = jump.JumpForce;
                 _jumpBufferTimer = 0f;
