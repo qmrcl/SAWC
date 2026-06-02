@@ -55,15 +55,17 @@ namespace SAWC.Core
 
         private bool IsSprintDirectionAllowed(Vector2 moveInput, ref CharacterSettingsData settings)
         {
-            float threshold = settings.Thresholds.InputThreshold;
             if (moveInput.sqrMagnitude <= settings.Thresholds.InputThresholdSq) return false;
 
+            Vector2 dir = moveInput.normalized;
             var allowed = settings.Movement.AllowedSprintDirections;
 
-            if (moveInput.y > threshold && (allowed & SprintAllowedDirections.Forward) == 0) return false;
-            if (moveInput.y < -threshold && (allowed & SprintAllowedDirections.Backward) == 0) return false;
-            if (moveInput.x < -threshold && (allowed & SprintAllowedDirections.Left) == 0) return false;
-            if (moveInput.x > threshold && (allowed & SprintAllowedDirections.Right) == 0) return false;
+            float dirThreshold = settings.Thresholds.SprintDirectionThreshold;
+
+            if (dir.y > dirThreshold && (allowed & SprintAllowedDirections.Forward) == 0) return false;
+            if (dir.y < -dirThreshold && (allowed & SprintAllowedDirections.Backward) == 0) return false;
+            if (dir.x < -dirThreshold && (allowed & SprintAllowedDirections.Left) == 0) return false;
+            if (dir.x > dirThreshold && (allowed & SprintAllowedDirections.Right) == 0) return false;
 
             return true;
         }

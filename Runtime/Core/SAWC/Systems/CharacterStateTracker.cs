@@ -102,14 +102,14 @@ namespace SAWC.Core
 
         private bool EvaluateMovementState(Vector3 intendedVelocity, bool wasMoving, ref CharacterSettingsData settings)
         {
-            float inputSq = IntendedMoveDirection.sqrMagnitude;
+            float speedSq = new Vector3(intendedVelocity.x, 0f, intendedVelocity.z).sqrMagnitude;
             float moveThresholdSq = settings.Movement.MinMoveThreshold * settings.Movement.MinMoveThreshold;
 
             float currentMoveThreshold = wasMoving
                 ? moveThresholdSq * settings.Thresholds.IdleTransitionMultiplier
                 : moveThresholdSq;
 
-            return inputSq > currentMoveThreshold;
+            return speedSq > currentMoveThreshold;
         }
 
         private void CalculateAirFlags(float realVerticalVelocity, float gravityVerticalVelocity, StateFlags old, ref CharacterSettingsData settings)

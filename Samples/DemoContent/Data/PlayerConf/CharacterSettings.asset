@@ -98,7 +98,7 @@ MonoBehaviour:
       MovementRotationSmoothTime: 0.165
       StrafeRotationSmoothTime: 0.01
     Thresholds:
-      InputThreshold: 0.01
+      InputThreshold: 0.05
       VerticalVelocityThreshold: 0.1
       IdleTransitionMultiplier: 0.2
       FallVelocityThreshold: 0
