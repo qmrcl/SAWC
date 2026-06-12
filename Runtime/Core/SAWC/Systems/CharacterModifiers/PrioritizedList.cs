@@ -1,47 +1,51 @@
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SAWC.Modifiers
 {
-    public readonly struct ReadOnlyListWrapper<T>
-    {
-        private readonly List<T> _list;
-
-        public ReadOnlyListWrapper(List<T> list) => _list = list;
-
-        public int Count => _list?.Count ?? 0;
-
-        public T this[int index] => _list[index];
-
-        public List<T>.Enumerator GetEnumerator() => _list.GetEnumerator();
-    }
-
-    public sealed class PrioritizedList<T> where T : IPrioritized
+    public sealed class PrioritizedList<T> : IReadOnlyList<T> where T : IPrioritized
     {
         private readonly List<T> _items = new();
 
-        public ReadOnlyListWrapper<T> Items => new ReadOnlyListWrapper<T>(_items);
+        public int Count => _items.Count;
+        public T this[int index] => _items[index];
 
         public void Add(T item)
         {
             if (_items.Contains(item)) return;
 
-            int index = _items.BinarySearch(item, PriorityComparer.Instance);
+            int insertIndex = _items.Count;
+            for (int i = 0; i < _items.Count; i++)
+            {
+                if (_items[i].Priority > item.Priority)
+                {
+                    insertIndex = i;
+                    break;
+                }
+            }
 
-            if (index < 0)
-                index = ~index;
-
-            _items.Insert(index, item);
+            _items.Insert(insertIndex, item);
         }
 
-        public void Remove(T item)
+        public bool Remove(T item)
         {
-            _items.Remove(item);
+            return _items.Remove(item);
         }
 
-        private sealed class PriorityComparer : IComparer<T>
+        public void Clear()
         {
-            public static readonly PriorityComparer Instance = new();
-            public int Compare(T x, T y) => x.Priority.CompareTo(y.Priority);
+            _items.Clear();
         }
+
+        public void UpdatePriority(T item)
+        {
+            if (_items.Remove(item))
+            {
+                Add(item);
+            }
+        }
+
+        public IEnumerator<T> GetEnumerator() => _items.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

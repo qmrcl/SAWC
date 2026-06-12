@@ -5,9 +5,7 @@ namespace SAWC.Modifiers
 {
     public sealed class DashMechanic : CharacterModifierBase, IVelocityModifier
     {
-        public int Priority => 100;
-
-        [Header("Настройки")]
+        [Header("Settings")]
         [SerializeField] private KeyCode _key = KeyCode.LeftControl;
 
         [SerializeField] private float _dashSpeed = 25f;
@@ -21,6 +19,12 @@ namespace SAWC.Modifiers
         private Vector3 _dashDirection;
 
         private bool IsDashing => _dashTimer > 0f;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            SetPriority(100);
+        }
 
         private void Update()
         {

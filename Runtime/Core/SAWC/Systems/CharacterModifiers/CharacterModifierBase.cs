@@ -3,10 +3,17 @@ using SAWC.Core;
 
 namespace SAWC.Modifiers
 {
-    [RequireComponent(typeof(SAWController))]
     public abstract class CharacterModifierBase : MonoBehaviour
     {
         protected SAWController Controller { get; private set; }
+
+        [SerializeField] private int _priority;
+
+        public int Priority
+        {
+            get => _priority;
+            private set => _priority = value;
+        }
 
         protected virtual void Awake()
         {
@@ -17,17 +24,18 @@ namespace SAWC.Modifiers
         {
             if (Controller == null)
             {
-                Debug.LogError($"The controller on '{gameObject.name}' is null!", this); return;
+                Debug.LogError($"The controller on '{gameObject.name}' is null!", this);
+                return;
             }
 
             if (this is IContextModifier contextMod)
             {
-                Controller.Modifiers.Context.Add(contextMod);
+                Controller.Modifiers.AddContextModifier(contextMod);
             }
 
             if (this is IVelocityModifier velocityMod)
             {
-                Controller.Modifiers.Velocity.Add(velocityMod);
+                Controller.Modifiers.AddVelocityModifier(velocityMod);
             }
         }
 
@@ -37,12 +45,29 @@ namespace SAWC.Modifiers
 
             if (this is IContextModifier contextMod)
             {
-                Controller.Modifiers.Context.Remove(contextMod);
+                Controller.Modifiers.RemoveContextModifier(contextMod);
             }
 
             if (this is IVelocityModifier velocityMod)
             {
-                Controller.Modifiers.Velocity.Remove(velocityMod);
+                Controller.Modifiers.RemoveVelocityModifier(velocityMod);
+            }
+        }
+
+        protected void SetPriority(int newPriority)
+        {
+            if (_priority == newPriority) return;
+
+            _priority = newPriority;
+
+            if (this is IContextModifier contextMod)
+            {
+                Controller.Modifiers.UpdateContextModifierPriority(contextMod);
+            }
+
+            if (this is IVelocityModifier velocityMod)
+            {
+                Controller.Modifiers.UpdateVelocityModifierPriority(velocityMod);
             }
         }
     }

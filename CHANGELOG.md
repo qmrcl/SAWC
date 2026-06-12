@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.1]
+
+### Added
+- Added an `UpdatePriority(T item)` method to `PrioritizedList<T>` to support dynamic runtime re-evaluation of modifier execution order.
+- Added explicit public management methods (`AddContextModifier`, `RemoveContextModifier`, `UpdateContextModifierPriority`, and their velocity counterparts) to `CharacterModifiers` to provide a controlled API for external registration.
+
+### Changed
+- **Refactored `PrioritizedList<T>` Architecture:** Replaced the custom `ReadOnlyListWrapper` struct with a direct implementation of the native `IReadOnlyList<T>` interface to eliminate unnecessary boilerplate and struct allocations.
+- **Overhauled Modifier Sorting Logic:** Replaced `BinarySearch` and `PriorityComparer` with a stable linear insertion loop in `PrioritizedList<T>`. This guarantees strict FIFO (First-In, First-Out) execution order for modifiers sharing the exact same priority level, preventing unpredictable pipeline evaluation.
+- **Encapsulated `CharacterModifiers` State:** Transitioned internal `PrioritizedList` fields to private access, exposing them strictly as `IReadOnlyList` to external systems. This enforces strict encapsulation and prevents unauthorized state mutations (e.g., direct clearing or index manipulation) from breaking the modifier pipeline.
+- **Overhauled `CharacterModifierBase` Lifecycle:** Reimplemented the base modifier class to automatically handle pipeline registration and deregistration via Unity's `OnEnable` and `OnDisable` callbacks. Introduced a protected `SetPriority(int)` method to safely mutate priority values while automatically triggering list re-sorting.
+
 ## [0.7.0]
 
 ### Added
