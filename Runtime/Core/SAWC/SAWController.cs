@@ -13,7 +13,6 @@ namespace SAWC.Core
     {
         public ICharacterState State => _stateTracker;
         public IInputProvider Input { get; private set; }
-
         public CharacterModifiers Modifiers { get; } = new CharacterModifiers();
         public CharacterSettingsData BaseSettings => _settings.Data;
 
@@ -29,11 +28,12 @@ namespace SAWC.Core
         private void Awake()
         {
             _controller = GetComponent<CharacterController>();
-            Input = GetComponent<IInputProvider>();
+
+            if (Input == null) Input = GetComponent<IInputProvider>();
 
             if (_settings == null)
             {
-                Debug.LogError($"[SAWController]. На {gameObject.name} не назначены Settings", this);
+                Debug.LogError($"{nameof(SAWController)}. Settings are not assigned on '{gameObject.name}'!", this);
                 enabled = false;
                 return;
             }
@@ -46,18 +46,14 @@ namespace SAWC.Core
 
         private void Start()
         {
-            if (Input == null)
-            {
-                Debug.LogError($"[SAWController]. На {gameObject.name} Нет Input Provider", this);
-                enabled = false;
-                return;
-            }
             _controller.Move(Vector3.zero);
             _stateTracker.Initialize(_controller.isGrounded);
         }
 
         private void Update()
         {
+            if (Input == null) return;
+
             var context = new FrameContext
             {
                 Settings = _settings.Data,
@@ -81,18 +77,24 @@ namespace SAWC.Core
             _rotation.Tick(ref context);
 
             Vector3 finalMovement = _locomotion.CurrentHorizontalVelocity + Vector3.up * _gravity.VerticalVelocity;
-
             finalMovement = Modifiers.ProcessVelocity(finalMovement, ref context);
 
             _posture.Tick(context.CrouchInput, ref context.Settings);
-
             _controller.Move(finalMovement * context.DeltaTime);
 
             context.IsGrounded = _controller.isGrounded;
-
             context.GravityVerticalVelocity = _gravity.VerticalVelocity;
 
             _stateTracker.Tick(ref context, _controller.velocity, _locomotion.IsSprintingActive);
+        }
+
+        public void SetInputProvider(IInputProvider newInputProvider)
+        {
+            if (newInputProvider == null)
+            {
+                Debug.Log($"{nameof(SAWController)}. Input provider on '{gameObject.name}' was set to null. Ensure this was intentional.");
+            }
+            Input = newInputProvider;
         }
     }
 }

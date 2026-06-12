@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace SAWC.Modules.Input.Detection
 {
-    [CreateAssetMenu(fileName = "DefaultDetect", menuName = "SAWC/Device Detector/PC")]
+    [CreateAssetMenu(fileName = "DefaultDetect", menuName = "SAWC/Modules/Device Detector/PC")]
     public class DefaultDetect : DeviceDetectionStrategy
     {
         public override InputDeviceType Detect()

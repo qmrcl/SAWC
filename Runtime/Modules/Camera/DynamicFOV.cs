@@ -12,13 +12,8 @@ namespace SAWC.Modules.CameraUtils
         [SerializeField] private CinemachineCamera _cinemachineCam;
 
         [Header("FOV Settings")]
-        [Tooltip("Насколько сильно расширяется FOV от скорости.")]
         [SerializeField] private float _speedMultiplier = 1.5f;
-        
-        [Tooltip("Максимальная прибавка к FOV")]
         [SerializeField] private float _maxFovOffset = 15f;
-        
-        [Tooltip("Скорость изменения (чем меньше, тем резче).")]
         [SerializeField] private float _smoothTime = 0.15f;
 
         private float _baseFov;
@@ -29,7 +24,7 @@ namespace SAWC.Modules.CameraUtils
         {
             if (_controller == null || _cinemachineCam == null)
             {
-                Debug.LogError("Ссылки пусты.", this);
+                Debug.LogError($"Required references are null or missing on '{gameObject.name}'!", this);
                 enabled = false;
                 return;
             }
@@ -43,22 +38,18 @@ namespace SAWC.Modules.CameraUtils
             if (_controller == null || _controller.State == null) return;
 
             Vector3 localVel = _controller.transform.InverseTransformDirection(_controller.State.Velocity);
-            
             float targetFov = _baseFov;
 
             if (localVel.z > 0.1f && _controller.State.IsMoving && _controller.State.IsGrounded)
             {
                 float fovOffset = localVel.z * _speedMultiplier;
-                
                 fovOffset = Mathf.Clamp(fovOffset, 0f, _maxFovOffset);
-                
                 targetFov += fovOffset;
             }
 
             _currentFov = Mathf.SmoothDamp(_currentFov, targetFov, ref _fovVelocity, _smoothTime);
 
             var lens = _cinemachineCam.Lens;
-            
             if (Mathf.Abs(lens.FieldOfView - _currentFov) > 0.01f)
             {
                 lens.FieldOfView = _currentFov;

@@ -1,5 +1,5 @@
 using UnityEngine;
-using SAWC.Modules.Input.Detection; 
+using SAWC.Modules.Input.Detection;
 
 namespace SAWC.Modules.UI
 {
@@ -8,6 +8,15 @@ namespace SAWC.Modules.UI
     {
         [SerializeField] private Canvas _mobileControlsCanvas;
         [SerializeField] private DeviceDetector _detector;
+
+        private void Awake()
+        {
+            if (_mobileControlsCanvas == null)
+            {
+                Debug.LogError($"Mobile controls Canvas reference is null on '{gameObject.name}'!", this);
+                enabled = false;
+            }
+        }
 
         private void OnEnable()
         {

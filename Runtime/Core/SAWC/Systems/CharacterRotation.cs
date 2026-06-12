@@ -1,4 +1,5 @@
 using UnityEngine;
+using SAWC.Core.Data;
 
 namespace SAWC.Core
 {
@@ -29,6 +30,8 @@ namespace SAWC.Core
                 targetDirection = ctx.WorldLookDirection;
                 smoothTime = ctx.Settings.Rotation.StrafeRotationSmoothTime;
             }
+
+            if (targetDirection.sqrMagnitude < 0.001f) return;
 
             float targetAngle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetAngle, ref _rotationVelocity, smoothTime);

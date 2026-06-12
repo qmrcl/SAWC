@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace SAWC.Core.Input
 {
-    [AddComponentMenu("SAWC/Input/UI/Look Pad")]
+    [AddComponentMenu("SAWC/Core/Input/Readers/UI/Look Pad")]
     public class LookPad : MonoBehaviour, IDragHandler, IPointerUpHandler
     {
         public Vector2 Delta { get; private set; }
@@ -24,7 +24,10 @@ namespace SAWC.Core.Input
         private void Update()
         {
             Delta = _accumulatedDelta;
+        }
 
+        private void LateUpdate()
+        {
             _accumulatedDelta = Vector2.zero;
         }
 

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41c0e725945989d4a913bda444940be7, type: 3}
-  m_Name: CharacterSettings
+  m_Name: BaseCharacterSettings
   m_EditorClassIdentifier: SAWC.Core::SAWC.Core.CharacterSettings
   Data:
     Movement:
@@ -78,6 +78,8 @@ MonoBehaviour:
       JumpBufferTime: 0.2
       CoyoteTime: 0.2
       AirControlMultiplier: 0.6
+      CeilingBounceVelocity: -1.5
+      JumpCooldownDuration: 0.1
     Crouch:
       CanCrouch: 1
       CanJumpWhileCrouching: 0
@@ -101,6 +103,7 @@ MonoBehaviour:
       InputThreshold: 0.05
       VerticalVelocityThreshold: 0.1
       IdleTransitionMultiplier: 0.2
-      FallVelocityThreshold: 0
+      FallVelocityThreshold: -0.1
       AirStateDebounceTime: 0.2
       SprintDirectionThreshold: 0.38
+      VelocityThreshold: 0.1

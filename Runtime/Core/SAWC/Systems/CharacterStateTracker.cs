@@ -125,9 +125,14 @@ namespace SAWC.Core
             float fallThreshold = settings.Thresholds.FallVelocityThreshold;
 
             _flags.IsJumping = gravityVerticalVelocity > upThreshold || (gravityVerticalVelocity >= fallThreshold && old.IsJumping);
-            _flags.IsFalling = realVerticalVelocity < fallThreshold || (realVerticalVelocity <= upThreshold && old.IsFalling);
-        }
 
+            _flags.IsFalling = realVerticalVelocity < fallThreshold || (realVerticalVelocity <= upThreshold && old.IsFalling);
+
+            if (_flags.IsFalling)
+            {
+                _flags.IsJumping = false;
+            }
+        }
         private void CheckTransitions(StateFlags old, StateFlags current)
         {
             ExecuteTransition(old.IsSprinting, current.IsSprinting, SprintStarted, SprintCanceled);

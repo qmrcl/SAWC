@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SAWC.Core.Input
 {
-    [AddComponentMenu("SAWC/Input/Master Input Provider")]
+    [AddComponentMenu("SAWC/Core/Input/Master Input Provider")]
     public class MasterInputProvider : BaseInputProvider
     {
         private enum ButtonType { Jump, Sprint, Crouch }
@@ -16,6 +16,15 @@ namespace SAWC.Core.Input
         [SerializeField] private float _switchThreshold = 0.15f;
 
         private BaseInputReader _activeReader;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            if (_readers != null && _readers.Length > 0 && _readers[0] != null)
+            {
+                _activeReader = _readers[0];
+            }
+        }
 
         public override Vector2 MoveInput
         {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SAWC.Core.Input.Readers
 {
-    [AddComponentMenu("SAWC/Input/Readers/Mobile UI Reader")]
+    [AddComponentMenu("SAWC/Core/Input/Readers/UI/Mobile UI Reader")]
     public class MobileUIReader : BaseInputReader
     {
         [SerializeField] private BaseJoystick _joystick;
@@ -19,7 +19,7 @@ namespace SAWC.Core.Input.Readers
         private void Awake()
         {
             if (_joystick == null)
-                Debug.LogError($"{nameof(MobileUIReader)}. На {name} не назначен Joystick", this);
+                Debug.LogError($"{nameof(MobileUIReader)}. Joystick is not assigned on '{gameObject.name}'!", this);
         }
 
         public void SetUIJump(bool state) => _uiJump = state;

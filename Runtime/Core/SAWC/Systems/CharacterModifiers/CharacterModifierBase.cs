@@ -15,7 +15,10 @@ namespace SAWC.Modifiers
 
         protected virtual void OnEnable()
         {
-            if (Controller == null) return;
+            if (Controller == null)
+            {
+                Debug.LogError($"The controller on '{gameObject.name}' is null!", this); return;
+            }
 
             if (this is IContextModifier contextMod)
             {

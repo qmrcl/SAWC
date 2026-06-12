@@ -1,14 +1,31 @@
 # Changelog
 
-## [Unreleased]
+## [0.7.0]
 
 ### Added
-- Added `SprintDirectionThreshold` parameter to `ThresholdSettings` structure inside `CharacterSettings.cs` to enable dynamic tuning of diagonal sprint cutoff angles directly via the Unity Inspector.
-- Added `FallVelocityThreshold` parameter to `ThresholdSettings` structure inside `CharacterSettings.cs` to define an independent, tunable vertical velocity checkpoint for air-state evaluation.
+- Added `CeilingBounceVelocity` and `JumpCooldownDuration` parameters to the `JumpSettings` structure inside `CharacterSettings.cs` to expose internal gravity constants directly to the Unity Inspector.
+- Added `VelocityThreshold` and `VelocityThresholdSq` parameters to the `ThresholdSettings` structure inside `CharacterSettings.cs` to eliminate hardcoded magic numbers during horizontal velocity evaluations.
+- Added an independent `_actionCooldown` configuration factor to `PlayerAudioController` to mitigate sound clipping and overlapping audio artifacts during rapid posture swaps.
+- Added an automated localization pipeline for inspector properties and tooltips.
+- Added the **SAWC Hub** central editor window featuring live interface language switching, installed localization asset tracking, and a direct documentation pipeline link.
 
 ### Changed
-- Refactored `CharacterLocomotion.IsSprintDirectionAllowed` to dynamically query the new configuration data, completely purging the hardcoded `0.38f` magic constant from the core physics logic.
-- **Overhauled Air-State Evaluation:** Completely refactored `CharacterStateTracker.CalculateAirFlags`, purging the toxic dependency on the `GroundedGravity` physics anchor. Falling states are now evaluated cleanly against `FallVelocityThreshold`, completely eliminating animation lag and freeze frames when descending ledges or stepping into the void.
+- Refactored `CharacterLocomotion.EvaluateAcceleration` to utilize the new `VelocityThresholdSq` configuration data instead of an unconfigurable constant.
+- Translated all core framework debug logs, warning messages, and error diagnostics from Russian to English.
+
+### Fixed
+- **Fixed Diagonal Sprint Cutoff ("Diagonal Sprint Funeral"):** Overhauled `CharacterLocomotion.IsSprintDirectionAllowed` to run a dominant-axis evaluation using absolute values (`Mathf.Abs(dir.y) >= Mathf.Abs(dir.x)`), allowing seamless diagonal movement without accidental sprint dropouts when masking flags.
+- **Fixed Half-Dead Input on Spawn:** Fixed an initialization bug in `MasterInputProvider.Awake` by explicitly seeding `_activeReader` with the first available device, allowing micro-movements and immediate button polling on spawn without requiring an initial stick threshold breach.
+- **Fixed CharacterController Bounds Desync:** Added an explicit `_controller.Move(Vector3.zero)` command to the end of `CharacterPosture.SetHeight` to force the physics engine to immediately compute the modified collider height and center context.
+- **Fixed Negative SphereCast Crash:** Fixed a critical physical exploit in `CharacterPosture.HasCeilingObstacle` where a negative casting distance caused by sub-clearance inputs triggered internal physical engine exceptions.
+- **Fixed Double Jump via Buffer Exploitation:** Added an explicit buffer wipe (`_jumpBufferTimer = 0f`) in `CharacterGravity.TryExecuteJump` immediately following a successful jump sequence to prevent accidental multi-jumps.
+- **Fixed Input Data Frame Loss:** Moved the accumulation delta flush from `LookPad.Update` to `LateUpdate` to prevent raw drag telemetry from being wiped out before target tracking controllers can read it.
+- **Fixed Zero Vector Acceleration Collapse:** Added a strict guard clause in `CharacterLocomotion.EvaluateAcceleration` to prevent vector normalization operations on zero magnitude vectors, eliminating potential NaN/division-by-zero crashes.
+- **Fixed Zero Vector Rotation Glitch:** Added a square magnitude check in `CharacterRotation.Tick` to shield `Mathf.Atan2` calculations from unstable zero-vector updates.
+- **Fixed Infinite Joystick Stick Glitch:** Fixed a logical bug in `UniversalJoystick.OnDrag` where an early return on a zero container width left `_currentDirection` frozen at its last valid frame state; implemented an explicit fallback reset to `Vector2.zero`.
+- **Fixed Audio System Crash:** Added defensive null checks inside `PlayerAudioController` routines to prevent fatal `NullReferenceException` crashes if specific audio containers are left unassigned in the inspector.
+- **Fixed Cross-Session Audio State Leaks:** Added explicit `ResetState()` calls to `PlayerAudioController.Awake` to guarantee that historical `HashSet` and shuffle buffers are cleared down during component initialization.
+- Replaced silent error absorption with descriptive `Debug.LogError` diagnostics inside `CharacterModifierBase.OnEnable` when core controller tracking resolves to null.
 
 ## [0.6.1] - 2026-06-01
 
@@ -23,7 +40,7 @@
 
 ### Changed
 - **Overhauled PlayerAudioController:** Wiped out the naive and broken `AudioSource.loop` step implementation. Footsteps are now driven by a dedicated state-evaluator (`GetCurrentStepSettings`) that dynamically switches intervals and clip pools between Walking, Sprinting, and Crouching in real-time.
-- **Overhauled Camera-Relative Movement:** Completely wiped out the legacy тригонометрический цикл (`Mathf.Atan2`, `eulerAngles.y`) in `BaseInputProvider.CalculateWorldDirection()`. The system now operates purely on vector math via `Vector3.Cross(camRight, Vector3.up)`, achieving flat execution time and zero allocations.
+- **Overhauled Camera-Relative Movement:** Completely wiped out the legacy trigonometric loop (`Mathf.Atan2`, `eulerAngles.y`) in `BaseInputProvider.CalculateWorldDirection()`. The system now operates purely on vector math via `Vector3.Cross(camRight, Vector3.up)`, achieving flat execution time and zero allocations.
 - Refactored `CharacterStateTracker.CalculateAirFlags`: decoupled physical movement from internal gravity intent by processing `realVerticalVelocity` and `gravityVerticalVelocity` as independent parameters.
 
 ### Fixed

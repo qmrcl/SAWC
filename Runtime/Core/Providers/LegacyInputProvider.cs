@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SAWC.Core.Input.Readers
 {
-    [AddComponentMenu("SAWC/Input/Readers/Legacy Input Reader")]
+    [AddComponentMenu("SAWC/Core/Input/Readers/Legacy Input Reader")]
     public class LegacyInputReader : BaseInputReader
     {
         [SerializeField] private string _horAxis = "Horizontal";

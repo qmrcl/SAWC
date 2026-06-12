@@ -19,7 +19,7 @@ namespace SAWC.Modules.CameraUtils
         private void Awake()
         {
             if (_controller == null)
-                Debug.LogError("Камере нужен SAWController", this);
+                Debug.LogError($"Camera requires a {nameof(SAWController)} component!", this);
         }
 
         private void Update()

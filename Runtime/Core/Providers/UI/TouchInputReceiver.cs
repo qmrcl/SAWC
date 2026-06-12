@@ -4,7 +4,7 @@ using System;
 
 namespace SAWC.Core.Input
 {
-    [AddComponentMenu("SAWC/Core/Input/UI/Touch Input Receiver")]
+    [AddComponentMenu("SAWC/Core/Input/Readers/UI/Touch Input Receiver")]
     public class TouchInputReceiver : InputAxisControllerBase<TouchInputReceiver.TouchReader>
     {
         [Header("References")]

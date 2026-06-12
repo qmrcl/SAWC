@@ -26,7 +26,7 @@ namespace SAWC.Modules.Input.Detection
         {
             if (_strategies == null || _strategies.Count == 0)
             {
-                Debug.LogWarning($"Список стратегий пуст на объекте {gameObject.name}", this);
+                Debug.LogWarning($"Strategy list is empty on object '{gameObject.name}'!", this);
                 return InputDeviceType.Unknown;
             }
 
@@ -38,7 +38,7 @@ namespace SAWC.Modules.Input.Detection
                 if (result != InputDeviceType.Unknown) return result;
             }
 
-            Debug.LogWarning($"Устройство не определено на {gameObject.name}", this);
+            Debug.LogWarning($"Device type could not be determined on '{gameObject.name}'!", this);
             return InputDeviceType.Unknown;
         }
     }

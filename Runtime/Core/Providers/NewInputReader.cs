@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace SAWC.Core.Input.Readers
 {
-    [AddComponentMenu("SAWC/Input/Readers/New Input Reader")]
+    [AddComponentMenu("SAWC/Core/Input/Readers/New Input Reader")]
     public class NewInputReader : BaseInputReader
     {
         [SerializeField] private InputActionReference _moveAction;

@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+﻿using SAWC.Localization;
 using System;
+using UnityEngine;
 
 namespace SAWC.Core.Data
 {
@@ -26,9 +27,9 @@ namespace SAWC.Core.Data
         [Min(0f)] public float MoveSpeed;
         [Min(0f)] public float SprintSpeed;
 
-        [Tooltip("Минимальный инпут для начала движения")]
         [Min(0.001f)] public float MinMoveThreshold;
 
+        [Loc]
         [Min(0f)] public float BaseAcceleration;
         [SerializeField] internal AnimationCurve AccelerationCurve;
 
@@ -43,14 +44,12 @@ namespace SAWC.Core.Data
         public bool EnableAutoJump;
 
         [Min(0f)] public float JumpForce;
-
-        [Tooltip("Сколько секунд помним нажатие прыжка")]
         [Min(0f)] public float JumpBufferTime;
-
-        [Tooltip("Время для прыжка после падения с уступа")]
         [Min(0f)] public float CoyoteTime;
-
         [Range(0f, 5f)] public float AirControlMultiplier;
+
+        public float CeilingBounceVelocity;
+        [Min(0f)] public float JumpCooldownDuration;
     }
 
     [Serializable]
@@ -71,7 +70,6 @@ namespace SAWC.Core.Data
     {
         public bool UseGravity;
 
-        [Tooltip("Гравитация всегда тянет вниз (отрицательная)")]
         public float Gravity;
         public float TerminalVelocity;
         public float GroundedGravity;
@@ -96,27 +94,26 @@ namespace SAWC.Core.Data
 
         [Range(0.01f, 1f)] public float IdleTransitionMultiplier;
 
-        [Tooltip("Порог вертикальной скорости, ниже которого засчитывается падение (обычно от -0.5 до -1.0)")]
         public float FallVelocityThreshold;
 
-        [Tooltip("Время (в секундах) для фильтрации дребезга земли на крутых склонах. Персонаж должен стабильно находиться в воздухе это время, чтобы засчитать падение/приземление.")]
         [Range(0f, 1f)] public float AirStateDebounceTime;
-        [Tooltip("Порог отсечения диагонального ввода для спринта. Чем выше, тем строже проверка.")]
         [Range(0f, 1f)] public float SprintDirectionThreshold;
+
+        [Min(0.001f)] public float VelocityThreshold;
     }
 
     [Serializable]
     public struct CharacterSettingsData
     {
-        public MovementSettings Movement;
-        public JumpSettings Jump;
-        public CrouchSettings Crouch;
-        public PhysicsSettings Physics;
-        public RotationSettings Rotation;
-        public ThresholdSettings Thresholds;
+        [Loc] public MovementSettings Movement;
+        [Loc] public JumpSettings Jump;
+        [Loc] public CrouchSettings Crouch;
+        [Loc] public PhysicsSettings Physics;
+        [Loc] public RotationSettings Rotation;
+        [Loc] public ThresholdSettings Thresholds;
     }
 
-    [CreateAssetMenu(fileName = "CharacterSettings", menuName = "SAWC/Character Settings")]
+    [CreateAssetMenu(fileName = "CharacterSettings", menuName = "SAWC/Core/Character Settings")]
     public class CharacterSettings : ScriptableObject
     {
         public CharacterSettingsData Data = new CharacterSettingsData
@@ -136,11 +133,13 @@ namespace SAWC.Core.Data
             Jump = new JumpSettings
             {
                 CanJump = true,
-                EnableAutoJump = false,
-                JumpForce = 5f,
+                EnableAutoJump = true,
+                JumpForce = 4f,
                 JumpBufferTime = 0.2f,
-                CoyoteTime = 0.3f,
-                AirControlMultiplier = 0.8f
+                CoyoteTime = 0.2f,
+                AirControlMultiplier = 0.6f,
+                CeilingBounceVelocity = -1.5f,
+                JumpCooldownDuration = 0.1f
             },
             Crouch = new CrouchSettings
             {
@@ -148,7 +147,7 @@ namespace SAWC.Core.Data
                 CanJumpWhileCrouching = false,
                 CrouchSpeed = 1f,
                 StandingHeight = 2f,
-                CrouchHeight = 1.1f,
+                CrouchHeight = 1f,
                 EnvironmentMask = 1
             },
             Physics = new PhysicsSettings
@@ -167,12 +166,13 @@ namespace SAWC.Core.Data
             },
             Thresholds = new ThresholdSettings
             {
-                InputThreshold = 0.01f,
+                InputThreshold = 0.05f, 
                 VerticalVelocityThreshold = 0.1f,
-                IdleTransitionMultiplier = 0.8f,
-                AirStateDebounceTime = 0.15f,
+                IdleTransitionMultiplier = 0.2f,
+                FallVelocityThreshold = -0.1f,
+                AirStateDebounceTime = 0.2f,
                 SprintDirectionThreshold = 0.38f,
-                FallVelocityThreshold = -0.5f,
+                VelocityThreshold = 0.1f
             }
         };
 
@@ -180,32 +180,6 @@ namespace SAWC.Core.Data
         {
             Data.Movement.AccelerationCurve = AnimationCurve.Linear(0f, 1f, 1f, 0.2f);
             Data.Movement.DecelerationCurve = AnimationCurve.Linear(0f, 1f, 1f, 0.5f);
-        }
-
-        private void OnValidate()
-        {
-            if (Data.Movement.MoveSpeed < 0.01f) Data.Movement.MoveSpeed = 0.01f;
-            if (Data.Movement.SprintSpeed < 0.01f) Data.Movement.SprintSpeed = 0.01f;
-
-            if (Data.Movement.SprintSpeed < Data.Movement.MoveSpeed)
-                Data.Movement.SprintSpeed = Data.Movement.MoveSpeed;
-
-            if (Data.Crouch.CrouchSpeed > Data.Movement.MoveSpeed)
-                Data.Crouch.CrouchSpeed = Data.Movement.MoveSpeed;
-
-            if (Data.Crouch.CrouchHeight > Data.Crouch.StandingHeight)
-                Data.Crouch.CrouchHeight = Data.Crouch.StandingHeight;
-
-            if (Data.Physics.GroundedGravity > 0f)
-                Data.Physics.GroundedGravity = -Data.Physics.GroundedGravity;
-
-            if (Data.Physics.TerminalVelocity > 0f)
-                Data.Physics.TerminalVelocity = -Data.Physics.TerminalVelocity;
-
-            if (Data.Movement.AllowedSprintDirections == SprintAllowedDirections.None)
-            {
-                Data.Movement.AllowedSprintDirections = SprintAllowedDirections.Forward;
-            }
         }
     }
 }

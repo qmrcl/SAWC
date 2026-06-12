@@ -1,0 +1,212 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60691bd447c276440a62364335174adf, type: 3}
+  m_Name: EN
+  m_EditorClassIdentifier: ::SAWC.Localization::LanguageAsset
+  LanguageName: English
+  Editor_Hello:
+    DisplayName: Welcome to SAW Hub
+    Tooltip: The main configuration and management hub for the controller asset.
+  Editor_DocMessage:
+    DisplayName: Select your language below to instantly translate the entire inspector
+      interface. Need help? Check the docs.
+    Tooltip: Panel information status message.
+  Editor_DocButton:
+    DisplayName: "\U0001F4D6 OPEN DOCUMENTATION"
+    Tooltip: Open the online documentation and user guide page.
+  Editor_InstalledPacksLabel:
+    DisplayName: "\u0432\u043F\u043F\u043F\u0440\u044B\u0432\u043F\u0430\u0440\u043F\u044B\u0432\u043F\u044B\u0432\u0430\u043F\u0432\u044B\u0430\u043F\u044B\u0432\u0430\u043F\u044B\u0432\u0430\u043F"
+    Tooltip: 
+  Editor_ActiveLangLabel:
+    DisplayName: "\u0430\u043F\u044B\u0432\u0430\u043F\u044B\u0432\u0430\u043F\u044B\u0432\u0430\u0430\u043F\u044B\u0432\u043F\u0430\u044B\u0432\u043F\u0432\u0430"
+    Tooltip: 
+  Movement:
+    DisplayName: Movement
+    Tooltip: Settings for basic locomotion, speed, and sprint behavior.
+  Jump:
+    DisplayName: Jump
+    Tooltip: Configuration for mechanics like jump force, buffer times, and coyote
+      time.
+  Crouch:
+    DisplayName: Crouch
+    Tooltip: Adjust heights, crouch speeds, and ceiling obstacle detection.
+  Physics:
+    DisplayName: Physics
+    Tooltip: Configure custom gravity modifiers, ground snapping, and velocity limits.
+  Rotation:
+    DisplayName: Rotation
+    Tooltip: Define how smoothly the character rotates based on movement or strafe
+      input.
+  Thresholds:
+    DisplayName: Thresholds
+    Tooltip: Mathematical boundaries for animator transitions and logic states.
+  Configuration:
+    DisplayName: 
+    Tooltip: 
+  DashboardErrorNoSettingsField:
+    DisplayName: 'Error: CharacterSettings field not found in SAWController.'
+    Tooltip: Critical inspector initialization failure.
+  DashboardAssignConfig:
+    DisplayName: Assign a configuration ScriptableObject to deploy the dashboard.
+    Tooltip: Info message when the settings slot is empty.
+  DashboardValidationSprint:
+    DisplayName: 'Warning: Sprint speed is slower than normal walking speed.'
+    Tooltip: Game design warning about illogical sprint velocity setup.
+  DashboardValidationCrouchSpeed:
+    DisplayName: 'Warning: Crouch speed is higher than normal walking speed.'
+    Tooltip: Game design warning about crouching faster than default movement.
+  DashboardValidationCrouchHeight:
+    DisplayName: 'Logic Error: Crouch height cannot be higher than standing height.'
+    Tooltip: Critical capsule collider geometry error.
+  DashboardValidationGravity:
+    DisplayName: 'Critical: Gravity parameters have positive values. The character
+      will fly away upward.'
+    Tooltip: Critical physics setup error. Grounded gravity and terminal velocity
+      must be negative.
+  DashboardCharacterSettingsLabel:
+    DisplayName: Character Settings
+    Tooltip: Slot to assign the character configuration ScriptableObject.
+  JumpSettingsCanJump:
+    DisplayName: Can Jump
+    Tooltip: Global toggle to enable or disable jumping mechanics.
+  JumpSettingsEnableAutoJump:
+    DisplayName: Enable Auto Jump
+    Tooltip: Allows continuous automatic jumping (bunnyhopping) while holding down
+      the jump input.
+  JumpSettingsJumpForce:
+    DisplayName: Jump Force
+    Tooltip: The initial upward velocity impulse applied when the character leaves
+      the ground.
+  JumpSettingsJumpBufferTime:
+    DisplayName: Jump Buffer Time
+    Tooltip: Time window (in seconds) before landing during which pressing the jump
+      button queues up an automatic jump upon touching the ground.
+  JumpSettingsCoyoteTime:
+    DisplayName: Coyote Time
+    Tooltip: The grace period (in seconds) allowing the player to jump after walking
+      off a ledge or platform edge.
+  JumpSettingsAirControlMultiplier:
+    DisplayName: Air Control Multiplier
+    Tooltip: Modifies steering responsiveness and direction changes while the character
+      is airborne.
+  MovementSettingsCanMove:
+    DisplayName: Can Move
+    Tooltip: Global toggle to enable or disable basic character locomotion.
+  MovementSettingsCanSprint:
+    DisplayName: Can Sprint
+    Tooltip: Determines if the character is permitted to transition into a sprint
+      state.
+  MovementSettingsAllowedSprintDirections:
+    DisplayName: Allowed Sprint Directions
+    Tooltip: Restricts input vectors where sprinting is active (e.g., forward movement
+      only).
+  MovementSettingsUseInertia:
+    DisplayName: Use Inertia
+    Tooltip: Enables smooth acceleration and deceleration using curves instead of
+      instant speed snapping.
+  MovementSettingsMoveSpeed:
+    DisplayName: Move Speed
+    Tooltip: The maximum movement speed of the character during normal walking.
+  MovementSettingsSprintSpeed:
+    DisplayName: Sprint Speed
+    Tooltip: The maximum movement speed of the character when sprinting is active.
+  MovementSettingsMinMoveThreshold:
+    DisplayName: Min Move Threshold
+    Tooltip: Minimum analog stick or input axis deflection required to initiate movement.
+  MovementSettingsBaseAcceleration:
+    DisplayName: Base Acceleration
+    Tooltip: Multiplier that controls how fast the character scales up to maximum
+      speed.
+  MovementSettingsAccelerationCurve:
+    DisplayName: Acceleration Curve
+    Tooltip: An animation curve evaluating acceleration rate over time.
+  MovementSettingsBaseDeceleration:
+    DisplayName: Base Deceleration
+    Tooltip: Multiplier that controls how fast the character drops speed to a complete
+      stop.
+  MovementSettingsDecelerationCurve:
+    DisplayName: Deceleration Curve
+    Tooltip: An animation curve evaluating braking dynamics when there is no movement
+      input.
+  RotationSettingsRotateWithMovement:
+    DisplayName: Rotate With Movement
+    Tooltip: Automatically rotates the character model to face the direction of the
+      movement vector.
+  RotationSettingsMovementRotationSmoothTime:
+    DisplayName: Rotation Smooth Time (Movement)
+    Tooltip: The interpolation time for smoothing character model turns during normal
+      locomotion.
+  RotationSettingsStrafeRotationSmoothTime:
+    DisplayName: Rotation Smooth Time (Strafe)
+    Tooltip: The interpolation time for maintaining orientation while strafing sideways.
+  ThresholdSettingsInputThreshold:
+    DisplayName: Input Threshold
+    Tooltip: The deadzone value below which all controller or keyboard input is ignored.
+  ThresholdSettingsVerticalVelocityThreshold:
+    DisplayName: Vertical Velocity Threshold
+    Tooltip: The Y-axis velocity limit below which the character is evaluated as
+      stably grounded.
+  ThresholdSettingsIdleTransitionMultiplier:
+    DisplayName: Idle Transition Multiplier
+    Tooltip: Controls the blending speed when shifting back down to the idle animation
+      state.
+  ThresholdSettingsFallVelocityThreshold:
+    DisplayName: Fall Velocity Threshold
+    Tooltip: The downward vertical velocity required to actively trigger the falling
+      state logic.
+  ThresholdSettingsAirStateDebounceTime:
+    DisplayName: Air State Debounce Time
+    Tooltip: A time buffer (in seconds) to filter out brief airborne states caused
+      by small steps or ground irregularities.
+  ThresholdSettingsSprintDirectionThreshold:
+    DisplayName: Sprint Direction Threshold
+    Tooltip: The maximum allowed deviation angle from the look direction where sprinting
+      is still valid.
+  PhysicsSettingsUseGravity:
+    DisplayName: Use Gravity
+    Tooltip: Toggles custom physics and downward force calculations on this controller.
+  PhysicsSettingsGravity:
+    DisplayName: Gravity Force
+    Tooltip: The custom acceleration value applied for free fall simulations (usually
+      negative).
+  PhysicsSettingsTerminalVelocity:
+    DisplayName: Terminal Velocity
+    Tooltip: The maximum speed clamp allowed for a character falling downwards.
+  PhysicsSettingsGroundedGravity:
+    DisplayName: Grounded Gravity
+    Tooltip: A constant downward force used to keep the character firmly snapped
+      to the surface when descending slopes.
+  PhysicsSettingsFallMultiplier:
+    DisplayName: Fall Multiplier
+    Tooltip: Scales gravity weight higher when moving downwards, preventing a floaty
+      or moon-like jump feeling.
+  CrouchSettingsCanCrouch:
+    DisplayName: Can Crouch
+    Tooltip: Global toggle to enable or disable the ability to crouch.
+  CrouchSettingsCanJumpWhileCrouching:
+    DisplayName: Can Jump While Crouching
+    Tooltip: Allows the character to execute a full height jump directly from the
+      crouched stance.
+  CrouchSettingsCrouchSpeed:
+    DisplayName: Crouch Speed
+    Tooltip: The maximum movement speed allowed while in the crouched state.
+  CrouchSettingsStandingHeight:
+    DisplayName: Standing Height
+    Tooltip: The default capsule collider height assigned when standing fully upright.
+  CrouchSettingsCrouchHeight:
+    DisplayName: Crouch Height
+    Tooltip: The target capsule collider height the character scales down to when
+      crouching.
+  CrouchSettingsEnvironmentMask:
+    DisplayName: Ceiling Obstacle Mask
+    Tooltip: The collision layers (LayerMask) scanned via upward raycast before permitting
+      the character to stand up.

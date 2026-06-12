@@ -56,6 +56,8 @@ namespace SAWC.Core
                 previousCenter.y + heightDifference * 0.5f,
                 previousCenter.z
             );
+
+            _controller.Move(Vector3.zero);
         }
 
         internal bool CanStandUp(ref CharacterSettingsData settings)
@@ -70,11 +72,12 @@ namespace SAWC.Core
         private bool HasCeilingObstacle(float distanceToStand, ref CharacterSettingsData settings)
         {
             float radius = _controller.radius * StandUpRadiusBias;
-            
             Vector3 currentCenterWorld = _transform.position + _controller.center;
             Vector3 rayStart = currentCenterWorld + Vector3.up * (_controller.height * 0.5f - radius);
-            
+
             float castDistance = distanceToStand - StandUpClearance;
+
+            if (castDistance <= 0f) return false;
 
             return Physics.SphereCast(
                 rayStart, radius, Vector3.up, out _, castDistance,

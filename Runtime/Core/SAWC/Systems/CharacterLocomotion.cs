@@ -59,15 +59,19 @@ namespace SAWC.Core
 
             Vector2 dir = moveInput.normalized;
             var allowed = settings.Movement.AllowedSprintDirections;
-
             float dirThreshold = settings.Thresholds.SprintDirectionThreshold;
 
-            if (dir.y > dirThreshold && (allowed & SprintAllowedDirections.Forward) == 0) return false;
-            if (dir.y < -dirThreshold && (allowed & SprintAllowedDirections.Backward) == 0) return false;
-            if (dir.x < -dirThreshold && (allowed & SprintAllowedDirections.Left) == 0) return false;
-            if (dir.x > dirThreshold && (allowed & SprintAllowedDirections.Right) == 0) return false;
+            bool isForward = dir.y > dirThreshold;
+            bool isBackward = dir.y < -dirThreshold;
+            bool isLeft = dir.x < -dirThreshold;
+            bool isRight = dir.x > dirThreshold;
 
-            return true;
+            if (isForward && (allowed & SprintAllowedDirections.Forward) != 0) return true;
+            if (isBackward && (allowed & SprintAllowedDirections.Backward) != 0) return true;
+            if (isLeft && (allowed & SprintAllowedDirections.Left) != 0) return true;
+            if (isRight && (allowed & SprintAllowedDirections.Right) != 0) return true;
+
+            return false;
         }
 
         private float CalculateSmoothingRate(Vector3 currentVelocity, Vector3 targetVelocity, bool isGrounded, ref CharacterSettingsData settings)
@@ -92,8 +96,12 @@ namespace SAWC.Core
 
         private float EvaluateAcceleration(Vector3 currentVelocity, Vector3 targetVelocity, ref CharacterSettingsData settings)
         {
+            if (targetVelocity.sqrMagnitude < settings.Thresholds.VelocityThreshold * settings.Thresholds.VelocityThreshold)
+                return settings.Movement.BaseAcceleration;
+
             float speedInTargetDirection = Vector3.Dot(currentVelocity, targetVelocity.normalized);
-            float maxSpeed = targetVelocity.magnitude > 0.1f ? targetVelocity.magnitude : settings.Movement.MoveSpeed;
+
+            float maxSpeed = targetVelocity.magnitude > settings.Thresholds.VelocityThreshold ? targetVelocity.magnitude : settings.Movement.MoveSpeed;
 
             float speedRatio = Mathf.Clamp01(speedInTargetDirection / maxSpeed);
             return settings.Movement.BaseAcceleration * settings.Movement.AccelerationCurve.Evaluate(speedRatio);

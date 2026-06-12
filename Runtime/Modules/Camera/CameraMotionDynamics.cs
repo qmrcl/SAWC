@@ -4,7 +4,7 @@ using SAWC.Core;
 
 namespace SAWC.Modules.CameraUtils
 {
-    [AddComponentMenu("SAWC/Camera/Motion Dynamics")]
+    [AddComponentMenu("SAWC/Modules/Motion Dynamics")]
     public class CameraMotionDynamics : CinemachineExtension
     {
         [SerializeField] private SAWController _controller;

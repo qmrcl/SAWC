@@ -1,10 +1,10 @@
+using UnityEngine;
+using SAWC.Core.Data;
+
 namespace SAWC.Core
 {
     internal sealed class CharacterGravity
     {
-        private const float CeilingBounceVelocity = -1.5f;
-        private const float JumpCooldownDuration = 0.1f;
-
         private float _verticalVelocity;
         private bool _wasJumpHeld;
         private bool _coyoteJumpConsumed;
@@ -19,7 +19,7 @@ namespace SAWC.Core
         {
             UpdateTimersAndBuffers(ref ctx);
 
-            HandleCeilingCollision(ctx.HitCeiling);
+            HandleCeilingCollision(ref ctx);
 
             ApplyGravityForces(ref ctx);
 
@@ -51,11 +51,11 @@ namespace SAWC.Core
             }
         }
 
-        private void HandleCeilingCollision(bool hitCeiling)
+        private void HandleCeilingCollision(ref FrameContext ctx)
         {
-            if (hitCeiling && _verticalVelocity > 0f)
+            if (ctx.HitCeiling && _verticalVelocity > 0f)
             {
-                _verticalVelocity = CeilingBounceVelocity;
+                _verticalVelocity = ctx.Settings.Jump.CeilingBounceVelocity;
             }
         }
 
@@ -92,7 +92,6 @@ namespace SAWC.Core
             if (ctx.CrouchInput && !ctx.Settings.Crouch.CanJumpWhileCrouching) return;
 
             bool hasIntent = _jumpBufferTimer > 0f || (jump.EnableAutoJump && ctx.JumpInput && ctx.IsGrounded);
-
             bool canCoyoteJump = !_coyoteJumpConsumed && _timeSinceGrounded <= jump.CoyoteTime;
 
             if (hasIntent && canCoyoteJump && _jumpCooldownTimer <= 0f)
@@ -100,7 +99,8 @@ namespace SAWC.Core
                 _verticalVelocity = jump.JumpForce;
                 _jumpBufferTimer = 0f;
                 _coyoteJumpConsumed = true;
-                _jumpCooldownTimer = JumpCooldownDuration;
+
+                _jumpCooldownTimer = jump.JumpCooldownDuration;
             }
         }
     }

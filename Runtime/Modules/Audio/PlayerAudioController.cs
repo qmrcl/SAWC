@@ -18,7 +18,6 @@ namespace SAWC.Modules.Audio
             public PlaybackMode Playback = PlaybackMode.Random;
 
             [Header("Pace Settings")]
-            [Tooltip("Интервал между звуками в секундах (для шагов)")]
             [Min(0.01f)] public float Interval = 0.4f;
 
             [Header("Volume Settings")]
@@ -30,11 +29,12 @@ namespace SAWC.Modules.Audio
             [Range(0f, 0.5f)] public float PitchRandomization = 0.08f;
 
             [Header("Rules")]
-            [Tooltip("Сколько прошлых клипов не повторять.")]
             [Min(0)] public int AvoidRepeatingLast = 1;
 
             private int _lastIndex = -1;
-            private readonly List<int> _history = new List<int>();
+
+            private readonly HashSet<int> _history = new HashSet<int>();
+            private readonly List<int> _historyOrder = new List<int>();
             private readonly List<int> _shufflePool = new List<int>();
             private readonly List<int> _validIndicesBuffer = new List<int>();
 
@@ -50,6 +50,15 @@ namespace SAWC.Modules.Audio
 
                 source.pitch = finalPitch;
                 source.PlayOneShot(Clips[index], finalVolume);
+            }
+
+            public void ResetState()
+            {
+                _lastIndex = -1;
+                _history.Clear();
+                _historyOrder.Clear();
+                _shufflePool.Clear();
+                _validIndicesBuffer.Clear();
             }
 
             private int GetNextIndex()
@@ -81,6 +90,7 @@ namespace SAWC.Modules.Audio
                         if (_validIndicesBuffer.Count == 0)
                         {
                             _history.Clear();
+                            _historyOrder.Clear();
                             index = UnityEngine.Random.Range(0, Clips.Count);
                         }
                         else
@@ -108,13 +118,21 @@ namespace SAWC.Modules.Audio
                 if (allowedHistorySize <= 0)
                 {
                     _history.Clear();
+                    _historyOrder.Clear();
                     return;
                 }
 
-                _history.Add(idx);
-                while (_history.Count > allowedHistorySize)
+                if (!_history.Contains(idx))
                 {
-                    _history.RemoveAt(0);
+                    _history.Add(idx);
+                    _historyOrder.Add(idx);
+                }
+
+                while (_historyOrder.Count > allowedHistorySize)
+                {
+                    int oldest = _historyOrder[0];
+                    _historyOrder.RemoveAt(0);
+                    _history.Remove(oldest);
                 }
             }
         }
@@ -139,15 +157,31 @@ namespace SAWC.Modules.Audio
 
         [Header("Anti-Spam Settings")]
         [SerializeField, Range(0f, 1f)] private float _antiSpamFactor = 0.75f;
+        [SerializeField, Range(0f, 1f)] private float _actionCooldown = 0.1f;
 
         private float _stepTimer;
         private float _antiSpamCooldown;
+        private float _actionCooldownTimer;
         private bool _wasMovingLastFrame;
 
         private void Awake()
         {
-            if (_controller == null) Debug.LogError($"[{nameof(PlayerAudioController)}] Контроллер не найден.", this);
-            if (_stepSource == null || _actionSource == null) Debug.LogError($"[{nameof(PlayerAudioController)}] Не назначено оба AudioSource!", this);
+            if (_controller == null)
+                Debug.LogError($"[{nameof(PlayerAudioController)}] Controller reference is null on '{gameObject.name}'!", this);
+
+            if (_stepSource == null)
+                Debug.LogError($"[{nameof(PlayerAudioController)}] Step AudioSource is not assigned on '{gameObject.name}'!", this);
+
+            if (_actionSource == null)
+                Debug.LogError($"[{nameof(PlayerAudioController)}] Action AudioSource is not assigned on '{gameObject.name}'!", this);
+
+            _walkStepSettings?.ResetState();
+            _sprintStepSettings?.ResetState();
+            _crouchStepSettings?.ResetState();
+            _jumpSettings?.ResetState();
+            _landSettings?.ResetState();
+            _crouchDownSettings?.ResetState();
+            _crouchUpSettings?.ResetState();
         }
 
         private void OnEnable()
@@ -177,6 +211,11 @@ namespace SAWC.Modules.Audio
                 _antiSpamCooldown -= Time.deltaTime;
             }
 
+            if (_actionCooldownTimer > 0f)
+            {
+                _actionCooldownTimer -= Time.deltaTime;
+            }
+
             bool isMovingAndGrounded = _controller.State.IsMoving && _controller.State.IsGrounded;
 
             if (isMovingAndGrounded)
@@ -201,14 +240,49 @@ namespace SAWC.Modules.Audio
 
         private AudioContainerSettings GetCurrentStepSettings()
         {
-            if (_controller.State.IsCrouching) return _crouchStepSettings;
-            if (_controller.State.IsSprinting) return _sprintStepSettings;
+            if (_controller.State.IsCrouching && _crouchStepSettings != null)
+                return _crouchStepSettings;
+
+            if (_controller.State.IsSprinting && _sprintStepSettings != null)
+                return _sprintStepSettings;
+
             return _walkStepSettings;
         }
 
-        private void OnJumpPerformed() => _jumpSettings.Play(_actionSource);
-        private void OnLandPerformed() => _landSettings.Play(_actionSource);
-        private void OnCrouchStarted() => _crouchDownSettings.Play(_actionSource);
-        private void OnCrouchCanceled() => _crouchUpSettings.Play(_actionSource);
+        private void OnJumpPerformed()
+        {
+            if (_actionCooldownTimer <= 0f && _jumpSettings != null)
+            {
+                _jumpSettings.Play(_actionSource);
+                _actionCooldownTimer = _actionCooldown;
+            }
+        }
+
+        private void OnLandPerformed()
+        {
+            if (_actionCooldownTimer <= 0f && _landSettings != null)
+            {
+                _landSettings.Play(_actionSource);
+                _actionCooldownTimer = _actionCooldown;
+            }
+        }
+
+        private void OnCrouchStarted()
+        {
+            if (_actionCooldownTimer <= 0f && _crouchDownSettings != null)
+            {
+                _crouchDownSettings.Play(_actionSource);
+                _actionCooldownTimer = _actionCooldown;
+            }
+        }
+
+        private void OnCrouchCanceled()
+        {
+            if (_actionCooldownTimer <= 0f && _crouchUpSettings != null)
+            {
+                _crouchUpSettings.Play(_actionSource);
+                _actionCooldownTimer = _actionCooldown;
+            }
+        }
     }
 }

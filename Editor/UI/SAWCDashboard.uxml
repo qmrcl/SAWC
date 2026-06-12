@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="dashboard-root">
+        <ui:VisualElement name="asset-field-container" />
+        
+        <ui:VisualElement name="warnings-container" class="warnings-box" />
+
+        <ui:VisualElement name="dashboard-main" class="dashboard-card">
+            <ui:Label name="dashboard-title" class="dashboard-title" />
+            
+            <ui:VisualElement name="tabs-header" class="tabs-header" />
+            
+            <ui:VisualElement name="tabs-content" class="tabs-content" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

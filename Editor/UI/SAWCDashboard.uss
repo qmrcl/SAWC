@@ -1,0 +1,62 @@
+.dashboard-root {
+    padding: 6px 0;
+}
+
+.warnings-box {
+    margin: 4px 0;
+}
+
+.dashboard-card {
+    background-color: #383838;
+    border-width: 1px;
+    border-color: #4D4D4D #262626 #262626 #404040;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 8px;
+}
+
+.dashboard-title {
+    font-size: 10px;
+    -unity-font-style: bold;
+    color: #999999;
+    margin-bottom: 10px;
+    -unity-text-align: middle-left;
+    padding-left: 4px;
+}
+
+.tabs-header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.tabs-content {
+    background-color: #2E2E2E;
+    border-top-width: 1px;
+    border-top-color: #242424;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.tab-button {
+    background-color: #292929;
+    color: #A6A6A6;
+    -unity-font-style: normal;
+    border-width: 0;
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin-right: 3px;
+    margin-bottom: 4px;
+    font-size: 9px;
+}
+
+.tab-button:hover {
+    background-color: #3D3D3D;
+    color: #FFFFFF;
+}
+
+.tab-button--active {
+    background-color: #474747;
+    color: #FF8C1A;
+    -unity-font-style: bold;
+}

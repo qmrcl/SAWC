@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace SAWC.Core.Input
 {
-    [AddComponentMenu("SAWC/Core/Input/UI/Universal Joystick")]
+    [AddComponentMenu("SAWC/Core/Input/Readers/UI/Universal Joystick")]
     [RequireComponent(typeof(RectTransform))]
     public class UniversalJoystick : BaseJoystick, IDragHandler, IPointerUpHandler, IPointerDownHandler
     {
@@ -15,7 +15,6 @@ namespace SAWC.Core.Input
         [SerializeField] private float _handleLimit = 1f;
 
         private RectTransform _container;
-
         private Canvas _parentCanvas;
         private Vector2 _currentDirection;
 
@@ -24,12 +23,11 @@ namespace SAWC.Core.Input
         private void Awake()
         {
             _container = GetComponent<RectTransform>();
-
             _parentCanvas = GetComponentInParent<Canvas>();
 
             if (_handle == null)
             {
-                Debug.LogError($"[UniversalJoystick] На объекте {name} не назначена ссылка на Handle");
+                Debug.LogError($"Missing Handle reference on object '{name}'!", this);
                 enabled = false;
             }
         }
@@ -37,7 +35,6 @@ namespace SAWC.Core.Input
         public void OnDrag(PointerEventData eventData)
         {
             Camera cam = null;
-
             if (_parentCanvas != null && _parentCanvas.renderMode != RenderMode.ScreenSpaceOverlay)
             {
                 cam = eventData.pressEventCamera;
@@ -46,7 +43,12 @@ namespace SAWC.Core.Input
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_container, eventData.position, cam, out var pos))
             {
                 float radius = _container.rect.width / 2f;
-                if (radius == 0) return;
+
+                if (radius <= 0.001f)
+                {
+                    _currentDirection = Vector2.zero;
+                    return;
+                }
 
                 Vector2 rawDirection = pos / radius;
                 Vector2 clampedDirection = Vector2.ClampMagnitude(rawDirection, 1f);
@@ -62,8 +64,7 @@ namespace SAWC.Core.Input
         private void ResetJoystick()
         {
             _currentDirection = Vector2.zero;
-            if (_handle != null)
-                _handle.anchoredPosition = Vector2.zero;
+            if (_handle != null) _handle.anchoredPosition = Vector2.zero;
         }
 
         private void OnValidate()
