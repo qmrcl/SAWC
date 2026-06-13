@@ -1,6 +1,6 @@
 {
     "name": "SAWC.Editor",
-    "rootNamespace": "",
+    "rootNamespace": "SAWC.Editor",
     "references": [
         "GUID:98c56e5813aff064da1af5d152c5c12b"
     ],

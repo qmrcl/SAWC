@@ -11,6 +11,8 @@
 - **Overhauled Modifier Sorting Logic:** Replaced `BinarySearch` and `PriorityComparer` with a stable linear insertion loop in `PrioritizedList<T>`. This guarantees strict FIFO (First-In, First-Out) execution order for modifiers sharing the exact same priority level, preventing unpredictable pipeline evaluation.
 - **Encapsulated `CharacterModifiers` State:** Transitioned internal `PrioritizedList` fields to private access, exposing them strictly as `IReadOnlyList` to external systems. This enforces strict encapsulation and prevents unauthorized state mutations (e.g., direct clearing or index manipulation) from breaking the modifier pipeline.
 - **Overhauled `CharacterModifierBase` Lifecycle:** Reimplemented the base modifier class to automatically handle pipeline registration and deregistration via Unity's `OnEnable` and `OnDisable` callbacks. Introduced a protected `SetPriority(int)` method to safely mutate priority values while automatically triggering list re-sorting.
+- **Decoupled Core Architecture from New Input System:** Abstracted core input tracking to ensure complete operational stability and compilation fallback even when the New Input System package is completely missing or disabled in Player Settings.
+- **Implemented Dual Input System Support across Modules:** Refactored utility and detection modules to dynamically switch between Legacy Input Manager and New Input System APIs, utilizing preprocessor directives to eliminate cross-dependency errors in 'Both' or system-exclusive modes.
 
 ## [0.7.0]
 

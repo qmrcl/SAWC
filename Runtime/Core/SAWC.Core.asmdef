@@ -1,9 +1,9 @@
 {
     "name": "SAWC.Core",
-    "rootNamespace": "",
+    "rootNamespace": "SAWC.Core",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:4307f53044263cf4b835bd812fc161a4"
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -12,6 +12,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "1.0.0",
+            "define": "SAWC_NEW_INPUT_AVAILABLE"
+        }
+    ],
     "noEngineReferences": false
 }
