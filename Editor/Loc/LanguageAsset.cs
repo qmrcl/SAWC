@@ -9,11 +9,40 @@ using UnityEngine;
 
 namespace SAWC.Editor.Localization
 {
-    [CreateAssetMenu(fileName = "NewLanguage", menuName = "SAWC/Editor/Language Asset")]
     public class LanguageAsset : ScriptableObject
     {
         public string LanguageName = "English";
 
+        public TranslationEntry AudioContainerSettingsAvoidRepeatingLast;
+        public TranslationEntry AudioContainerSettingsBasePitch;
+        public TranslationEntry AudioContainerSettingsBaseVolume;
+        public TranslationEntry AudioContainerSettingsClips;
+        public TranslationEntry AudioContainerSettingsPitchRandomization;
+        public TranslationEntry AudioContainerSettingsPlayback;
+        public TranslationEntry AudioContainerSettingsVolumeRandomization;
+        public TranslationEntry BaseInputProvider_cameraTransform;
+        public TranslationEntry CameraHeightOffset_controller;
+        public TranslationEntry CameraHeightOffset_crouchingHeight;
+        public TranslationEntry CameraHeightOffset_smoothTime;
+        public TranslationEntry CameraHeightOffset_standingHeight;
+        public TranslationEntry CameraMotionDynamics_controller;
+        public TranslationEntry CameraMotionDynamics_forwardPitchAngle;
+        public TranslationEntry CameraMotionDynamics_forwardSmoothTime;
+        public TranslationEntry CameraMotionDynamics_maxForwardSpeed;
+        public TranslationEntry CameraMotionDynamics_maxStrafeSpeed;
+        public TranslationEntry CameraMotionDynamics_maxVerticalSpeed;
+        public TranslationEntry CameraMotionDynamics_panAngle;
+        public TranslationEntry CameraMotionDynamics_panSmoothTime;
+        public TranslationEntry CameraMotionDynamics_tiltAngle;
+        public TranslationEntry CameraMotionDynamics_tiltSmoothTime;
+        public TranslationEntry CameraMotionDynamics_verticalPitchAngle;
+        public TranslationEntry CameraMotionDynamics_verticalSmoothTime;
+        public TranslationEntry CameraShakeControl_brain;
+        public TranslationEntry CameraShakeControl_controller;
+        public TranslationEntry CameraShakeControl_maxShake;
+        public TranslationEntry CameraShakeControl_smoothTime;
+        public TranslationEntry CameraShakeControl_sprintFrequency;
+        public TranslationEntry CharacterModifierBase_priority;
         public TranslationEntry Configuration;
         public TranslationEntry Crouch;
         public TranslationEntry CrouchSettingsCanCrouch;
@@ -22,6 +51,9 @@ namespace SAWC.Editor.Localization
         public TranslationEntry CrouchSettingsCrouchSpeed;
         public TranslationEntry CrouchSettingsEnvironmentMask;
         public TranslationEntry CrouchSettingsStandingHeight;
+        public TranslationEntry CursorSystem_defaultLockMode;
+        public TranslationEntry CursorSystem_startLocked;
+        public TranslationEntry CursorSystem_toggleAction;
         public TranslationEntry DashboardAssignConfig;
         public TranslationEntry DashboardCharacterSettingsLabel;
         public TranslationEntry DashboardErrorNoSettingsField;
@@ -29,6 +61,16 @@ namespace SAWC.Editor.Localization
         public TranslationEntry DashboardValidationCrouchSpeed;
         public TranslationEntry DashboardValidationGravity;
         public TranslationEntry DashboardValidationSprint;
+        public TranslationEntry DashMechanic_cooldown;
+        public TranslationEntry DashMechanic_dashDuration;
+        public TranslationEntry DashMechanic_dashSpeed;
+        public TranslationEntry DashMechanic_inputBufferTime;
+        public TranslationEntry DashMechanic_key;
+        public TranslationEntry DynamicFOV_cinemachineCam;
+        public TranslationEntry DynamicFOV_controller;
+        public TranslationEntry DynamicFOV_maxFovOffset;
+        public TranslationEntry DynamicFOV_smoothTime;
+        public TranslationEntry DynamicFOV_speedMultiplier;
         public TranslationEntry Editor_ActiveLangLabel;
         public TranslationEntry Editor_DocButton;
         public TranslationEntry Editor_DocMessage;
@@ -43,6 +85,16 @@ namespace SAWC.Editor.Localization
         public TranslationEntry JumpSettingsJumpBufferTime;
         public TranslationEntry JumpSettingsJumpCooldownDuration;
         public TranslationEntry JumpSettingsJumpForce;
+        public TranslationEntry LegacyInputReader_crouchKey;
+        public TranslationEntry LegacyInputReader_horAxis;
+        public TranslationEntry LegacyInputReader_jumpKey;
+        public TranslationEntry LegacyInputReader_sprintKey;
+        public TranslationEntry LegacyInputReader_verAxis;
+        public TranslationEntry MasterInputProvider_deadZone;
+        public TranslationEntry MasterInputProvider_switchThreshold;
+        public TranslationEntry MobileUIReader_joystick;
+        public TranslationEntry MobileUIToggle_detector;
+        public TranslationEntry MobileUIToggle_mobileControlsCanvas;
         public TranslationEntry Movement;
         public TranslationEntry MovementSettingsAccelerationCurve;
         public TranslationEntry MovementSettingsAllowedSprintDirections;
@@ -55,12 +107,28 @@ namespace SAWC.Editor.Localization
         public TranslationEntry MovementSettingsMoveSpeed;
         public TranslationEntry MovementSettingsSprintSpeed;
         public TranslationEntry MovementSettingsUseInertia;
+        public TranslationEntry NewInputReader_crouchAction;
+        public TranslationEntry NewInputReader_jumpAction;
+        public TranslationEntry NewInputReader_moveAction;
+        public TranslationEntry NewInputReader_sprintAction;
         public TranslationEntry Physics;
         public TranslationEntry PhysicsSettingsFallMultiplier;
         public TranslationEntry PhysicsSettingsGravity;
         public TranslationEntry PhysicsSettingsGroundedGravity;
         public TranslationEntry PhysicsSettingsTerminalVelocity;
         public TranslationEntry PhysicsSettingsUseGravity;
+        public TranslationEntry PlayerAudioController_actionCooldown;
+        public TranslationEntry PlayerAudioController_actionSource;
+        public TranslationEntry PlayerAudioController_antiSpamFactor;
+        public TranslationEntry PlayerAudioController_controller;
+        public TranslationEntry PlayerAudioController_crouchDownSettings;
+        public TranslationEntry PlayerAudioController_crouchStepSettings;
+        public TranslationEntry PlayerAudioController_crouchUpSettings;
+        public TranslationEntry PlayerAudioController_jumpSettings;
+        public TranslationEntry PlayerAudioController_landSettings;
+        public TranslationEntry PlayerAudioController_sprintStepSettings;
+        public TranslationEntry PlayerAudioController_stepSource;
+        public TranslationEntry PlayerAudioController_walkStepSettings;
         public TranslationEntry Rotation;
         public TranslationEntry RotationSettingsMovementRotationSmoothTime;
         public TranslationEntry RotationSettingsRotateWithMovement;
@@ -73,7 +141,11 @@ namespace SAWC.Editor.Localization
         public TranslationEntry ThresholdSettingsSprintDirectionThreshold;
         public TranslationEntry ThresholdSettingsVelocityThreshold;
         public TranslationEntry ThresholdSettingsVerticalVelocityThreshold;
-
+        public TranslationEntry TouchInputReceiver_lookPad;
+        public TranslationEntry TouchInputReceiver_sensitivity;
+        public TranslationEntry UniversalJoystick_deadZone;
+        public TranslationEntry UniversalJoystick_handle;
+        public TranslationEntry UniversalJoystick_handleLimit;
 
         private void OnValidate()
         {

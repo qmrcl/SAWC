@@ -1,19 +1,20 @@
 using Unity.Cinemachine;
 using UnityEngine;
 using SAWC.Core;
+using SAWC.Localization;
 
 namespace SAWC.Modules.Camera
 {
     [AddComponentMenu("SAWC/Modules/Camera Shake")]
     public class CameraShakeControl : MonoBehaviour
     {
-        [SerializeField] private SAWController _sawController;
-        [SerializeField] private CinemachineBrain _brain;
+        [SerializeField, Loc] private SAWController _controller;
+        [SerializeField, Loc] private CinemachineBrain _brain;
 
-        [Header("Settings")]
-        [SerializeField] private float _smoothTime = 0.2f;
-        [SerializeField] private float _maxShake = 5f;
-        [SerializeField] private float _sprintFrequency = 3.5f;
+        [Space(5)]
+        [SerializeField, Loc] private float _smoothTime = 0.2f;
+        [SerializeField, Loc] private float _maxShake = 5f;
+        [SerializeField, Loc] private float _sprintFrequency = 3.5f;
 
         private CinemachineBasicMultiChannelPerlin _noise;
         private CinemachineBrainEvents _brainEvents;
@@ -46,13 +47,13 @@ namespace SAWC.Modules.Camera
         {
             if (_noise == null) return;
 
-            bool onGround = _sawController.State.IsGrounded;
+            bool onGround = _controller.State.IsGrounded;
     
-            bool canShake = _sawController.State.IsMoving && onGround;
+            bool canShake = _controller.State.IsMoving && onGround;
 
             float targetAmplitude = canShake ? _maxShake : 0f;
     
-            float targetFrequency = (canShake && _sawController.State.IsSprinting) 
+            float targetFrequency = (canShake && _controller.State.IsSprinting) 
                 ? _sprintFrequency 
                 : _defaultFrequency;
 

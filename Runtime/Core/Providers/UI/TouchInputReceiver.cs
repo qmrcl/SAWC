@@ -1,17 +1,17 @@
-using UnityEngine;
-using Unity.Cinemachine;
+using SAWC.Localization;
 using System;
+using Unity.Cinemachine;
+using UnityEngine;
 
 namespace SAWC.Core.Input
 {
     [AddComponentMenu("SAWC/Core/Input/Readers/UI/Touch Input Receiver")]
     public class TouchInputReceiver : InputAxisControllerBase<TouchInputReceiver.TouchReader>
     {
-        [Header("References")]
-        [SerializeField] private LookPad _lookPad;
+        [SerializeField, Loc] private LookPad _lookPad;
 
-        [Header("Settings")]
-        [SerializeField, Range(0.1f, 100f)] private float _sensitivity = 10f;
+        [Space(5)]
+        [SerializeField,Loc, Range(0.1f, 100f)] private float _sensitivity = 10f;
 
         private Vector2 CurrentSensitivityDelta => _lookPad != null ? _lookPad.Delta * _sensitivity : Vector2.zero;
 

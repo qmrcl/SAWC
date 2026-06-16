@@ -1,3 +1,4 @@
+using SAWC.Localization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,12 +8,11 @@ namespace SAWC.Core.Input
     [RequireComponent(typeof(RectTransform))]
     public class UniversalJoystick : BaseJoystick, IDragHandler, IPointerUpHandler, IPointerDownHandler
     {
-        [Header("Components")]
-        [SerializeField] private RectTransform _handle;
+        [SerializeField, Loc] private RectTransform _handle;
 
-        [Header("Settings")]
-        [SerializeField] private float _deadZone = 0.1f;
-        [SerializeField] private float _handleLimit = 1f;
+        [Space(5)]
+        [SerializeField, Loc] private float _deadZone = 0.1f;
+        [SerializeField, Loc] private float _handleLimit = 1f;
 
         private RectTransform _container;
         private Canvas _parentCanvas;

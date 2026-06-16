@@ -1,3 +1,4 @@
+using SAWC.Localization;
 using System;
 using UnityEngine;
 
@@ -5,8 +6,7 @@ namespace SAWC.Core.Input
 {
     public abstract class BaseInputProvider : MonoBehaviour, IInputProvider
     {
-        [Header("Camera Reference")]
-        [SerializeField] protected Transform _cameraTransform;
+        [SerializeField, Loc] protected Transform _cameraTransform;
 
         private bool _jumpState;
         private bool _sprintState;

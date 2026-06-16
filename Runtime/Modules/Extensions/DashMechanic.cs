@@ -1,17 +1,17 @@
-using UnityEngine;
 using SAWC.Core;
+using SAWC.Localization;
+using UnityEngine;
 
 namespace SAWC.Modifiers
 {
     public sealed class DashMechanic : CharacterModifierBase, IVelocityModifier
     {
-        [Header("Settings")]
-        [SerializeField] private KeyCode _key = KeyCode.LeftControl;
-
-        [SerializeField] private float _dashSpeed = 25f;
-        [SerializeField] private float _dashDuration = 0.2f;
-        [SerializeField] private float _cooldown = 1f;
-        [SerializeField] private float _inputBufferTime = 0.15f;
+        [Space(5)]
+        [SerializeField, Loc] private KeyCode _key = KeyCode.LeftControl;
+        [SerializeField, Loc] private float _dashSpeed = 25f;
+        [SerializeField, Loc] private float _dashDuration = 0.2f;
+        [SerializeField, Loc] private float _cooldown = 1f;
+        [SerializeField, Loc] private float _inputBufferTime = 0.15f;
 
         private float _dashTimer;
         private float _cooldownEndTime;

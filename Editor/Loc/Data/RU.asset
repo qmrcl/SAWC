@@ -12,365 +12,403 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60691bd447c276440a62364335174adf, type: 3}
   m_Name: RU
   m_EditorClassIdentifier: ::SAWC.Localization::LanguageAsset
-  LanguageName: "\u0420\u0443\u0441\u0441\u043A\u0438\u0439"
-  Editor_Hello:
-    DisplayName: "\u0414\u043E\u0431\u0440\u043E \u043F\u043E\u0436\u0430\u043B\u043E\u0432\u0430\u0442\u044C
-      \u0432 SAW Hub"
-    Tooltip: "\u0413\u043B\u0430\u0432\u043D\u043E\u0435 \u043E\u043A\u043D\u043E
-      \u0443\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u044F \u043A\u043E\u043D\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u0435\u0439
-      \u0430\u0441\u0441\u0435\u0442\u0430."
-  Editor_DocMessage:
-    DisplayName: "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u044F\u0437\u044B\u043A
-      \u043D\u0438\u0436\u0435 \u0434\u043B\u044F \u043C\u0433\u043D\u043E\u0432\u0435\u043D\u043D\u043E\u0433\u043E
-      \u043F\u0435\u0440\u0435\u0432\u043E\u0434\u0430 \u0432\u0441\u0435\u0433\u043E
-      \u0438\u043D\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430 \u0438\u043D\u0441\u043F\u0435\u043A\u0442\u043E\u0440\u0430.
-      \u041D\u0443\u0436\u043D\u0430 \u043F\u043E\u043C\u043E\u0449\u044C? \u0427\u0438\u0442\u0430\u0439\u0442\u0435
-      \u0434\u043E\u043A\u0443."
-    Tooltip: "\u0418\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u043E\u043D\u043D\u043E\u0435
-      \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435 \u043F\u0430\u043D\u0435\u043B\u0438."
-  Editor_DocButton:
-    DisplayName: "\U0001F4D6 \u041E\u0422\u041A\u0420\u042B\u0422\u042C \u0414\u041E\u041A\u0423\u041C\u0415\u041D\u0422\u0410\u0426\u0418\u042E"
-    Tooltip: "\u041F\u0435\u0440\u0435\u0439\u0442\u0438 \u043D\u0430 \u0432\u0435\u0431-\u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0443
-      \u0441 \u043F\u043E\u043B\u043D\u044B\u043C \u0440\u0443\u043A\u043E\u0432\u043E\u0434\u0441\u0442\u0432\u043E\u043C
-      \u043F\u043E \u0430\u0441\u0441\u0435\u0442\u0443."
-  Editor_InstalledPacksLabel:
-    DisplayName: 
-    Tooltip: 
-  Editor_ActiveLangLabel:
-    DisplayName: 
-    Tooltip: 
-  Movement:
-    DisplayName: "\u041F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u0435"
-    Tooltip: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438 \u0431\u0430\u0437\u043E\u0432\u043E\u0439
-      \u043B\u043E\u043A\u043E\u043C\u043E\u0446\u0438\u0438 \u0438 \u0441\u043F\u0440\u0438\u043D\u0442\u0430."
-  Jump:
-    DisplayName: "\u041F\u0440\u044B\u0436\u043E\u043A"
-    Tooltip: "\u041F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u044B \u043F\u0440\u044B\u0436\u043A\u043E\u0432,
-      \u0442\u0430\u0439\u043C\u0438\u043D\u0433\u043E\u0432 \u0431\u0443\u0444\u0435\u0440\u0438\u0437\u0430\u0446\u0438\u0438
-      \u0438 \u0432\u0440\u0435\u043C\u0435\u043D\u0438 \u043A\u043E\u0439\u043E\u0442\u0430."
-  Crouch:
-    DisplayName: "\u041F\u0440\u0438\u0441\u0435\u0434"
-    Tooltip: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438 \u0440\u0430\u0437\u043C\u0435\u0440\u043E\u0432
-      \u043A\u043E\u043B\u043B\u0430\u0439\u0434\u0435\u0440\u0430 \u0438 \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438
-      \u0432 \u043F\u0440\u0438\u0441\u0435\u0434\u0435."
-  Physics:
-    DisplayName: "\u0424\u0438\u0437\u0438\u043A\u0430"
-    Tooltip: "\u041A\u043E\u043D\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u044F
-      \u043A\u0430\u0441\u0442\u043E\u043C\u043D\u043E\u0439 \u0433\u0440\u0430\u0432\u0438\u0442\u0430\u0446\u0438\u0438
-      \u0438 \u0441\u0438\u043B, \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u044E\u0449\u0438\u0445
-      \u043D\u0430 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430."
-  Rotation:
-    DisplayName: "\u0412\u0440\u0430\u0449\u0435\u043D\u0438\u0435"
-    Tooltip: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438 \u043F\u043B\u0430\u0432\u043D\u043E\u0441\u0442\u0438
-      \u043F\u043E\u0432\u043E\u0440\u043E\u0442\u0430 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430
-      \u043E\u0442\u043D\u043E\u0441\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F
-      \u0438\u043B\u0438 \u043A\u0430\u043C\u0435\u0440\u044B."
-  Thresholds:
-    DisplayName: "\u041F\u043E\u0440\u043E\u0433\u0438"
-    Tooltip: "\u041C\u0430\u0442\u0435\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
-      \u0433\u0440\u0430\u043D\u0438\u0446\u044B \u0434\u043B\u044F \u043F\u0435\u0440\u0435\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u044F
-      \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0439 \u0430\u043D\u0438\u043C\u0430\u0442\u043E\u0440\u0430
-      \u0438 \u043B\u043E\u0433\u0438\u043A\u0438."
+  LanguageName: Русский
+  AudioContainerSettingsAvoidRepeatingLast:
+    DisplayName: Избегать повторов
+    Tooltip: Количество последних сыгранных клипов в истории для предотвращения повторения одного и того же звука подряд.
+  AudioContainerSettingsBasePitch:
+    DisplayName: Базовый питч
+    Tooltip: Стандартный множитель высоты тона (pitch) при воспроизведении клипа из этого контейнера.
+  AudioContainerSettingsBaseVolume:
+    DisplayName: Базовая громкость
+    Tooltip: Стандартный уровень громкости при воспроизведении клипа из этого контейнера.
+  AudioContainerSettingsClips:
+    DisplayName: Аудио клипы
+    Tooltip: Список клипов, используемых для данной категории звуков.
+  AudioContainerSettingsPitchRandomization:
+    DisplayName: Рандом питча
+    Tooltip: Максимальное случайное отклонение от базового питча для придания звуку органичности.
+  AudioContainerSettingsPlayback:
+    DisplayName: Режим воспроизведения
+    Tooltip: Логика выбора следующего клипа из списка (Последовательно, Вперемешку или Случайно).
+  AudioContainerSettingsVolumeRandomization:
+    DisplayName: Рандом громкости
+    Tooltip: Максимальное случайное отклонение от базовой громкости для вариативности звучания.
+  BaseInputProvider_cameraTransform:
+    DisplayName: Трансформ камеры
+    Tooltip: Ссылка на Transform камеры для точного расчета относительных векторов движения и направления взгляда.
+  CameraHeightOffset_controller:
+    DisplayName: Базовый контроллер
+    Tooltip: Ссылка на главный компонент SAWController для отслеживания состояний приседа.
+  CameraHeightOffset_crouchingHeight:
+    DisplayName: Высота камеры в приседе
+    Tooltip: Локальная позиция камеры по оси Y, когда персонаж находится в полном приседе.
+  CameraHeightOffset_smoothTime:
+    DisplayName: Сглаживание высоты
+    Tooltip: Время интерполяции (в секундах) для плавного перехода высоты камеры между состояниями стоя и в приседе.
+  CameraHeightOffset_standingHeight:
+    DisplayName: Высота камеры стоя
+    Tooltip: Стандартная локальная позиция камеры по оси Y, когда персонаж стоит в полный рост.
+  CameraMotionDynamics_controller:
+    DisplayName: Базовый контроллер
+    Tooltip: Ссылка на главный компонент SAWController для считывания текущей физической скорости.
+  CameraMotionDynamics_forwardPitchAngle:
+    DisplayName: Угол наклона вперед
+    Tooltip: Максимальный угол вертикального наклона (pitch) камеры при ускорении персонажа вперед.
+  CameraMotionDynamics_forwardSmoothTime:
+    DisplayName: Сглаживание наклона вперед
+    Tooltip: Время интерполяции эффекта наклона камеры вперед.
+  CameraMotionDynamics_maxForwardSpeed:
+    DisplayName: Макс. скорость вперед
+    Tooltip: Скорость движения вперед, необходимая для достижения максимального угла наклона камеры.
+  CameraMotionDynamics_maxStrafeSpeed:
+    DisplayName: Макс. скорость стрейфа
+    Tooltip: Боковая скорость движения, необходимая для достижения максимального угла крена камеры.
+  CameraMotionDynamics_maxVerticalSpeed:
+    DisplayName: Макс. верт. скорость
+    Tooltip: Вертикальная скорость (падение/прыжок), необходимая для достижения максимального угла вертикального наклона.
+  CameraMotionDynamics_panAngle:
+    DisplayName: Угол крена при стрейфе
+    Tooltip: Максимальный угол бокового крена (roll) камеры при резких поворотах или стрейфе.
+  CameraMotionDynamics_panSmoothTime:
+    DisplayName: Сглаживание крена
+    Tooltip: Время интерполяции эффекта бокового крена камеры.
+  CameraMotionDynamics_tiltAngle:
+    DisplayName: Угол бокового наклона
+    Tooltip: Максимальный угол крена, применяемый при боковом движении.
+  CameraMotionDynamics_tiltSmoothTime:
+    DisplayName: Сглаживание возврата крена
+    Tooltip: Время возврата камеры в нейтральное состояние по крену.
+  CameraMotionDynamics_verticalPitchAngle:
+    DisplayName: Вертикальный наклон
+    Tooltip: Максимальный угол вертикального наклона камеры при резком падении или наборе высоты.
+  CameraMotionDynamics_verticalSmoothTime:
+    DisplayName: Сглаживание верт. наклона
+    Tooltip: Время интерполяции эффекта вертикального наклона камеры.
+  CameraShakeControl_brain:
+    DisplayName: Cinemachine Brain
+    Tooltip: Ссылка на компонент CinemachineBrain, управляющий активными виртуальными камерами.
+  CameraShakeControl_controller:
+    DisplayName: Базовый контроллер
+    Tooltip: Ссылка на главный SAWController для считывания состояний движения и спринта.
+  CameraShakeControl_maxShake:
+    DisplayName: Макс. амплитуда тряски
+    Tooltip: Максимальная амплитуда шума, применяемая к камере при интенсивном движении или спринте.
+  CameraShakeControl_smoothTime:
+    DisplayName: Сглаживание тряски
+    Tooltip: Время интерполяции для плавного нарастания и затухания эффекта тряски камеры.
+  CameraShakeControl_sprintFrequency:
+    DisplayName: Частота тряски в спринте
+    Tooltip: Целевая частота шума, применяемая к камере во время спринта персонажа.
+  CharacterModifierBase_priority:
+    DisplayName: Приоритет выполнения
+    Tooltip: Определяет порядок обработки этого модификатора в пайплайне. Более высокие значения выполняются раньше.
   Configuration:
-    DisplayName: "\u041A\u041E\u041D\u0424\u0418\u0413\u0423\u0420\u0410\u0426\u0418\u042F"
-    Tooltip: 
-  DashboardErrorNoSettingsField:
-    DisplayName: "\u041E\u0448\u0438\u0431\u043A\u0430: \u0412 SAWController \u043D\u0435
-      \u043D\u0430\u0439\u0434\u0435\u043D\u043E \u043F\u043E\u043B\u0435 \u0442\u0438\u043F\u0430
-      CharacterSettings."
-    Tooltip: "\u041A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0430\u044F
-      \u043E\u0448\u0438\u0431\u043A\u0430 \u0438\u043D\u0438\u0446\u0438\u0430\u043B\u0438\u0437\u0430\u0446\u0438\u0438
-      \u0438\u043D\u0441\u043F\u0435\u043A\u0442\u043E\u0440\u0430."
-  DashboardAssignConfig:
-    DisplayName: "\u041D\u0430\u0437\u043D\u0430\u0447\u044C\u0442\u0435 ScriptableObject
-      \u043A\u043E\u043D\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u0438 \u0434\u043B\u044F
-      \u0440\u0430\u0437\u0432\u0435\u0440\u0442\u044B\u0432\u0430\u043D\u0438\u044F
-      \u0434\u0430\u0448\u0431\u043E\u0440\u0434\u0430."
-    Tooltip: "\u0418\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u043E\u043D\u043D\u0430\u044F
-      \u0437\u0430\u0433\u043B\u0443\u0448\u043A\u0430 \u043F\u0440\u0438 \u043F\u0443\u0441\u0442\u043E\u043C
-      \u0441\u043B\u043E\u0442\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0435\u043A."
-  DashboardValidationSprint:
-    DisplayName: "\u0412\u043D\u0438\u043C\u0430\u043D\u0438\u0435: \u0421\u043F\u0440\u0438\u043D\u0442
-      \u043C\u0435\u0434\u043B\u0435\u043D\u043D\u0435\u0435 \u043E\u0431\u044B\u0447\u043D\u043E\u0439
-      \u0445\u043E\u0434\u044C\u0431\u044B."
-    Tooltip: "\u041F\u0440\u0435\u0434\u0443\u043F\u0440\u0435\u0436\u0434\u0435\u043D\u0438\u0435
-      \u0433\u0435\u0439\u043C\u0434\u0438\u0437\u0430\u0439\u043D\u0435\u0440\u0443
-      \u043E \u043D\u0435\u043B\u043E\u0433\u0438\u0447\u043D\u043E\u0439 \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0435
-      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438 \u0431\u0435\u0433\u0430."
-  DashboardValidationCrouchSpeed:
-    DisplayName: "\u0412\u043D\u0438\u043C\u0430\u043D\u0438\u0435: \u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C
-      \u0432 \u043F\u0440\u0438\u0441\u0435\u0434\u0435 \u0432\u044B\u0448\u0435
-      \u043E\u0431\u044B\u0447\u043D\u043E\u0439 \u0445\u043E\u0434\u044C\u0431\u044B."
-    Tooltip: "\u041F\u0440\u0435\u0434\u0443\u043F\u0440\u0435\u0436\u0434\u0435\u043D\u0438\u0435
-      \u043E \u0441\u043B\u0438\u0448\u043A\u043E\u043C \u0431\u044B\u0441\u0442\u0440\u043E\u043C
-      \u043F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u0438 \u043D\u0430
-      \u043A\u043E\u0440\u0442\u043E\u0447\u043A\u0430\u0445."
-  DashboardValidationCrouchHeight:
-    DisplayName: "\u041E\u0448\u0438\u0431\u043A\u0430 \u043B\u043E\u0433\u0438\u043A\u0438:
-      \u041F\u0440\u0438\u0441\u0435\u0434 \u0432\u044B\u0448\u0435 \u0440\u043E\u0441\u0442\u0430
-      \u0441\u0442\u043E\u044F."
-    Tooltip: "\u041A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0430\u044F
-      \u043E\u0448\u0438\u0431\u043A\u0430 \u0433\u0435\u043E\u043C\u0435\u0442\u0440\u0438\u0438
-      \u043A\u0430\u043F\u0441\u0443\u043B\u044B \u043A\u043E\u043B\u0430\u0439\u0434\u0435\u0440\u0430."
-  DashboardValidationGravity:
-    DisplayName: "\u041A\u0440\u0438\u0442\u0438\u0447\u043D\u043E: \u041F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u044B
-      \u0433\u0440\u0430\u0432\u0438\u0442\u0430\u0446\u0438\u0438 \u0438\u043C\u0435\u044E\u0442
-      \u043F\u043E\u043B\u043E\u0436\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0435
-      \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u044F (\u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436
-      \u0443\u043B\u0435\u0442\u0438\u0442)."
-    Tooltip: "\u041A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0430\u044F
-      \u043E\u0448\u0438\u0431\u043A\u0430 \u0444\u0438\u0437\u0438\u043A\u0438.
-      \u0413\u0440\u0430\u0432\u0438\u0442\u0430\u0446\u0438\u044F \u043D\u0430 \u0437\u0435\u043C\u043B\u0435
-      \u0438 \u0442\u0435\u0440\u043C\u0438\u043D\u0430\u043B\u044C\u043D\u0430\u044F
-      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0434\u043E\u043B\u0436\u043D\u044B
-      \u0431\u044B\u0442\u044C \u043E\u0442\u0440\u0438\u0446\u0430\u0442\u0435\u043B\u044C\u043D\u044B\u043C\u0438."
-  DashboardCharacterSettingsLabel:
-    DisplayName: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430"
-    Tooltip: "\u0421\u043B\u043E\u0442 \u0434\u043B\u044F \u043D\u0430\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u044F
-      ScriptableObject \u043A\u043E\u043D\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u0438
-      \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u043E\u0432 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430."
-  JumpSettingsCanJump:
-    DisplayName: "\u0420\u0430\u0437\u0440\u0435\u0448\u0438\u0442\u044C \u043F\u0440\u044B\u0436\u043E\u043A"
-    Tooltip: "\u0413\u043B\u043E\u0431\u0430\u043B\u044C\u043D\u044B\u0439 \u043F\u0435\u0440\u0435\u043A\u043B\u044E\u0447\u0430\u0442\u0435\u043B\u044C
-      \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u0438 \u0441\u043E\u0432\u0435\u0440\u0448\u0430\u0442\u044C
-      \u043F\u0440\u044B\u0436\u043A\u0438."
-  JumpSettingsEnableAutoJump:
-    DisplayName: "\u0410\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439
-      \u043F\u0440\u044B\u0436\u043E\u043A"
-    Tooltip: "\u0412\u043A\u043B\u044E\u0447\u0430\u0435\u0442 \u043D\u0435\u043F\u0440\u0435\u0440\u044B\u0432\u043D\u044B\u0439
-      \u043F\u0440\u044B\u0436\u043E\u043A (\u0431\u0430\u043D\u043D\u0438\u0445\u043E\u043F)
-      \u043F\u0440\u0438 \u0443\u0434\u0435\u0440\u0436\u0430\u043D\u0438\u0438 \u043A\u043D\u043E\u043F\u043A\u0438."
-  JumpSettingsJumpForce:
-    DisplayName: "\u0421\u0438\u043B\u0430 \u043F\u0440\u044B\u0436\u043A\u0430"
-    Tooltip: "\u041D\u0430\u0447\u0430\u043B\u044C\u043D\u044B\u0439 \u0432\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u044B\u0439
-      \u0438\u043C\u043F\u0443\u043B\u044C\u0441 \u043F\u0440\u0438 \u043E\u0442\u0440\u044B\u0432\u0435
-      \u043E\u0442 \u0437\u0435\u043C\u043B\u0438."
-  JumpSettingsJumpBufferTime:
-    DisplayName: "\u0412\u0440\u0435\u043C\u044F \u0431\u0443\u0444\u0435\u0440\u0430
-      \u043F\u0440\u044B\u0436\u043A\u0430"
-    Tooltip: "\u041E\u043A\u043D\u043E \u0432\u0440\u0435\u043C\u0435\u043D\u0438
-      (\u0432 \u0441\u0435\u043A\u0443\u043D\u0434\u0430\u0445) \u0434\u043E \u043F\u0440\u0438\u0437\u0435\u043C\u043B\u0435\u043D\u0438\u044F,
-      \u0432\u043E \u0432\u0440\u0435\u043C\u044F \u043A\u043E\u0442\u043E\u0440\u043E\u0433\u043E
-      \u043D\u0430\u0436\u0430\u0442\u0438\u0435 \u043A\u043D\u043E\u043F\u043A\u0438
-      \u043F\u0440\u044B\u0436\u043A\u0430 \u0437\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u0435\u0442\u0441\u044F
-      \u0438 \u0441\u0440\u0430\u0431\u0430\u0442\u044B\u0432\u0430\u0435\u0442 \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438."
-  JumpSettingsCoyoteTime:
-    DisplayName: "\u0412\u0440\u0435\u043C\u044F \u043A\u043E\u0439\u043E\u0442\u0430"
-    Tooltip: "\u0414\u043E\u043F\u0443\u0441\u0442\u0438\u043C\u043E\u0435 \u0432\u0440\u0435\u043C\u044F
-      (\u0432 \u0441\u0435\u043A\u0443\u043D\u0434\u0430\u0445) \u0434\u043B\u044F
-      \u0441\u043E\u0432\u0435\u0440\u0448\u0435\u043D\u0438\u044F \u043F\u0440\u044B\u0436\u043A\u0430
-      \u043F\u043E\u0441\u043B\u0435 \u0442\u043E\u0433\u043E, \u043A\u0430\u043A
-      \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436 \u0443\u0436\u0435 \u0441\u043E\u0448\u0451\u043B
-      \u0441 \u043A\u0440\u0430\u044F \u043F\u043B\u0430\u0442\u0444\u043E\u0440\u043C\u044B."
-  JumpSettingsAirControlMultiplier:
-    DisplayName: "\u041A\u043E\u043D\u0442\u0440\u043E\u043B\u044C \u0432 \u0432\u043E\u0437\u0434\u0443\u0445\u0435"
-    Tooltip: "\u041C\u043D\u043E\u0436\u0438\u0442\u0435\u043B\u044C \u0443\u043F\u0440\u0430\u0432\u043B\u044F\u0435\u043C\u043E\u0441\u0442\u0438
-      \u0438 \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u044F
-      \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F \u0432\u043E \u0432\u0440\u0435\u043C\u044F
-      \u043F\u043E\u043B\u0451\u0442\u0430."
-  MovementSettingsCanMove:
-    DisplayName: "\u0420\u0430\u0437\u0440\u0435\u0448\u0438\u0442\u044C \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u0435"
-    Tooltip: "\u0413\u043B\u043E\u0431\u0430\u043B\u044C\u043D\u044B\u0439 \u043F\u0435\u0440\u0435\u043A\u043B\u044E\u0447\u0430\u0442\u0435\u043B\u044C
-      \u0431\u0430\u0437\u043E\u0432\u043E\u0433\u043E \u043F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u044F
-      \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430."
-  MovementSettingsCanSprint:
-    DisplayName: "\u0420\u0430\u0437\u0440\u0435\u0448\u0438\u0442\u044C \u0441\u043F\u0440\u0438\u043D\u0442"
-    Tooltip: "\u041E\u043F\u0440\u0435\u0434\u0435\u043B\u044F\u0435\u0442, \u043C\u043E\u0436\u0435\u0442
-      \u043B\u0438 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436 \u043F\u0435\u0440\u0435\u0445\u043E\u0434\u0438\u0442\u044C
-      \u043D\u0430 \u0431\u0435\u0433."
-  MovementSettingsAllowedSprintDirections:
-    DisplayName: "\u041D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u044F
-      \u0441\u043F\u0440\u0438\u043D\u0442\u0430"
-    Tooltip: "\u041E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u0438\u0435
-      \u0432\u0435\u043A\u0442\u043E\u0440\u043E\u0432 \u0432\u0432\u043E\u0434\u0430,
-      \u043F\u0440\u0438 \u043A\u043E\u0442\u043E\u0440\u044B\u0445 \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043D\u043E
-      \u0443\u0441\u043A\u043E\u0440\u0435\u043D\u0438\u0435 (\u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440,
-      \u0442\u043E\u043B\u044C\u043A\u043E \u0432\u043F\u0435\u0440\u0435\u0434)."
-  MovementSettingsUseInertia:
-    DisplayName: "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C
-      \u0438\u043D\u0435\u0440\u0446\u0438\u044E"
-    Tooltip: "\u0412\u043A\u043B\u044E\u0447\u0430\u0435\u0442 \u043F\u043B\u0430\u0432\u043D\u044B\u0439
-      \u0440\u0430\u0437\u0433\u043E\u043D \u0438 \u0442\u043E\u0440\u043C\u043E\u0436\u0435\u043D\u0438\u0435
-      \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435 \u043A\u0440\u0438\u0432\u044B\u0445
-      \u0432\u043C\u0435\u0441\u0442\u043E \u043C\u0433\u043D\u043E\u0432\u0435\u043D\u043D\u043E\u0439
-      \u0441\u043C\u0435\u043D\u044B \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438."
-  MovementSettingsMoveSpeed:
-    DisplayName: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0445\u043E\u0434\u044C\u0431\u044B"
-    Tooltip: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u0430\u044F
-      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430
-      \u043F\u0440\u0438 \u043E\u0431\u044B\u0447\u043D\u043E\u043C \u043F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u0438."
-  MovementSettingsSprintSpeed:
-    DisplayName: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0441\u043F\u0440\u0438\u043D\u0442\u0430"
-    Tooltip: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u0430\u044F
-      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430
-      \u043F\u0440\u0438 \u0443\u0441\u043A\u043E\u0440\u0435\u043D\u0438\u0438."
-  MovementSettingsMinMoveThreshold:
-    DisplayName: "\u041C\u0438\u043D. \u043F\u043E\u0440\u043E\u0433 \u0432\u0432\u043E\u0434\u0430"
-    Tooltip: "\u041C\u0438\u043D\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435
-      \u043E\u0442\u043A\u043B\u043E\u043D\u0435\u043D\u0438\u0435 \u0441\u0442\u0438\u043A\u0430
-      \u0438\u043B\u0438 \u043E\u0441\u0435\u0439 \u0432\u0432\u043E\u0434\u0430
-      \u0434\u043B\u044F \u043D\u0430\u0447\u0430\u043B\u0430 \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F."
-  MovementSettingsBaseAcceleration:
-    DisplayName: "\u0411\u0430\u0437\u043E\u0432\u043E\u0435 \u0443\u0441\u043A\u043E\u0440\u0435\u043D\u0438\u0435"
-    Tooltip: "\u041A\u043E\u044D\u0444\u0444\u0438\u0446\u0438\u0435\u043D\u0442
-      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438 \u043D\u0430\u0431\u043E\u0440\u0430
-      \u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0433\u043E
-      \u0442\u0435\u043C\u043F\u0430 \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F."
-  MovementSettingsAccelerationCurve:
-    DisplayName: "\u041A\u0440\u0438\u0432\u0430\u044F \u0443\u0441\u043A\u043E\u0440\u0435\u043D\u0438\u044F"
-    Tooltip: "\u0413\u0440\u0430\u0444\u0438\u043A, \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u044F\u044E\u0449\u0438\u0439
-      \u0434\u0438\u043D\u0430\u043C\u0438\u043A\u0443 \u0440\u0430\u0437\u0433\u043E\u043D\u0430
-      \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430 \u0441 \u0442\u0435\u0447\u0435\u043D\u0438\u0435\u043C
-      \u0432\u0440\u0435\u043C\u0435\u043D\u0438."
-  MovementSettingsBaseDeceleration:
-    DisplayName: "\u0411\u0430\u0437\u043E\u0432\u043E\u0435 \u0437\u0430\u043C\u0435\u0434\u043B\u0435\u043D\u0438\u0435"
-    Tooltip: "\u041A\u043E\u044D\u0444\u0444\u0438\u0446\u0438\u0435\u043D\u0442
-      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438 \u0441\u0431\u0440\u043E\u0441\u0430
-      \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F \u0434\u043E \u043F\u043E\u043B\u043D\u043E\u0439
-      \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u043A\u0438."
-  MovementSettingsDecelerationCurve:
-    DisplayName: "\u041A\u0440\u0438\u0432\u0430\u044F \u0437\u0430\u043C\u0435\u0434\u043B\u0435\u043D\u0438\u044F"
-    Tooltip: "\u0413\u0440\u0430\u0444\u0438\u043A, \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u044F\u044E\u0449\u0438\u0439
-      \u0434\u0438\u043D\u0430\u043C\u0438\u043A\u0443 \u0442\u043E\u0440\u043C\u043E\u0436\u0435\u043D\u0438\u044F
-      \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430 \u043F\u0440\u0438 \u043E\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0438
-      \u0432\u0432\u043E\u0434\u0430."
-  RotationSettingsRotateWithMovement:
-    DisplayName: "\u041F\u043E\u0432\u043E\u0440\u043E\u0442 \u043F\u043E \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044E"
-    Tooltip: "\u0410\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438
-      \u0440\u0430\u0437\u0432\u043E\u0440\u0430\u0447\u0438\u0432\u0430\u0442\u044C
-      \u0442\u0435\u043B\u043E \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430
-      \u043B\u0438\u0446\u043E\u043C \u0432 \u0441\u0442\u043E\u0440\u043E\u043D\u0443
-      \u0432\u0435\u043A\u0442\u043E\u0440\u0430 \u0435\u0433\u043E \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F."
-  RotationSettingsMovementRotationSmoothTime:
-    DisplayName: "\u0421\u0433\u043B\u0430\u0436\u0438\u0432\u0430\u043D\u0438\u0435
-      (\u0414\u0432\u0438\u0436\u0435\u043D\u0438\u0435)"
-    Tooltip: "\u0412\u0440\u0435\u043C\u044F \u043F\u043B\u0430\u0432\u043D\u043E\u0441\u0442\u0438
-      \u0440\u0430\u0437\u0432\u043E\u0440\u043E\u0442\u0430 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430
-      \u0432\u043E \u0432\u0440\u0435\u043C\u044F \u043E\u0431\u044B\u0447\u043D\u043E\u0433\u043E
-      \u0431\u0435\u0433\u0430."
-  RotationSettingsStrafeRotationSmoothTime:
-    DisplayName: "\u0421\u0433\u043B\u0430\u0436\u0438\u0432\u0430\u043D\u0438\u0435
-      (\u0421\u0442\u0440\u0435\u0439\u0444)"
-    Tooltip: "\u0412\u0440\u0435\u043C\u044F \u043F\u043B\u0430\u0432\u043D\u043E\u0441\u0442\u0438
-      \u0443\u0434\u0435\u0440\u0436\u0430\u043D\u0438\u044F \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u044F
-      \u0432\u0437\u0433\u043B\u044F\u0434\u0430 \u043F\u0440\u0438 \u0431\u043E\u043A\u043E\u0432\u043E\u043C
-      \u0441\u043C\u0435\u0449\u0435\u043D\u0438\u0438."
-  ThresholdSettingsInputThreshold:
-    DisplayName: "\u041F\u043E\u0440\u043E\u0433 \u043E\u0441\u0435\u0439 \u0432\u0432\u043E\u0434\u0430"
-    Tooltip: "\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435, \u043D\u0438\u0436\u0435
-      \u043A\u043E\u0442\u043E\u0440\u043E\u0433\u043E \u043B\u044E\u0431\u043E\u0439
-      \u0432\u0432\u043E\u0434 \u043E\u0442 \u043A\u043E\u043D\u0442\u0440\u043E\u043B\u043B\u0435\u0440\u0430
-      \u0438\u043B\u0438 \u043A\u043B\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u044B
-      \u0438\u0433\u043D\u043E\u0440\u0438\u0440\u0443\u0435\u0442\u0441\u044F."
-  ThresholdSettingsVerticalVelocityThreshold:
-    DisplayName: "\u041F\u043E\u0440\u043E\u0433 \u0432\u0435\u0440\u0442. \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438"
-    Tooltip: "\u041F\u0440\u0435\u0434\u0435\u043B \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438
-      \u043F\u043E \u043E\u0441\u0438 Y, \u043D\u0438\u0436\u0435 \u043A\u043E\u0442\u043E\u0440\u043E\u0433\u043E
-      \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436 \u0441\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044F
-      \u0441\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u043E \u0441\u0442\u043E\u044F\u0449\u0438\u043C
-      \u043D\u0430 \u043F\u043E\u0432\u0435\u0440\u0445\u043D\u043E\u0441\u0442\u0438."
-  ThresholdSettingsIdleTransitionMultiplier:
-    DisplayName: "\u041C\u043D\u043E\u0436\u0438\u0442\u0435\u043B\u044C \u043F\u0435\u0440\u0435\u0445\u043E\u0434\u0430
-      \u0432 Idle"
-    Tooltip: "\u041A\u043E\u044D\u0444\u0444\u0438\u0446\u0438\u0435\u043D\u0442
-      \u043F\u043B\u0430\u0432\u043D\u043E\u0441\u0442\u0438 \u0437\u0430\u0442\u0443\u0445\u0430\u043D\u0438\u044F
-      \u0430\u043D\u0438\u043C\u0430\u0446\u0438\u0438 \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F
-      \u0434\u043E \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u044F \u043F\u043E\u043A\u043E\u044F."
-  ThresholdSettingsFallVelocityThreshold:
-    DisplayName: "\u041F\u043E\u0440\u043E\u0433 \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438
-      \u043F\u0430\u0434\u0435\u043D\u0438\u044F"
-    Tooltip: "\u0412\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u0430\u044F
-      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0432\u043D\u0438\u0437,
-      \u043F\u0440\u0438 \u043F\u0440\u0435\u0432\u044B\u0448\u0435\u043D\u0438\u0438
-      \u043A\u043E\u0442\u043E\u0440\u043E\u0439 \u043B\u043E\u0433\u0438\u043A\u0430
-      \u0441\u0447\u0438\u0442\u0430\u0435\u0442, \u0447\u0442\u043E \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436
-      \u043F\u0430\u0434\u0430\u0435\u0442."
-  ThresholdSettingsAirStateDebounceTime:
-    DisplayName: "\u0417\u0430\u0434\u0435\u0440\u0436\u043A\u0430 \u0444\u0438\u043B\u044C\u0442\u0440\u0430
-      \u0432\u043E\u0437\u0434\u0443\u0445\u0430"
-    Tooltip: "\u0417\u0430\u0449\u0438\u0442\u0430 \u043E\u0442 \u0434\u0440\u0435\u0431\u0435\u0437\u0433\u0430
-      \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0439 (\u0432 \u0441\u0435\u043A\u0443\u043D\u0434\u0430\u0445)
-      \u0434\u043B\u044F \u0438\u0441\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u044F
-      \u043B\u043E\u0436\u043D\u043E\u0433\u043E \u0442\u0440\u0438\u0433\u0433\u0435\u0440\u0430
-      \u043F\u0430\u0434\u0435\u043D\u0438\u044F \u043D\u0430 \u043C\u0435\u043B\u043A\u0438\u0445
-      \u043D\u0435\u0440\u043E\u0432\u043D\u043E\u0441\u0442\u044F\u0445."
-  ThresholdSettingsSprintDirectionThreshold:
-    DisplayName: "\u041F\u043E\u0440\u043E\u0433 \u0443\u0433\u043B\u0430 \u0441\u043F\u0440\u0438\u043D\u0442\u0430"
-    Tooltip: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u044B\u0439
-      \u0443\u0433\u043E\u043B \u043E\u0442\u043A\u043B\u043E\u043D\u0435\u043D\u0438\u044F
-      \u043E\u0442 \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u044F
-      \u0432\u0437\u0433\u043B\u044F\u0434\u0430, \u043F\u0440\u0438 \u043A\u043E\u0442\u043E\u0440\u043E\u043C
-      \u0435\u0449\u0451 \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043D\u043E \u0431\u0435\u0436\u0430\u0442\u044C
-      \u0441\u043F\u0440\u0438\u043D\u0442\u043E\u043C."
-  PhysicsSettingsUseGravity:
-    DisplayName: "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C
-      \u0433\u0440\u0430\u0432\u0438\u0442\u0430\u0446\u0438\u044E"
-    Tooltip: "\u0412\u043A\u043B\u044E\u0447\u0430\u0435\u0442 \u0438\u043B\u0438
-      \u0432\u044B\u043A\u043B\u044E\u0447\u0430\u0435\u0442 \u0432\u043E\u0437\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435
-      \u043A\u0430\u0441\u0442\u043E\u043C\u043D\u044B\u0445 \u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u0438\u0445
-      \u0441\u0438\u043B \u043D\u0430 \u0434\u0430\u043D\u043D\u044B\u0439 \u043A\u043E\u043D\u0442\u0440\u043E\u043B\u043B\u0435\u0440."
-  PhysicsSettingsGravity:
-    DisplayName: "\u0421\u0438\u043B\u0430 \u0433\u0440\u0430\u0432\u0438\u0442\u0430\u0446\u0438\u0438"
-    Tooltip: "\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 \u0443\u0441\u043A\u043E\u0440\u0435\u043D\u0438\u044F
-      \u0441\u0432\u043E\u0431\u043E\u0434\u043D\u043E\u0433\u043E \u043F\u0430\u0434\u0435\u043D\u0438\u044F
-      (\u043E\u0431\u044B\u0447\u043D\u043E \u043E\u0442\u0440\u0438\u0446\u0430\u0442\u0435\u043B\u044C\u043D\u043E\u0435)."
-  PhysicsSettingsTerminalVelocity:
-    DisplayName: "\u041F\u0440\u0435\u0434\u0435\u043B\u044C\u043D\u0430\u044F \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C"
-    Tooltip: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E
-      \u0434\u043E\u043F\u0443\u0441\u0442\u0438\u043C\u0430\u044F \u0432\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u0430\u044F
-      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0430\u0434\u0435\u043D\u0438\u044F
-      \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430 \u0432\u043D\u0438\u0437."
-  PhysicsSettingsGroundedGravity:
-    DisplayName: "\u041F\u0440\u0438\u0436\u0438\u043C\u043D\u0430\u044F \u0433\u0440\u0430\u0432\u0438\u0442\u0430\u0446\u0438\u044F"
-    Tooltip: "\u041D\u0435\u0431\u043E\u043B\u044C\u0448\u0430\u044F \u0438\u0441\u043A\u0443\u0441\u0441\u0442\u0432\u0435\u043D\u043D\u0430\u044F
-      \u0441\u0438\u043B\u0430, \u043F\u0440\u0438\u0436\u0438\u043C\u0430\u044E\u0449\u0430\u044F
-      \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430 \u043A \u0437\u0435\u043C\u043B\u0435,
-      \u0447\u0442\u043E\u0431\u044B \u043E\u043D \u043D\u0435 \u043E\u0442\u043B\u0435\u0442\u0430\u043B
-      \u043F\u0440\u0438 \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u0438 \u0432\u043D\u0438\u0437
-      \u043F\u043E \u0441\u043A\u043B\u043E\u043D\u0430\u043C."
-  PhysicsSettingsFallMultiplier:
-    DisplayName: "\u041C\u043D\u043E\u0436\u0438\u0442\u0435\u043B\u044C \u043F\u0430\u0434\u0435\u043D\u0438\u044F"
-    Tooltip: "\u041A\u043E\u044D\u0444\u0444\u0438\u0446\u0438\u0435\u043D\u0442,
-      \u0443\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u044E\u0449\u0438\u0439
-      \u0433\u0440\u0430\u0432\u0438\u0442\u0430\u0446\u0438\u044E, \u043A\u043E\u0433\u0434\u0430
-      \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436 \u043B\u0435\u0442\u0438\u0442
-      \u0432\u043D\u0438\u0437. \u0414\u0435\u043B\u0430\u0435\u0442 \u043F\u0440\u044B\u0436\u043E\u043A
-      \u043C\u0435\u043D\u0435\u0435 \xAB\u043B\u0443\u043D\u043D\u044B\u043C\xBB."
+    DisplayName: КОНФИГУРАЦИЯ
+    Tooltip: Главный блок настроек контроллера персонажа.
+  Crouch:
+    DisplayName: Приседание
+    Tooltip: Настройки высоты капсулы, скорости в приседе и проверки потолка рейкастом.
   CrouchSettingsCanCrouch:
-    DisplayName: "\u0420\u0430\u0437\u0440\u0435\u0448\u0438\u0442\u044C \u043F\u0440\u0438\u0441\u0435\u0434"
-    Tooltip: "\u0413\u043B\u043E\u0431\u0430\u043B\u044C\u043D\u044B\u0439 \u043F\u0435\u0440\u0435\u043A\u043B\u044E\u0447\u0430\u0442\u0435\u043B\u044C
-      \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u0438 \u043F\u0435\u0440\u0435\u0445\u043E\u0434\u0438\u0442\u044C
-      \u0432 \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0435 \u043F\u0440\u0438\u0441\u0435\u0434\u0430."
+    DisplayName: Разрешить приседание
+    Tooltip: Глобальный переключатель механики приседания.
   CrouchSettingsCanJumpWhileCrouching:
-    DisplayName: "\u041F\u0440\u044B\u0436\u043E\u043A \u0438\u0437 \u043F\u0440\u0438\u0441\u0435\u0434\u0430"
-    Tooltip: "\u0420\u0430\u0437\u0440\u0435\u0448\u0438\u0442\u044C \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0443
-      \u0441\u043E\u0432\u0435\u0440\u0448\u0430\u0442\u044C \u043F\u043E\u043B\u043D\u043E\u0446\u0435\u043D\u043D\u044B\u0439
-      \u043F\u0440\u044B\u0436\u043E\u043A \u043D\u0435\u043F\u043E\u0441\u0440\u0435\u0434\u0441\u0442\u0432\u0435\u043D\u043D\u043E
-      \u0438\u0437 \u043F\u043E\u043B\u043E\u0436\u0435\u043D\u0438\u044F \u0441\u0438\u0434\u044F."
-  CrouchSettingsCrouchSpeed:
-    DisplayName: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0432 \u043F\u0440\u0438\u0441\u0435\u0434\u0435"
-    Tooltip: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u0430\u044F
-      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u044F,
-      \u043A\u043E\u0433\u0434\u0430 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436
-      \u0438\u0434\u0435\u0442 \u043D\u0430 \u043A\u043E\u0440\u0442\u043E\u0447\u043A\u0430\u0445."
-  CrouchSettingsStandingHeight:
-    DisplayName: "\u0412\u044B\u0441\u043E\u0442\u0430 \u0441\u0442\u043E\u044F"
-    Tooltip: "\u0428\u0442\u0430\u0442\u043D\u0430\u044F \u0432\u044B\u0441\u043E\u0442\u0430
-      \u043A\u0430\u043F\u0441\u0443\u043B\u044B \u043A\u043E\u043B\u043B\u0430\u0439\u0434\u0435\u0440\u0430
-      \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430 \u0432 \u043F\u043E\u043B\u043D\u044B\u0439
-      \u0440\u043E\u0441\u0442."
+    DisplayName: Прыжок из приседа
+    Tooltip: Позволяет персонажу совершать полноценный прыжок без необходимости предварительно вставать.
   CrouchSettingsCrouchHeight:
-    DisplayName: "\u0412\u044B\u0441\u043E\u0442\u0430 \u0432 \u043F\u0440\u0438\u0441\u0435\u0434\u0435"
-    Tooltip: "\u0426\u0435\u043B\u0435\u0432\u0430\u044F \u0432\u044B\u0441\u043E\u0442\u0430
-      \u043A\u0430\u043F\u0441\u0443\u043B\u044B \u043A\u043E\u043B\u043B\u0430\u0439\u0434\u0435\u0440\u0430,
-      \u0434\u043E \u043A\u043E\u0442\u043E\u0440\u043E\u0439 \u043E\u043D\u0430
-      \u0441\u043E\u0436\u043C\u0435\u0442\u0441\u044F \u043F\u0440\u0438 \u043F\u0440\u0438\u0441\u0435\u0434\u0430\u043D\u0438\u044F\u0445."
+    DisplayName: Высота в приседе
+    Tooltip: Высота капсулы коллайдера персонажа в состоянии приседа.
+  CrouchSettingsCrouchSpeed:
+    DisplayName: Скорость в приседе
+    Tooltip: Максимальная скорость передвижения, разрешенная в состоянии приседа.
   CrouchSettingsEnvironmentMask:
-    DisplayName: "\u041C\u0430\u0441\u043A\u0430 \u043F\u0440\u0435\u043F\u044F\u0442\u0441\u0442\u0432\u0438\u0439
-      \u043D\u0430\u0434 \u0433\u043E\u043B\u043E\u0432\u043E\u0439"
-    Tooltip: "\u0421\u043B\u043E\u0438 \u043A\u043E\u043B\u043B\u0438\u0437\u0438\u0438
-      (LayerMask), \u043A\u043E\u0442\u043E\u0440\u044B\u0435 \u043F\u0440\u043E\u0432\u0435\u0440\u044F\u044E\u0442\u0441\u044F
-      \u043B\u0443\u0447\u043E\u043C \u0432\u0432\u0435\u0440\u0445 \u043F\u0435\u0440\u0435\u0434
-      \u0442\u0435\u043C, \u043A\u0430\u043A \u0440\u0430\u0437\u0440\u0435\u0448\u0438\u0442\u044C
-      \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0443 \u0432\u0441\u0442\u0430\u0442\u044C
-      \u0432 \u043F\u043E\u043B\u043D\u044B\u0439 \u0440\u043E\u0441\u0442."
+    DisplayName: Маска препятствий сверху
+    Tooltip: LayerMask для рейкаста вверх, предотвращающего вставание персонажа под низкими потолками.
+  CrouchSettingsStandingHeight:
+    DisplayName: Высота стоя
+    Tooltip: Стандартная высота капсулы коллайдера персонажа в полный рост.
+  CursorSystem_defaultLockMode:
+    DisplayName: Режим блокировки курсора
+    Tooltip: Стандартное состояние блокировки мыши при старте сцены.
+  CursorSystem_startLocked:
+    DisplayName: Блокировать курсор на старте
+    Tooltip: Автоматически скрывает и центрирует курсор мыши при Awake.
+  CursorSystem_toggleAction:
+    DisplayName: Экшн переключения курсора
+    Tooltip: Input System Action для ручного переключения блокировки мыши в рантайме.
+  DashboardAssignConfig:
+    DisplayName: Назначьте ScriptableObject конфигурации для отображения панели.
+    Tooltip: Информационное сообщение, когда слот настроек пуст.
+  DashboardCharacterSettingsLabel:
+    DisplayName: Настройки персонажа
+    Tooltip: Слот для установки ScriptableObject с параметрами персонажа.
+  DashboardErrorNoSettingsField:
+    DisplayName: 'Ошибка: В главном контроллере не найдено поле настроек персонажа.'
+    Tooltip: Критический сбой инициализации инспектора (ошибка рефлексии).
+  DashboardValidationCrouchHeight:
+    DisplayName: 'Ошибка логики: Высота приседа не может быть больше высоты стоя.'
+    Tooltip: Критическая ошибка геометрии физического коллайдера.
+  DashboardValidationCrouchSpeed:
+    DisplayName: 'Внимание: Скорость в приседе выше скорости обычной ходьбы.'
+    Tooltip: Предупреждение о нелогичной настройке геймплея.
+  DashboardValidationGravity:
+    DisplayName: 'Критично: Значения гравитации положительные. Персонаж улетит в космос.'
+    Tooltip: Критическая ошибка физики. Силы притяжения и предельная скорость падения обязаны быть отрицательными.
+  DashboardValidationSprint:
+    DisplayName: 'Внимание: Скорость спринта ниже скорости обычной ходьбы.'
+    Tooltip: Предупреждение о нелогичной настройке скоростей.
+  DashMechanic_cooldown:
+    DisplayName: Задержка рывка
+    Tooltip: Обязательное время ожидания (в секундах) перед выполнением следующего рывка.
+  DashMechanic_dashDuration:
+    DisplayName: Длительность рывка
+    Tooltip: Время (в секундах), в течение которого активна фаза ускоренного рывка.
+  DashMechanic_dashSpeed:
+    DisplayName: Скорость рывка
+    Tooltip: Физическая скорость, принудительно применяемая к персонажу во время выполнения рывка.
+  DashMechanic_inputBufferTime:
+    DisplayName: Буфер ввода рывка
+    Tooltip: Окно времени (в секундах) для запоминания нажатия, если персонаж сейчас не может совершить рывок.
+  DashMechanic_key:
+    DisplayName: Клавиша рывка
+    Tooltip: Клавиша (Legacy Input), используемая для активации механики рывка.
+  DynamicFOV_cinemachineCam:
+    DisplayName: Целевая виртуальная камера
+    Tooltip: Компонент CinemachineCamera, чье поле зрения (FOV) будет динамически меняться.
+  DynamicFOV_controller:
+    DisplayName: Базовый контроллер
+    Tooltip: Ссылка на главный SAWController для считывания текущей скорости движения.
+  DynamicFOV_maxFovOffset:
+    DisplayName: Макс. расширение FOV
+    Tooltip: Максимальное добавочное значение поля зрения при достижении пиковой скорости спринта.
+  DynamicFOV_smoothTime:
+    DisplayName: Сглаживание FOV
+    Tooltip: Время интерполяции для плавного расширения и сужения поля зрения.
+  DynamicFOV_speedMultiplier:
+    DisplayName: Вес скорости для FOV
+    Tooltip: Множитель, определяющий, насколько сильно текущая скорость влияет на смещение FOV.
+  Editor_ActiveLangLabel:
+    DisplayName: Текущий язык
+    Tooltip: Выбранный язык для локализации всего интерфейса инспектора Unity.
+  Editor_DocButton:
+    DisplayName: "\U0001F4D6 ОТКРЫТЬ ДОКУМЕНТАЦИЮ"
+    Tooltip: Открывает официальную веб-страницу с руководством по этому ассету.
+  Editor_DocMessage:
+    DisplayName: Выбирай язык ниже для моментального перевода окон инспектора. Нужна помощь? Открывай документацию.
+    Tooltip: Информационное окно панели управления SAWC Hub.
+  Editor_Hello:
+    DisplayName: Добро пожаловать в SAW Hub
+    Tooltip: Главный заголовочный текст окна редактора SAWC Hub.
+  Editor_InstalledPacksLabel:
+    DisplayName: Установленные языковые пакеты
+    Tooltip: Заголовок списка доступных языковых паков.
+  Jump:
+    DisplayName: Прыжок
+    Tooltip: Настройки силы прыжка, буферизации ввода и времени койота.
+  JumpSettingsAirControlMultiplier:
+    DisplayName: Контроль в воздухе
+    Tooltip: Множитель отзывчивости управления и смены направления во время полета (0 = нет контроля, 1 = полный контроль).
+  JumpSettingsCanJump:
+    DisplayName: Разрешить прыжки
+    Tooltip: Глобальный переключатель механики прыжков.
+  JumpSettingsCeilingBounceVelocity:
+    DisplayName: Отскок от потолка
+    Tooltip: Вертикальная скорость отскока вниз при столкновении головы с потолком во время прыжка.
+  JumpSettingsCoyoteTime:
+    DisplayName: Время койота
+    Tooltip: Временной буфер (в секундах), позволяющий совершить прыжок после схода с края платформы (Coyote Time).
+  JumpSettingsEnableAutoJump:
+    DisplayName: Автоматический прыжок
+    Tooltip: При удержании кнопки прыжка включает непрерывные прыжки (Bunny Hop / Распрыжка).
+  JumpSettingsJumpBufferTime:
+    DisplayName: Буфер прыжка
+    Tooltip: Окно времени (в секундах) до приземления, во время которого нажатие кнопки прыжка запоминается и срабатывает автоматически.
+  JumpSettingsJumpCooldownDuration:
+    DisplayName: Задержка прыжка
+    Tooltip: Минимальное время перезарядки между повторными прыжками.
+  JumpSettingsJumpForce:
+    DisplayName: Сила прыжка
+    Tooltip: Начальный вертикальный импульс при отрыве от земли.
+  LegacyInputReader_crouchKey:
+    DisplayName: Клавиша приседа
+    Tooltip: Клавиша (Legacy Input) для удержания или переключения приседа.
+  LegacyInputReader_horAxis:
+    DisplayName: Горизонтальная ось
+    Tooltip: Имя оси из Legacy Input Manager для движения влево/вправо.
+  LegacyInputReader_jumpKey:
+    DisplayName: Клавиша прыжка
+    Tooltip: Клавиша (Legacy Input) для активации прыжка.
+  LegacyInputReader_sprintKey:
+    DisplayName: Клавиша спринта
+    Tooltip: Клавиша (Legacy Input) для активации спринта.
+  LegacyInputReader_verAxis:
+    DisplayName: Вертикальная ось
+    Tooltip: Имя оси из Legacy Input Manager для движения вперед/назад.
+  MasterInputProvider_deadZone:
+    DisplayName: Мертвая зона ввода
+    Tooltip: Минимальная магнитуда стика, необходимая для регистрации движения.
+  MasterInputProvider_switchThreshold:
+    DisplayName: Порог смены устройства
+    Tooltip: Магнитуда стика, при которой происходит автоматическое переключение активного устройства ввода.
+  MobileUIReader_joystick:
+    DisplayName: Тач-джойстик
+    Tooltip: Ссылка на экранный джойстик для мобильного управления движением.
+  MobileUIToggle_detector:
+    DisplayName: Детектор платформы
+    Tooltip: Компонент для автоопределения необходимости показа мобильного UI.
+  MobileUIToggle_mobileControlsCanvas:
+    DisplayName: Canvas мобильного UI
+    Tooltip: UI Canvas со всеми тач-кнопками, который переключается в зависимости от активного устройства.
+  Movement:
+    DisplayName: Движение
+    Tooltip: Базовые настройки локомоции, скоростей и инерции.
+  MovementSettingsAccelerationCurve:
+    DisplayName: Кривая ускорения
+    Tooltip: Анимационная кривая, определяющая динамику разгона персонажа с течением времени.
+  MovementSettingsAllowedSprintDirections:
+    DisplayName: Направления спринта
+    Tooltip: Ограничение направлений ввода, в которых разрешен спринт (например, только вперед).
+  MovementSettingsBaseAcceleration:
+    DisplayName: Базовое ускорение
+    Tooltip: Плоский коэффициент скорости набора максимального темпа движения.
+  MovementSettingsBaseDeceleration:
+    DisplayName: Базовое замедление
+    Tooltip: Плоский коэффициент скорости сброса движения до полной остановки.
+  MovementSettingsCanMove:
+    DisplayName: Разрешить движение
+    Tooltip: Глобальный переключатель базового перемещения персонажа.
+  MovementSettingsCanSprint:
+    DisplayName: Разрешить спринт
+    Tooltip: Определяет, может ли персонаж переходить в состояние быстрого бега.
+  MovementSettingsDecelerationCurve:
+    DisplayName: Кривая замедления
+    Tooltip: Анимационная кривая, определяющая динамику торможения при отпускании стика.
+  MovementSettingsMinMoveThreshold:
+    DisplayName: Мин. порог ввода
+    Tooltip: Минимальная магнитуда стика для начала физического движения.
+  MovementSettingsMoveSpeed:
+    DisplayName: Скорость ходьбы
+    Tooltip: Целевая максимальная скорость персонажа при обычном перемещении.
+  MovementSettingsSprintSpeed:
+    DisplayName: Скорость спринта
+    Tooltip: Целевая максимальная скорость персонажа в состоянии спринта.
+  MovementSettingsUseInertia:
+    DisplayName: Использовать инерцию
+    Tooltip: Включает плавный разгон и торможение на основе кривых вместо мгновенной смены скорости.
+  NewInputReader_crouchAction:
+    DisplayName: Экшн приседа
+    Tooltip: Input System Action для переключения или удержания приседа.
+  NewInputReader_jumpAction:
+    DisplayName: Экшн прыжка
+    Tooltip: Input System Action для активации прыжка.
+  NewInputReader_moveAction:
+    DisplayName: Экшн движения
+    Tooltip: Vector2 Input System Action для многонаправленного перемещения.
+  NewInputReader_sprintAction:
+    DisplayName: Экшн спринта
+    Tooltip: Input System Action для активации спринта.
+  Physics:
+    DisplayName: Физика
+    Tooltip: Кастомная гравитация, предельная скорость и прилипание к земле.
+  PhysicsSettingsFallMultiplier:
+    DisplayName: Множитель падения
+    Tooltip: Увеличивает силу гравитации, когда персонаж летит вниз. Делает падение более «тяжелым» и реалистичным.
+  PhysicsSettingsGravity:
+    DisplayName: Сила гравитации
+    Tooltip: Значение ускорения свободного падения (обычно отрицательное, например -9.81).
+  PhysicsSettingsGroundedGravity:
+    DisplayName: Гравитация на земле
+    Tooltip: Постоянная сила притяжения вниз, применяемая, когда персонаж на земле, чтобы он «прилипал» к склонам и ступенькам.
+  PhysicsSettingsTerminalVelocity:
+    DisplayName: Предельная скорость
+    Tooltip: Абсолютный лимит вертикальной скорости падения для предотвращения туннелирования сквозь пол.
+  PhysicsSettingsUseGravity:
+    DisplayName: Использовать гравитацию
+    Tooltip: Включает или выключает расчеты кастомной гравитации для этого контроллера.
+  PlayerAudioController_actionCooldown:
+    DisplayName: Задержка экшн-звуков
+    Tooltip: Минимальная задержка (в секундах) между воспроизведением дискретных звуков для предотвращения наложений.
+  PlayerAudioController_actionSource:
+    DisplayName: Источник экшн-звуков
+    Tooltip: Выделенный AudioSource для воспроизведения разовых звуков (прыжки, приземления, приседания).
+  PlayerAudioController_antiSpamFactor:
+    DisplayName: Фактор анти-спама шагов
+    Tooltip: Множитель задержки интервала шагов, предотвращающий спам звуков при частых остановках и стартах.
+  PlayerAudioController_controller:
+    DisplayName: Контроллер персонажа
+    Tooltip: Ссылка на базовый SAWController для отслеживания состояний и подписки на физические события.
+  PlayerAudioController_crouchDownSettings:
+    DisplayName: Звук приседания
+    Tooltip: Настройки и пул аудиоклипов, срабатывающих при входе в состояние приседа.
+  PlayerAudioController_crouchStepSettings:
+    DisplayName: Шаги в приседе
+    Tooltip: Настройки и пул клипов для звуков шагов при движении в присяде.
+  PlayerAudioController_crouchUpSettings:
+    DisplayName: Звук вставания
+    Tooltip: Настройки и пул клипов, срабатывающих при выходе из приседа.
+  PlayerAudioController_jumpSettings:
+    DisplayName: Звук прыжка
+    Tooltip: Настройки и пул клипов, срабатывающих в момент отрыва от земли.
+  PlayerAudioController_landSettings:
+    DisplayName: Звук приземления
+    Tooltip: Настройки и пул клипов, срабатывающих при успешном приземлении.
+  PlayerAudioController_sprintStepSettings:
+    DisplayName: Шаги в спринте
+    Tooltip: Настройки и пул клипов для звуков шагов во время активного спринта.
+  PlayerAudioController_stepSource:
+    DisplayName: Источник шагов
+    Tooltip: Выделенный AudioSource для воспроизведения непрерывных звуков шагов.
+  PlayerAudioController_walkStepSettings:
+    DisplayName: Шаги при ходьбе
+    Tooltip: Настройки и пул клипов для звуков шагов при обычной ходьбе.
+  Rotation:
+    DisplayName: Вращение
+    Tooltip: Настройки поворота модели персонажа относительно движения или камеры.
+  RotationSettingsMovementRotationSmoothTime:
+    DisplayName: Сглаживание (Движение)
+    Tooltip: Время интерполяции поворота модели в сторону вектора движения.
+  RotationSettingsRotateWithMovement:
+    DisplayName: Поворот по движению
+    Tooltip: Если True, персонаж смотрит по движению (Adventure). Если False, смотрит по камере (Strafe).
+  RotationSettingsStrafeRotationSmoothTime:
+    DisplayName: Сглаживание (Стрейф)
+    Tooltip: Время интерполяции поворота модели в режиме стрейфа (ориентация по камере).
+  Thresholds:
+    DisplayName: Пороги
+    Tooltip: Математические границы для переключения состояний аниматора и логики.
+  ThresholdSettingsAirStateDebounceTime:
+    DisplayName: Фильтр состояния воздуха
+    Tooltip: Временной буфер для фильтрации микро-отрывов от земли, чтобы аниматор не считал персонаж падающим на кочках.
+  ThresholdSettingsFallVelocityThreshold:
+    DisplayName: Порог скорости падения
+    Tooltip: Отрицательная вертикальная скорость, при превышении которой логика считает, что персонаж падает.
+  ThresholdSettingsIdleTransitionMultiplier:
+    DisplayName: Множитель перехода в покой
+    Tooltip: Коэффициент скорости затухания анимации движения до состояния полного покоя (Idle).
+  ThresholdSettingsInputThreshold:
+    DisplayName: Порог осей ввода
+    Tooltip: Значение мертвой зоны, ниже которой любой ввод от контроллера полностью игнорируется.
+  ThresholdSettingsSprintDirectionThreshold:
+    DisplayName: Порог угла спринта
+    Tooltip: Максимальный угол отклонения от направления взгляда, при котором ещё разрешен спринт.
+  ThresholdSettingsVelocityThreshold:
+    DisplayName: Порог общей скорости
+    Tooltip: Минимальное значение физической скорости, ниже которой персонаж считается абсолютно неподвижным.
+  ThresholdSettingsVerticalVelocityThreshold:
+    DisplayName: Порог верт. скорости
+    Tooltip: Предел скорости по вертикальной оси, ниже которого персонаж считается стабильно стоящим на поверхности.
+  TouchInputReceiver_lookPad:
+    DisplayName: Тач-пад камеры
+    Tooltip: Границы RectTransform, выступающие в роли трекпада для поворота камеры на мобильных.
+  TouchInputReceiver_sensitivity:
+    DisplayName: Чувствительность тача
+    Tooltip: Множитель чувствительности для дельты касаний при повороте камеры.
+  UniversalJoystick_deadZone:
+    DisplayName: Мертвая зона джойстика
+    Tooltip: Радиус в центре джойстика, где ввод игнорируется для защиты от аналогового дрифта.
+  UniversalJoystick_handle:
+    DisplayName: Ручка джойстика
+    Tooltip: Визуальный RectTransform элемент, представляющий сам набалдашник джойстика.
+  UniversalJoystick_handleLimit:
+    DisplayName: Лимит ручки джойстика
+    Tooltip: Максимальное радиальное расстояние, на которое ручка может отклониться от центра.

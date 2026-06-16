@@ -1,3 +1,4 @@
+using SAWC.Localization;
 using UnityEngine;
 
 #if SAWC_NEW_INPUT_AVAILABLE && ENABLE_INPUT_SYSTEM
@@ -9,17 +10,16 @@ namespace SAWC.Modules.Utils
     [AddComponentMenu("SAWC/Modules/CursorSystem")]
     public class CursorSystem : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private bool _startLocked = true;
-        [SerializeField] private CursorLockMode _defaultLockMode = CursorLockMode.Locked;
+        [SerializeField, Loc] private bool _startLocked = true;
+        [SerializeField, Loc] private CursorLockMode _defaultLockMode = CursorLockMode.Locked;
 
 #if SAWC_NEW_INPUT_AVAILABLE && ENABLE_INPUT_SYSTEM
-        [Header("Input Actions (New System)")]
-        [SerializeField] private InputAction _toggleAction;
+        [Space(5)]
+        [SerializeField, Loc] private InputAction _toggleAction;
 #endif
 
-#if ENABLE_LEGACY_INPUT_MANAGER
-        [Header("Input Settings (Legacy System)")]
+#if ENABLE_LEGACY_INPUT_MANAGER && !(SAWC_NEW_INPUT_AVAILABLE && ENABLE_INPUT_SYSTEM)
+        [Space(5)]
         [SerializeField] private string _toggleButton = "Cancel";
 #endif
 
@@ -53,16 +53,13 @@ namespace SAWC.Modules.Utils
         }
 #endif
 
-#if ENABLE_LEGACY_INPUT_MANAGER
+#if ENABLE_LEGACY_INPUT_MANAGER && !(SAWC_NEW_INPUT_AVAILABLE && ENABLE_INPUT_SYSTEM)
         private void Update()
         {
-#if SAWC_NEW_INPUT_AVAILABLE && ENABLE_INPUT_SYSTEM
-#else
             if (UnityEngine.Input.GetButtonDown(_toggleButton))
             {
                 SetState(!_isLocked);
             }
-#endif
         }
 #endif
 

@@ -1,3 +1,4 @@
+using SAWC.Localization;
 using UnityEngine;
 
 namespace SAWC.Core.Input.Readers
@@ -5,7 +6,7 @@ namespace SAWC.Core.Input.Readers
     [AddComponentMenu("SAWC/Core/Input/Readers/UI/Mobile UI Reader")]
     public class MobileUIReader : BaseInputReader
     {
-        [SerializeField] private BaseJoystick _joystick;
+        [SerializeField, Loc] private BaseJoystick _joystick;
 
         private bool _uiJump;
         private bool _uiSprint;

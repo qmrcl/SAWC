@@ -1,5 +1,7 @@
 using SAWC.Localization;
+using SAWC.Core.Data;
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -9,19 +11,27 @@ namespace SAWC.Editor.Localization
     [CustomPropertyDrawer(typeof(LocAttribute))]
     public class LocDrawer : PropertyDrawer
     {
+        private static readonly HashSet<Type> ValidStructures = new()
+        {
+            typeof(CharacterSettingsData),
+            typeof(MovementSettings),
+            typeof(JumpSettings),
+            typeof(CrouchSettings),
+            typeof(PhysicsSettings),
+            typeof(RotationSettings),
+            typeof(ThresholdSettings)
+        };
+
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            if (!property.hasVisibleChildren)
+            Type fieldType = fieldInfo?.FieldType;
+
+            bool shouldExpand = fieldType != null && ValidStructures.Contains(fieldType);
+
+            if (!property.hasVisibleChildren || !shouldExpand)
             {
                 var field = new PropertyField(property);
-
-                string fieldName = property.name;
-                if (fieldName.Length > 0 && char.IsLower(fieldName[0]))
-                {
-                    fieldName = char.ToUpper(fieldName[0]) + fieldName.Substring(1);
-                }
-
-                string key = fieldInfo != null ? $"{fieldInfo.DeclaringType.Name}{fieldName}" : property.name;
+                string key = fieldInfo != null ? $"{fieldInfo.DeclaringType.Name}{property.name}" : property.name;
                 SetupFieldLocalization(field, key, property.displayName);
                 return field;
             }
@@ -48,13 +58,7 @@ namespace SAWC.Editor.Localization
                     var childProperty = iterator.Copy();
                     var childField = new PropertyField(childProperty);
 
-                    string childName = childProperty.name;
-                    if (childName.Length > 0 && char.IsLower(childName[0]))
-                    {
-                        childName = char.ToUpper(childName[0]) + childName.Substring(1);
-                    }
-
-                    string key = fieldInfo != null ? $"{fieldInfo.FieldType.Name}{childName}" : childProperty.name;
+                    string key = $"{fieldType.Name}{childProperty.name}";
                     SetupFieldLocalization(childField, key, childProperty.displayName);
                     foldout.Add(childField);
 
@@ -70,23 +74,10 @@ namespace SAWC.Editor.Localization
             Action updateLabels = () =>
             {
                 if (field == null) return;
-
                 var entry = SAWCLoc.System.GetEntryByUnityString(key);
 
-                string targetText = defaultName;
-                if (entry != null && !string.IsNullOrEmpty(entry.DisplayName))
-                {
-                    targetText = entry.DisplayName;
-                }
-
-                string targetTooltip = string.Empty;
-                if (entry != null && !string.IsNullOrEmpty(entry.Tooltip))
-                {
-                    targetTooltip = entry.Tooltip;
-                }
-
-                field.label = targetText;
-                field.tooltip = targetTooltip;
+                field.label = (entry != null && !string.IsNullOrEmpty(entry.DisplayName)) ? entry.DisplayName : defaultName;
+                field.tooltip = (entry != null && !string.IsNullOrEmpty(entry.Tooltip)) ? entry.Tooltip : string.Empty;
             };
 
             field.RegisterCallback<AttachToPanelEvent>(evt =>

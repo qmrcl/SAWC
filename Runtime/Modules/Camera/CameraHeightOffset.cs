@@ -1,18 +1,18 @@
-using UnityEngine;
 using SAWC.Core;
+using SAWC.Localization;
+using UnityEngine;
 
 namespace SAWC.Modules.CameraUtils
 {
     [AddComponentMenu("SAWC/Modules/Camera Height Offset")]
     public class CameraHeightOffset : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField] private SAWController _controller;
+        [SerializeField, Loc] private SAWController _controller;
 
-        [Header("Height Settings")]
-        [SerializeField] private float _standingHeight = 1.6f;
-        [SerializeField] private float _crouchingHeight = 0.6f;
-        [SerializeField] private float _smoothTime = 0.1f;
+        [Space(5)]
+        [SerializeField, Loc] private float _standingHeight = 1.6f;
+        [SerializeField, Loc] private float _crouchingHeight = 0.6f;
+        [SerializeField, Loc] private float _smoothTime = 0.1f;
 
         private float _velocity;
 

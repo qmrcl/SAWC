@@ -1,15 +1,26 @@
 using SAWC.Localization;
+using SAWC.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEditor;
-using UnityEngine;
 
 namespace SAWC.Editor.Localization
 {
     public static class LanguageAssetGenerator
     {
+        private static readonly HashSet<Type> ValidStructures = new()
+        {
+            typeof(CharacterSettingsData),
+            typeof(MovementSettings),
+            typeof(JumpSettings),
+            typeof(CrouchSettings),
+            typeof(PhysicsSettings),
+            typeof(RotationSettings),
+            typeof(ThresholdSettings)
+        };
+
         public static void RegenerateFields()
         {
             SortedSet<string> keys = new();
@@ -23,66 +34,36 @@ namespace SAWC.Editor.Localization
                 {
                     foreach (var k in config.Keys)
                     {
-                        if (!string.IsNullOrEmpty(k))
-                        {
-                            keys.Add(k);
-                        }
+                        if (!string.IsNullOrEmpty(k)) keys.Add(k);
                     }
                 }
             }
-            else
-            {
-                Debug.LogWarning($"{nameof(SAWCEditorKeys)} asset not found.");
-            }
 
-            HashSet<Type> processedTypes = new();
             var fieldsWithAttribute = TypeCache.GetFieldsWithAttribute<LocAttribute>();
 
             foreach (var field in fieldsWithAttribute)
             {
                 var fieldType = field.FieldType;
-                var asmName = fieldType.Assembly.GetName().Name ?? string.Empty;
 
-                if (!asmName.StartsWith("Unity", StringComparison.OrdinalIgnoreCase) &&
-                    !asmName.StartsWith("System", StringComparison.OrdinalIgnoreCase) &&
-                    !asmName.StartsWith("mscorlib", StringComparison.OrdinalIgnoreCase))
+                if (ValidStructures.Contains(fieldType))
                 {
-                    if (!processedTypes.Add(fieldType))
-                        continue;
-
                     var subFields = fieldType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                     foreach (var subField in subFields)
                     {
-                        string fieldName = subField.Name;
-                        if (fieldName.Length > 0 && char.IsLower(fieldName[0]))
-                            fieldName = char.ToUpper(fieldName[0]) + fieldName.Substring(1);
-
-                        keys.Add($"{fieldType.Name}{fieldName}");
+                        keys.Add($"{fieldType.Name}{subField.Name}");
                     }
                 }
                 else
                 {
-                    string fieldName = field.Name;
-                    if (fieldName.Length > 0 && char.IsLower(fieldName[0]))
-                        fieldName = char.ToUpper(fieldName[0]) + fieldName.Substring(1);
-
-                    keys.Add($"{field.DeclaringType.Name}{fieldName}");
+                    keys.Add($"{field.DeclaringType.Name}{field.Name}");
                 }
             }
 
             string[] scriptGuids = AssetDatabase.FindAssets($"{nameof(LanguageAsset)} t:MonoScript");
-            if (scriptGuids.Length == 0)
-            {
-                Debug.LogError($"{nameof(LanguageAsset)}.cs file not found в проекте.");
-                return;
-            }
-            string filePath = AssetDatabase.GUIDToAssetPath(scriptGuids[0]);
+            if (scriptGuids.Length == 0) return;
 
-            if (string.IsNullOrEmpty(filePath))
-            {
-                Debug.LogError($"{nameof(LanguageAsset)}.cs file not found.");
-                return;
-            }
+            string filePath = AssetDatabase.GUIDToAssetPath(scriptGuids[0]);
+            if (string.IsNullOrEmpty(filePath)) return;
 
             System.Text.StringBuilder sb = new();
             sb.AppendLine("// ==============================================================================");
@@ -96,7 +77,6 @@ namespace SAWC.Editor.Localization
             sb.AppendLine();
             sb.AppendLine("namespace SAWC.Editor.Localization");
             sb.AppendLine("{");
-            sb.AppendLine("    [CreateAssetMenu(fileName = \"NewLanguage\", menuName = \"SAWC/Editor/Language Asset\")]");
             sb.AppendLine("    public class LanguageAsset : ScriptableObject");
             sb.AppendLine("    {");
             sb.AppendLine("        public string LanguageName = \"English\";");
@@ -108,7 +88,6 @@ namespace SAWC.Editor.Localization
             }
 
             sb.AppendLine();
-            sb.AppendLine();
             sb.AppendLine("        private void OnValidate()");
             sb.AppendLine("        {");
             sb.AppendLine("            SAWC.Editor.Localization.SAWCLoc.System.NotifyLanguageChanged();");
@@ -118,7 +97,6 @@ namespace SAWC.Editor.Localization
 
             File.WriteAllText(filePath, sb.ToString());
             AssetDatabase.Refresh();
-            Debug.Log($"{nameof(LanguageAsset)} fields synchronized. Total keys: {keys.Count}");
         }
     }
 }

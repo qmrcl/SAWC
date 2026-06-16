@@ -12,174 +12,403 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60691bd447c276440a62364335174adf, type: 3}
   m_Name: ZH
   m_EditorClassIdentifier: ::SAWC.Localization::LanguageAsset
-  LanguageName: "\u7B80\u4F53\u4E2D\u6587"
-  Editor_Hello:
-    DisplayName: "\u6B22\u8FCE\u6765\u5230 SAW Hub"
-    Tooltip: "\u7EC4\u4EF6\u914D\u7F6E\u4E0E\u7BA1\u7406\u7684\u6838\u5FC3\u4E2D\u5FC3\u3002"
-  Editor_DocMessage:
-    DisplayName: "\u5728\u4E0B\u65B9\u9009\u62E9\u8BED\u8A00\u4EE5\u7ACB\u5373\u7FFB\u8BD1\u6574\u4E2A\u68C0\u67E5\u5668\u754C\u9762\u3002\u9700\u8981\u5E2E\u52A9\uFF1F\u8BF7\u67E5\u770B\u6587\u6863\u3002"
-    Tooltip: "\u9762\u677F\u72B6\u6001\u63D0\u793A\u4FE1\u606F\u3002"
-  Editor_DocButton:
-    DisplayName: "\U0001F4D6 \u6253\u5F00\u6587\u6863"
-    Tooltip: "\u6253\u5F00\u5728\u7EBF\u6587\u6863\u4E0E\u7528\u6237\u6307\u5357\u9875\u9762\u3002"
-  Editor_InstalledPacksLabel:
-    DisplayName: 
-    Tooltip: 
-  Editor_ActiveLangLabel:
-    DisplayName: 
-    Tooltip: 
-  Movement:
-    DisplayName: "\u79FB\u52A8"
-    Tooltip: "\u57FA\u7840\u79FB\u52A8\u3001\u901F\u5EA6\u548C\u51B2\u523A\u884C\u4E3A\u8BBE\u7F6E\u3002"
-  Jump:
-    DisplayName: "\u8DF3\u8DC3"
-    Tooltip: "\u914D\u7F6E\u8DF3\u8DC3\u529B\u5EA6\u3001\u7F13\u51B2\u65F6\u95F4\u4EE5\u53CA\u571F\u72FC\u65F6\u95F4\u7B49\u673A\u5236\u3002"
-  Crouch:
-    DisplayName: "\u4E0B\u8E72"
-    Tooltip: "\u8C03\u6574\u4E0B\u8E72\u9AD8\u5EA6\u3001\u901F\u5EA6\u53CA\u5934\u9876\u969C\u788D\u7269\u68C0\u6D4B\u3002"
-  Physics:
-    DisplayName: "\u7269\u7406"
-    Tooltip: "\u914D\u7F6E\u81EA\u5B9A\u4E49\u91CD\u529B\u4FEE\u6B63\u3001\u8D34\u5730\u5438\u9644\u53CA\u901F\u5EA6\u9650\u5236\u3002"
-  Rotation:
-    DisplayName: "\u65CB\u8F6C"
-    Tooltip: "\u5B9A\u4E49\u89D2\u8272\u57FA\u4E8E\u79FB\u52A8\u6216\u5E73\u79FB\u8F93\u5165\u7684\u65CB\u8F6C\u5E73\u6ED1\u5EA6\u3002"
-  Thresholds:
-    DisplayName: "\u9608\u503C"
-    Tooltip: "\u72B6\u6001\u673A\u72B6\u6001\u5207\u6362\u548C\u52A8\u753B\u8FC7\u6E21\u7684\u6570\u5B66\u8FB9\u754C\u3002"
+  LanguageName: 简体中文
+  AudioContainerSettingsAvoidRepeatingLast:
+    DisplayName: 避免连续重复
+    Tooltip: 历史记录中缓存的最近播放片段数量，用于防止同一个音效连续重复播放。
+  AudioContainerSettingsBasePitch:
+    DisplayName: 基础音调
+    Tooltip: 从该容器播放音频片段时应用的默认音调（Pitch）乘数。
+  AudioContainerSettingsBaseVolume:
+    DisplayName: 基础音量
+    Tooltip: 从该容器播放音频片段时应用的默认音量大小。
+  AudioContainerSettingsClips:
+    DisplayName: 音频片段
+    Tooltip: 用于此特定声音类别的音频片段（AudioClip）列表。
+  AudioContainerSettingsPitchRandomization:
+    DisplayName: 音调随机偏移
+    Tooltip: 基础音调的最大随机浮动范围，用于增加声音的自然感和有机性。
+  AudioContainerSettingsPlayback:
+    DisplayName: 播放模式
+    Tooltip: 从列表中选择下一个音频片段的逻辑（顺序、洗牌或随机）。
+  AudioContainerSettingsVolumeRandomization:
+    DisplayName: 音量随机偏移
+    Tooltip: 基础音量的最大随机浮动范围，用于增加声音的自然感。
+  BaseInputProvider_cameraTransform:
+    DisplayName: 相机 Transform
+    Tooltip: 用于精确计算相对移动向量和视线方向的相机 Transform 引用。
+  CameraHeightOffset_controller:
+    DisplayName: 核心控制器
+    Tooltip: 用于追踪蹲伏状态的 SAWController 组件引用。
+  CameraHeightOffset_crouchingHeight:
+    DisplayName: 蹲伏相机高度
+    Tooltip: 角色完全蹲伏时相机的局部 Y 轴高度。
+  CameraHeightOffset_smoothTime:
+    DisplayName: 高度平滑时间
+    Tooltip: 相机在站立和蹲伏高度之间进行插值过渡的平滑时间（秒）。
+  CameraHeightOffset_standingHeight:
+    DisplayName: 站立相机高度
+    Tooltip: 角色完全站立时相机的默认局部 Y 轴高度。
+  CameraMotionDynamics_controller:
+    DisplayName: 核心控制器
+    Tooltip: 用于读取当前物理速度的 SAWController 组件引用。
+  CameraMotionDynamics_forwardPitchAngle:
+    DisplayName: 前倾俯仰角
+    Tooltip: 角色向前加速时，相机产生的最大垂直俯仰角（Pitch）。
+  CameraMotionDynamics_forwardSmoothTime:
+    DisplayName: 前倾平滑时间
+    Tooltip: 相机前倾效果的插值平滑时间。
+  CameraMotionDynamics_maxForwardSpeed:
+    DisplayName: 最大前向速度
+    Tooltip: 达到最大前倾俯仰角所需的角色前向速度阈值。
+  CameraMotionDynamics_maxStrafeSpeed:
+    DisplayName: 最大侧移速度
+    Tooltip: 达到最大侧移滚转角所需的角色侧向速度阈值。
+  CameraMotionDynamics_maxVerticalSpeed:
+    DisplayName: 最大垂直速度
+    Tooltip: 达到最大垂直俯仰角所需的角色垂直速度（下落/跳跃）阈值。
+  CameraMotionDynamics_panAngle:
+    DisplayName: 侧移滚转角
+    Tooltip: 角色急转弯或侧移时，相机产生的最大侧倾角（Roll）。
+  CameraMotionDynamics_panSmoothTime:
+    DisplayName: 侧倾平滑时间
+    Tooltip: 相机侧倾效果的插值平滑时间。
+  CameraMotionDynamics_tiltAngle:
+    DisplayName: 动态侧倾角
+    Tooltip: 相机受动态力影响时的最大滚转偏移角度。
+  CameraMotionDynamics_tiltSmoothTime:
+    DisplayName: 侧倾恢复平滑时间
+    Tooltip: 相机从受力侧倾恢复到初始中性状态的平滑时间。
+  CameraMotionDynamics_verticalPitchAngle:
+    DisplayName: 垂直俯仰角
+    Tooltip: 角色高度骤变或下落时，相机产生的垂直俯仰角。
+  CameraMotionDynamics_verticalSmoothTime:
+    DisplayName: 垂直俯仰平滑时间
+    Tooltip: 跳跃和下落过程中，相机垂直俯仰变化的平滑时间。
+  CameraShakeControl_brain:
+    DisplayName: Cinemachine Brain
+    Tooltip: 管理活跃虚拟相机的主 CinemachineBrain 组件引用。
+  CameraShakeControl_controller:
+    DisplayName: 核心控制器
+    Tooltip: 用于读取移动和冲刺状态的 SAWController 组件引用。
+  CameraShakeControl_maxShake:
+    DisplayName: 最大震动振幅
+    Tooltip: 剧烈运动或冲刺时，相机震动噪音的最大振幅限制。
+  CameraShakeControl_smoothTime:
+    DisplayName: 震动平滑时间
+    Tooltip: 相机震动效果淡入和淡出时的插值平滑时间。
+  CameraShakeControl_sprintFrequency:
+    DisplayName: 冲刺震动频率
+    Tooltip: 冲刺时，相机周期性晃动或步伐震动的噪音目标频率。
+  CharacterModifierBase_priority:
+    DisplayName: 执行优先级
+    Tooltip: 决定此修改器在管线中的处理顺序。数值越大，越先执行。
   Configuration:
-    DisplayName: "\u914D\u7F6E"
-    Tooltip: "\u6838\u5FC3\u89D2\u8272\u914D\u7F6E\u8BBE\u7F6E\u4E0E\u57FA\u7840\u8D44\u4EA7\u6A21\u5757\u3002"
-  DashboardErrorNoSettingsField:
-    DisplayName: "\u9519\u8BEF\uFF1A\u5728 SAWController \u4E2D\u672A\u627E\u5230
-      CharacterSettings \u7C7B\u578B\u7684\u5B57\u6BB5\u3002"
-    Tooltip: "\u68C0\u67E5\u5668\u521D\u59CB\u5316\u53D1\u751F\u5173\u952E\u6027\u9519\u8BEF\u3002"
-  DashboardAssignConfig:
-    DisplayName: "\u8BF7\u6307\u5B9A\u914D\u7F6E ScriptableObject \u4EE5\u90E8\u7F72\u4EEA\u8868\u76D8\u3002"
-    Tooltip: "\u5F53\u8BBE\u7F6E\u69FD\u4E3A\u7A7A\u65F6\u7684\u63D0\u793A\u4FE1\u606F\u3002"
-  DashboardValidationSprint:
-    DisplayName: "\u8B66\u544A\uFF1A\u51B2\u523A\u901F\u5EA6\u6162\u4E8E\u666E\u901A\u6B65\u884C\u901F\u5EA6\u3002"
-    Tooltip: "\u5173\u4E8E\u51B2\u523A\u901F\u5EA6\u8BBE\u7F6E\u4E0D\u5408\u903B\u8F91\u7684\u6E38\u620F\u8BBE\u8BA1\u8B66\u544A\u3002"
-  DashboardValidationCrouchSpeed:
-    DisplayName: "\u8B66\u544A\uFF1A\u4E0B\u8E72\u901F\u5EA6\u9AD8\u4E8E\u666E\u901A\u6B65\u884C\u901F\u5EA6\u3002"
-    Tooltip: "\u5173\u4E8E\u4E0B\u8E72\u79FB\u52A8\u901F\u5EA6\u8FC7\u5FEB\u7684\u6E38\u620F\u8BBE\u8BA1\u8B66\u544A\u3002"
-  DashboardValidationCrouchHeight:
-    DisplayName: "\u903B\u8F91\u9519\u8BEF\uFF1A\u4E0B\u8E72\u9AD8\u5EA6\u4E0D\u80FD\u9AD8\u4E8E\u7AD9\u7ACB\u9AD8\u5EA6\u3002"
-    Tooltip: "\u5173\u952E\u6027\u7684\u80F6\u56CA\u4F53\u78B0\u649E\u4F53\u51E0\u4F55\u5C3A\u5BF8\u9519\u8BEF\u3002"
-  DashboardValidationGravity:
-    DisplayName: "\u4E25\u91CD\uFF1A\u91CD\u529B\u53C2\u6570\u5177\u6709\u6B63\u503C\uFF08\u89D2\u8272\u5C06\u5411\u4E0A\u98DE\u8D70\uFF09\u3002"
-    Tooltip: "\u7269\u7406\u8BBE\u7F6E\u53D1\u751F\u4E25\u91CD\u9519\u8BEF\u3002\u8D34\u5730\u91CD\u529B\u548C\u7EC8\u7AEF\u901F\u5EA6\u5FC5\u987B\u4E3A\u8D1F\u6570\u3002"
-  DashboardCharacterSettingsLabel:
-    DisplayName: "\u89D2\u8272\u8BBE\u7F6E"
-    Tooltip: "\u7528\u4E8E\u5206\u914D\u89D2\u8272\u914D\u7F6E ScriptableObject \u7684\u69FD\u4F4D\u3002"
-  JumpSettingsCanJump:
-    DisplayName: "\u5141\u8BB8\u8DF3\u8DC3"
-    Tooltip: "\u5168\u5C40\u542F\u7528\u6216\u7981\u7528\u8DF3\u8DC3\u673A\u5236\u3002"
-  JumpSettingsEnableAutoJump:
-    DisplayName: "\u542F\u7528\u81EA\u52A8\u8DF3\u8DC3"
-    Tooltip: "\u5141\u8BB8\u6309\u4F4F\u8DF3\u8DC3\u952E\u65F6\u8FDB\u884C\u8FDE\u7EED\u81EA\u52A8\u8DF3\u8DC3\uFF08\u8FDE\u8DF3\uFF09\u3002"
-  JumpSettingsJumpForce:
-    DisplayName: "\u8DF3\u8DC3\u529B\u5EA6"
-    Tooltip: "\u89D2\u8272\u79BB\u5F00\u5730\u9762\u65F6\u65BD\u52A0\u7684\u521D\u59CB\u5782\u76F4\u5411\u4E0A\u901F\u5EA6\u8109\u51B2\u3002"
-  JumpSettingsJumpBufferTime:
-    DisplayName: "\u8DF3\u8DC3\u7F13\u51B2\u65F6\u95F4"
-    Tooltip: "\u7740\u9646\u524D\u7684\u7A97\u53E3\u65F6\u95F4\uFF08\u79D2\uFF09\u3002\u5728\u6B64\u671F\u95F4\u6309\u4E0B\u8DF3\u8DC3\u952E\u5C06\u8FDB\u5165\u961F\u5217\uFF0C\u5E76\u5728\u89E6\u5730\u65F6\u81EA\u52A8\u89E6\u53D1\u8DF3\u8DC3\u3002"
-  JumpSettingsCoyoteTime:
-    DisplayName: "\u571F\u72FC\u65F6\u95F4"
-    Tooltip: "\u89D2\u8272\u8D70\u79BB\u5E73\u53F0\u8FB9\u7F18\u540E\uFF0C\u4ECD\u5141\u8BB8\u8FDB\u884C\u8DF3\u8DC3\u64CD\u4F5C\u7684\u5BBD\u9650\u671F\uFF08\u79D2\uFF09\u3002"
-  JumpSettingsAirControlMultiplier:
-    DisplayName: "\u7A7A\u4E2D\u63A7\u5236\u7CFB\u6570"
-    Tooltip: "\u4FEE\u6539\u89D2\u8272\u5728\u7A7A\u4E2D\u65F6\u7684\u8F6C\u5411\u54CD\u5E94\u901F\u5EA6\u548C\u65B9\u5411\u8C03\u6574\u80FD\u529B\u3002"
-  MovementSettingsCanMove:
-    DisplayName: "\u5141\u8BB8\u79FB\u52A8"
-    Tooltip: "\u5168\u5C40\u542F\u7528\u6216\u7981\u7528\u57FA\u7840\u89D2\u8272\u79FB\u52A8\u3002"
-  MovementSettingsCanSprint:
-    DisplayName: "\u5141\u8BB8\u51B2\u523A"
-    Tooltip: "\u51B3\u5B9A\u89D2\u8272\u662F\u5426\u5141\u8BB8\u5207\u6362\u5230\u51B2\u523A\u72B6\u6001\u3002"
-  MovementSettingsAllowedSprintDirections:
-    DisplayName: "\u5141\u8BB8\u51B2\u523A\u65B9\u5411"
-    Tooltip: "\u9650\u5236\u53EF\u4EE5\u6FC0\u6D3B\u51B2\u523A\u7684\u8F93\u5165\u5411\u91CF\uFF08\u4F8B\u5982\uFF1A\u4EC5\u9650\u5411\u524D\u79FB\u52A8\uFF09\u3002"
-  MovementSettingsUseInertia:
-    DisplayName: "\u4F7F\u7528\u60EF\u6027"
-    Tooltip: "\u542F\u7528\u57FA\u4E8E\u66F2\u7EBF\u7684\u5E73\u6ED1\u52A0\u901F\u548C\u51CF\u901F\uFF0C\u800C\u975E\u901F\u5EA6\u77AC\u95F4\u7A81\u53D8\u3002"
-  MovementSettingsMoveSpeed:
-    DisplayName: "\u79FB\u52A8\u901F\u5EA6"
-    Tooltip: "\u89D2\u8272\u6B63\u5E38\u884C\u8D70\u65F6\u7684\u6700\u5927\u79FB\u52A8\u901F\u5EA6\u3002"
-  MovementSettingsSprintSpeed:
-    DisplayName: "\u51B2\u523A\u901F\u5EA6"
-    Tooltip: "\u51B2\u523A\u6FC0\u6D3B\u65F6\u89D2\u8272\u7684\u6700\u5927\u79FB\u52A8\u901F\u5EA6\u3002"
-  MovementSettingsMinMoveThreshold:
-    DisplayName: "\u6700\u5C0F\u79FB\u52A8\u9608\u503C"
-    Tooltip: "\u89E6\u53D1\u79FB\u52A8\u6240\u9700\u7684\u6447\u6746 or \u8F93\u5165\u8F74\u7684\u6700\u5C0F\u504F\u8F6C\u91CF\u3002"
-  MovementSettingsBaseAcceleration:
-    DisplayName: "\u57FA\u7840\u52A0\u901F\u5EA6"
-    Tooltip: "\u63A7\u5236\u89D2\u8272\u8FBE\u5230\u6700\u5927\u901F\u5EA6\u7684\u52A0\u901F\u901F\u7387\u7CFB\u6570\u3002"
-  MovementSettingsAccelerationCurve:
-    DisplayName: "\u52A0\u901F\u66F2\u7EBF"
-    Tooltip: "\u8BC4\u4F30\u52A0\u901F\u5EA6\u968F\u65F6\u95F4\u53D8\u5316\u7684\u52A8\u753B\u66F2\u7EBF\u3002"
-  MovementSettingsBaseDeceleration:
-    DisplayName: "\u57FA\u7840\u51CF\u901F\u5EA6"
-    Tooltip: "\u63A7\u5236\u89D2\u8272\u964D\u4F4E\u901F\u5EA6\u81F3\u5B8C\u5168\u505C\u6B62\u7684\u51CF\u901F\u901F\u7387\u7CFB\u6570\u3002"
-  MovementSettingsDecelerationCurve:
-    DisplayName: "\u51CF\u901F\u66F2\u7EBF"
-    Tooltip: "\u65E0\u79FB\u52A8\u8F93\u5165\u65F6\u8BC4\u4F30\u5236\u52A8\u52A8\u6001\u7684\u52A8\u753B\u66F2\u7EBF\u3002"
-  RotationSettingsRotateWithMovement:
-    DisplayName: "\u968F\u79FB\u52A8\u65CB\u8F6C"
-    Tooltip: "\u81EA\u52A8\u65CB\u8F6C\u89D2\u8272\u6A21\u578B\u4EE5\u9762\u5411\u79FB\u52A8\u5411\u91CF\u7684\u65B9\u5411\u3002"
-  RotationSettingsMovementRotationSmoothTime:
-    DisplayName: "\u65CB\u8F6C\u5E73\u6ED1\u65F6\u95F4 (\u79FB\u52A8)"
-    Tooltip: "\u89D2\u8272\u5728\u666E\u901A\u79FB\u52A8\u671F\u95F4\u8F6C\u5411\u7684\u63D2\u503C\u5E73\u6ED1\u65F6\u95F4\u3002"
-  RotationSettingsStrafeRotationSmoothTime:
-    DisplayName: "\u65CB\u8F6C\u5E73\u6ED1\u65F6\u95F4 (\u5E73\u79FB)"
-    Tooltip: "\u4FA7\u5411\u5E73\u79FB\u79FB\u52A8\u65F6\u4FDD\u6301\u9762\u671D\u65B9\u5411\u7684\u63D2\u503C\u5E73\u6ED1\u65F6\u95F4\u3002"
-  ThresholdSettingsInputThreshold:
-    DisplayName: "\u8F93\u5165\u6B7B\u533A\u9608\u503C"
-    Tooltip: "\u4F4E\u4E8E\u6B64\u503C\u7684\u63A7\u5236\u5668\u6216\u952E\u76D8\u8F93\u5165\u5C06\u88AB\u5FFD\u7565\u3002"
-  ThresholdSettingsVerticalVelocityThreshold:
-    DisplayName: "\u5782\u76F4\u901F\u5EA6\u9608\u503C"
-    Tooltip: "\u5224\u65AD\u89D2\u8272\u662F\u5426\u7A33\u5B9A\u7740\u5730\u7684
-      Y \u8F74\u901F\u5EA6\u4E0A\u9650\u3002"
-  ThresholdSettingsIdleTransitionMultiplier:
-    DisplayName: "\u5F85\u673A\u8FC7\u6E21\u7CFB\u6570"
-    Tooltip: "\u63A7\u5236\u5411\u5F85\u673A\uFF08Idle\uFF09\u72B6\u6001\u8FC7\u6E21\u65F6\u7684\u52A8\u753B\u6DF7\u5408\u901F\u5EA6\u3002"
-  ThresholdSettingsFallVelocityThreshold:
-    DisplayName: "\u5760\u843D\u901F\u5EA6\u9608\u503C"
-    Tooltip: "\u89E6\u53D1\u5760\u843D\u72B6\u6001\u903B\u8F91\u6240\u9700\u7684\u5411\u4E0B\u5782\u76F4\u901F\u5EA6\u3002"
-  ThresholdSettingsAirStateDebounceTime:
-    DisplayName: "\u7A7A\u4E2D\u72B6\u6001\u6D88\u6296\u65F6\u95F4"
-    Tooltip: "\u65F6\u95F4\u7F13\u51B2\u533A\uFF08\u79D2\uFF09\uFF0C\u7528\u4E8E\u8FC7\u6EE4\u7531\u4E8E\u5C0F\u53F0\u9636\u6216\u5730\u9762\u4E0D\u5E73\u6574\u5F15\u8D77\u7684\u77ED\u6682\u7A7A\u4E2D\u72B6\u6001\u3002"
-  ThresholdSettingsSprintDirectionThreshold:
-    DisplayName: "\u51B2\u523A\u65B9\u5411\u9608\u503C"
-    Tooltip: "\u5141\u8BB8\u51B2\u523A\u7684\u504F\u79BB\u671D\u5411\u89C6\u89D2\u65B9\u5411\u7684\u6700\u5927\u89D2\u5EA6\u3002"
-  PhysicsSettingsUseGravity:
-    DisplayName: "\u4F7F\u7528\u91CD\u529B"
-    Tooltip: "\u542F\u7528\u6216\u7981\u7528\u6B64\u63A7\u5236\u5668\u7684\u81EA\u5B9A\u4E49\u7269\u7406\u548C\u4E0B\u538B\u529B\u8BA1\u7B97\u3002"
-  PhysicsSettingsGravity:
-    DisplayName: "\u91CD\u529B\u5927\u5C0F"
-    Tooltip: "\u5E94\u7528\u4E8E\u81EA\u7531\u843D\u4F53\u6A21\u62DF\u7684\u81EA\u5B9A\u4E49\u52A0\u901F\u5EA6\u503C\uFF08\u901A\u5E38\u4E3A\u8D1F\u6570\uFF09\u3002"
-  PhysicsSettingsTerminalVelocity:
-    DisplayName: "\u7EC8\u7AEF\u901F\u5EA6"
-    Tooltip: "\u89D2\u8272\u5411\u4E0B\u5760\u843D\u65F6\u7684\u6700\u5927\u5141\u8BB8\u901F\u5EA6\u9650\u5236\u3002"
-  PhysicsSettingsGroundedGravity:
-    DisplayName: "\u8D34\u5730\u91CD\u529B"
-    Tooltip: "\u5728\u4E0B\u5761\u65F6\u5C06\u89D2\u8272\u7262\u7262\u538B\u5728\u5730\u9762\u4E0A\u7684\u6052\u5B9A\u4E0B\u538B\u529B\uFF0C\u9632\u6B62\u79BB\u5730\u98DE\u884C\u3002"
-  PhysicsSettingsFallMultiplier:
-    DisplayName: "\u4E0B\u843D\u91CD\u529B\u500D\u7387"
-    Tooltip: "\u5411\u4E0B\u79FB\u52A8\u65F6\u52A0\u5927\u91CD\u529B\u6743\u91CD\uFF0C\u9632\u6B62\u51FA\u73B0\u7C7B\u4F3C\u6708\u7403\u6F2B\u6B65\u7684\u60AC\u6D6E\u8DF3\u8DC3\u611F\u3002"
+    DisplayName: 配置
+    Tooltip: 角色控制器的核心配置区块。
+  Crouch:
+    DisplayName: 蹲伏
+    Tooltip: 蹲伏高度、速度及头顶障碍物射线检测设置。
   CrouchSettingsCanCrouch:
-    DisplayName: "\u5141\u8BB8\u4E0B\u8E72"
-    Tooltip: "\u5168\u5C40\u542F\u7528\u6216\u7981\u7528\u4E0B\u8E72\u80FD\u529B\u3002"
+    DisplayName: 允许蹲伏
+    Tooltip: 全局启用或禁用蹲伏机制。
   CrouchSettingsCanJumpWhileCrouching:
-    DisplayName: "\u4E0B\u8E72\u65F6\u53EF\u8DF3\u8DC3"
-    Tooltip: "\u5141\u8BB8\u89D2\u8272\u76F4\u63A5\u4ECE\u4E0B\u8E72\u59FF\u6001\u6267\u884C\u5168\u9AD8\u8DF3\u8DC3\u3002"
-  CrouchSettingsCrouchSpeed:
-    DisplayName: "\u4E0B\u8E72\u901F\u5EA6"
-    Tooltip: "\u5904\u4E8E\u4E0B\u8E72\u72B6\u6001\u65F6\u7684\u6700\u5927\u79FB\u52A8\u901F\u5EA6\u3002"
-  CrouchSettingsStandingHeight:
-    DisplayName: "\u7AD9\u7ACB\u9AD8\u5EA6"
-    Tooltip: "\u5B8C\u5168\u7AD9\u7ACB\u65F6\u5206\u914D\u7684\u9ED8\u8BA4\u80F6\u56CA\u4F53\u78B0\u649E\u4F53\u9AD8\u5EA6\u3002"
+    DisplayName: 蹲伏时跳跃
+    Tooltip: 允许角色直接从蹲伏状态起跳，无需先站立。
   CrouchSettingsCrouchHeight:
-    DisplayName: "\u4E0B\u8E72\u9AD8\u5EA6"
-    Tooltip: "\u4E0B\u8E72\u65F6\u89D2\u8272\u7F29\u653E\u5230\u7684\u76EE\u6807\u80F6\u56CA\u4F53\u78B0\u649E\u4F53\u9AD8\u5EA6\u3002"
+    DisplayName: 蹲伏高度
+    Tooltip: 蹲伏状态下角色胶囊碰撞体（Capsule Collider）的高度。
+  CrouchSettingsCrouchSpeed:
+    DisplayName: 蹲伏速度
+    Tooltip: 蹲伏状态下允许的最大移动速度。
   CrouchSettingsEnvironmentMask:
-    DisplayName: "\u5934\u9876\u969C\u788D\u7269\u906E\u7F69"
-    Tooltip: "\u5728\u5141\u8BB8\u89D2\u8272\u7AD9\u7ACB\u524D\uFF0C\u901A\u8FC7\u5411\u4E0A\u5C04\u7EBF\u68C0\u6D4B\u7684\u78B0\u649E\u5C42\uFF08LayerMask\uFF09\u3002"
+    DisplayName: 顶部障碍遮罩
+    Tooltip: 用于向上射线检测的层级遮罩（LayerMask），防止角色在低矮天花板下站起。
+  CrouchSettingsStandingHeight:
+    DisplayName: 站立高度
+    Tooltip: 角色完全站立时胶囊碰撞体的默认高度。
+  CursorSystem_defaultLockMode:
+    DisplayName: 光标锁定模式
+    Tooltip: 场景启动时鼠标光标的默认锁定状态（自由、锁定或限制在窗口内）。
+  CursorSystem_startLocked:
+    DisplayName: 启动时锁定光标
+    Tooltip: 在 Awake 时自动隐藏并将鼠标光标锁定在屏幕中央。
+  CursorSystem_toggleAction:
+    DisplayName: 切换光标动作
+    Tooltip: 运行时用于手动切换鼠标光标锁定状态的 Input System 动作。
+  DashboardAssignConfig:
+    DisplayName: 请指定配置 ScriptableObject 以部署面板。
+    Tooltip: 设置槽位为空时的提示信息。
+  DashboardCharacterSettingsLabel:
+    DisplayName: 角色设置
+    Tooltip: 用于分配角色配置 ScriptableObject 的槽位。
+  DashboardErrorNoSettingsField:
+    DisplayName: 错误：在 SAWController 中未找到 CharacterSettings 字段。
+    Tooltip: 检查器初始化发生关键性错误（反射查找失败）。
+  DashboardValidationCrouchHeight:
+    DisplayName: 逻辑错误：蹲伏高度不能高于站立高度。
+    Tooltip: 物理胶囊碰撞体几何尺寸的严重错误。
+  DashboardValidationCrouchSpeed:
+    DisplayName: 警告：蹲伏速度高于普通步行速度。
+    Tooltip: 游戏设计逻辑警告。
+  DashboardValidationGravity:
+    DisplayName: 严重：重力参数为正值（角色将向上飞走）。
+    Tooltip: 物理设置严重错误。贴地重力和终端速度必须为负数。
+  DashboardValidationSprint:
+    DisplayName: 警告：冲刺速度慢于普通步行速度。
+    Tooltip: 游戏设计逻辑警告。
+  DashMechanic_cooldown:
+    DisplayName: 冲刺冷却
+    Tooltip: 执行下一次冲刺前必须等待的冷却时间（秒）。
+  DashMechanic_dashDuration:
+    DisplayName: 冲刺持续时间
+    Tooltip: 角色保持高速冲刺突进状态的时长（秒）。
+  DashMechanic_dashSpeed:
+    DisplayName: 冲刺速度
+    Tooltip: 触发冲刺突进期间强制应用于角色的物理速度。
+  DashMechanic_inputBufferTime:
+    DisplayName: 冲刺输入缓冲
+    Tooltip: 当角色当前无法冲刺时，允许提前缓存冲刺按键输入的窗口时间（秒）。
+  DashMechanic_key:
+    DisplayName: 冲刺按键
+    Tooltip: 用于激活冲刺机制的 Legacy 键盘按键。
+  DynamicFOV_cinemachineCam:
+    DisplayName: 目标虚拟相机
+    Tooltip: 其视野（FOV）将被动态调整的 CinemachineCamera 组件。
+  DynamicFOV_controller:
+    DisplayName: 核心控制器
+    Tooltip: 用于读取当前移动速度的 SAWController 组件引用。
+  DynamicFOV_maxFovOffset:
+    DisplayName: 最大 FOV 扩展
+    Tooltip: 达到极限冲刺速度时，相机视野（FOV）向外扩展的最大附加值。
+  DynamicFOV_smoothTime:
+    DisplayName: FOV 平滑时间
+    Tooltip: 相机视野放大与缩小的插值平滑时间。
+  DynamicFOV_speedMultiplier:
+    DisplayName: FOV 速度权重
+    Tooltip: 决定当前角色物理速度对 FOV 变化影响程度的乘数。
+  Editor_ActiveLangLabel:
+    DisplayName: 当前语言
+    Tooltip: 当前用于本地化整个 Unity 检查器界面的目标语言。
+  Editor_DocButton:
+    DisplayName: "\U0001F4D6 打开文档"
+    Tooltip: 在默认浏览器中打开该资产的官方文档与用户指南。
+  Editor_DocMessage:
+    DisplayName: 在下方选择语言以即时翻译检查器界面。需要帮助？请查看文档。
+    Tooltip: SAWC Hub 面板的信息提示。
+  Editor_Hello:
+    DisplayName: 欢迎来到 SAW Hub
+    Tooltip: SAWC Hub 编辑器窗口的主标题文本。
+  Editor_InstalledPacksLabel:
+    DisplayName: 已安装语言包
+    Tooltip: 可用语言包列表的标题。
+  Jump:
+    DisplayName: 跳跃
+    Tooltip: 跳跃力度、输入缓冲及土狼时间（Coyote Time）等设置。
+  JumpSettingsAirControlMultiplier:
+    DisplayName: 空中控制乘数
+    Tooltip: 角色滞空时的转向响应和方向调整能力乘数（0=无控制，1=完全控制）。
+  JumpSettingsCanJump:
+    DisplayName: 允许跳跃
+    Tooltip: 全局启用或禁用跳跃机制。
+  JumpSettingsCeilingBounceVelocity:
+    DisplayName: 撞顶反弹速度
+    Tooltip: 跳跃时头部撞击天花板后施加的向下垂直反弹速度。
+  JumpSettingsCoyoteTime:
+    DisplayName: 土狼时间
+    Tooltip: 角色离开平台边缘后，仍允许执行跳跃操作的宽限期（秒）。
+  JumpSettingsEnableAutoJump:
+    DisplayName: 自动跳跃
+    Tooltip: 按住跳跃键时启用连续自动跳跃（Bunny Hop / 连跳）。
+  JumpSettingsJumpBufferTime:
+    DisplayName: 跳跃缓冲时间
+    Tooltip: 落地前的窗口时间（秒）。在此期间按下跳跃键将被缓存，并在触地时自动触发。
+  JumpSettingsJumpCooldownDuration:
+    DisplayName: 跳跃冷却间隔
+    Tooltip: 连续执行两次跳跃动作之间强制锁定的重置等待时间。
+  JumpSettingsJumpForce:
+    DisplayName: 跳跃力度
+    Tooltip: 角色离开地面时施加的初始垂直向上速度脉冲。
+  LegacyInputReader_crouchKey:
+    DisplayName: 蹲伏按键
+    Tooltip: 用于保持或切换蹲伏状态的 Legacy 按键。
+  LegacyInputReader_horAxis:
+    DisplayName: 水平轴
+    Tooltip: Legacy Input Manager 中用于左右移动的水平轴名称。
+  LegacyInputReader_jumpKey:
+    DisplayName: 跳跃按键
+    Tooltip: 用于触发跳跃的 Legacy 按键。
+  LegacyInputReader_sprintKey:
+    DisplayName: 冲刺按键
+    Tooltip: 用于保持或切换冲刺状态的 Legacy 按键。
+  LegacyInputReader_verAxis:
+    DisplayName: 垂直轴
+    Tooltip: Legacy Input Manager 中用于前后移动的垂直轴名称。
+  MasterInputProvider_deadZone:
+    DisplayName: 输入死区
+    Tooltip: 注册移动输入所需的最小摇杆幅度（Magnitude）。
+  MasterInputProvider_switchThreshold:
+    DisplayName: 设备切换阈值
+    Tooltip: 触发自动切换活跃输入设备所需的摇杆幅度。
+  MobileUIReader_joystick:
+    DisplayName: 触控摇杆
+    Tooltip: 移动端用于角色移动的屏幕虚拟摇杆引用。
+  MobileUIToggle_detector:
+    DisplayName: 平台检测器
+    Tooltip: 用于自动判断是否需要显示移动端 UI 的组件。
+  MobileUIToggle_mobileControlsCanvas:
+    DisplayName: 移动端 UI 画布
+    Tooltip: 包含所有触控按键的 UI Canvas，根据活跃设备自动切换显示。
+  Movement:
+    DisplayName: 移动
+    Tooltip: 基础移动、速度和冲刺行为设置。
+  MovementSettingsAccelerationCurve:
+    DisplayName: 加速曲线
+    Tooltip: 定义角色随时间推移加速动态的动画曲线。
+  MovementSettingsAllowedSprintDirections:
+    DisplayName: 允许冲刺方向
+    Tooltip: 限制允许激活冲刺的输入向量方向（例如：仅限向前）。
+  MovementSettingsBaseAcceleration:
+    DisplayName: 基础加速度
+    Tooltip: 角色加速至最大移动速度的基础速率系数。
+  MovementSettingsBaseDeceleration:
+    DisplayName: 基础减速度
+    Tooltip: 角色松开输入后减速至完全停止的基础速率系数。
+  MovementSettingsCanMove:
+    DisplayName: 允许移动
+    Tooltip: 全局启用或禁用角色基础移动。
+  MovementSettingsCanSprint:
+    DisplayName: 允许冲刺
+    Tooltip: 决定角色是否允许切换到冲刺状态。
+  MovementSettingsDecelerationCurve:
+    DisplayName: 减速曲线
+    Tooltip: 无移动输入时评估制动动态的动画曲线。
+  MovementSettingsMinMoveThreshold:
+    DisplayName: 最小移动阈值
+    Tooltip: 触发物理移动所需的最小输入幅度。
+  MovementSettingsMoveSpeed:
+    DisplayName: 移动速度
+    Tooltip: 角色正常行走时的目标最大速度。
+  MovementSettingsSprintSpeed:
+    DisplayName: 冲刺速度
+    Tooltip: 冲刺激活时角色的目标最大速度。
+  MovementSettingsUseInertia:
+    DisplayName: 使用惯性
+    Tooltip: 启用基于曲线的平滑加速和减速，而非速度瞬间突变。
+  NewInputReader_crouchAction:
+    DisplayName: 蹲伏动作
+    Tooltip: 映射到保持或切换蹲伏状态的 Input System 动作。
+  NewInputReader_jumpAction:
+    DisplayName: 跳跃动作
+    Tooltip: 映射到触发跳跃的 Input System 动作。
+  NewInputReader_moveAction:
+    DisplayName: 移动动作
+    Tooltip: 映射到多方向移动的 Vector2 Input System 动作。
+  NewInputReader_sprintAction:
+    DisplayName: 冲刺动作
+    Tooltip: 映射到保持或切换冲刺状态的 Input System 动作。
+  Physics:
+    DisplayName: 物理
+    Tooltip: 自定义重力、终端速度及贴地吸附设置。
+  PhysicsSettingsFallMultiplier:
+    DisplayName: 下落重力倍率
+    Tooltip: 角色向下移动时放大重力权重，使下落感更“重”，防止月球漫步感。
+  PhysicsSettingsGravity:
+    DisplayName: 重力大小
+    Tooltip: 应用于自由落体模拟的自定义加速度值（通常为负数，如 -9.81）。
+  PhysicsSettingsGroundedGravity:
+    DisplayName: 贴地重力
+    Tooltip: 角色着地时施加的恒定向下力，使其“吸附”在斜坡和台阶上。
+  PhysicsSettingsTerminalVelocity:
+    DisplayName: 终端速度
+    Tooltip: 角色向下坠落时的绝对最大速度限制，防止物理穿模。
+  PhysicsSettingsUseGravity:
+    DisplayName: 使用重力
+    Tooltip: 启用或禁用此控制器的自定义重力计算。
+  PlayerAudioController_actionCooldown:
+    DisplayName: 动作音效冷却
+    Tooltip: 播放离散动作音效之间的最小延迟（秒），防止声音重叠。
+  PlayerAudioController_actionSource:
+    DisplayName: 动作音频源
+    Tooltip: 专门用于播放跳跃、落地、蹲伏等单次动作音效的 AudioSource。
+  PlayerAudioController_antiSpamFactor:
+    DisplayName: 步伐防刷系数
+    Tooltip: 应用于步频间隔的冷却乘数，防止频繁启停时产生音效刷屏。
+  PlayerAudioController_controller:
+    DisplayName: 角色控制器
+    Tooltip: 核心 SAWController 引用，用于追踪移动状态并订阅物理事件。
+  PlayerAudioController_crouchDownSettings:
+    DisplayName: 蹲下音效
+    Tooltip: 角色进入蹲伏状态时触发的音频配置和片段池。
+  PlayerAudioController_crouchStepSettings:
+    DisplayName: 蹲伏脚步声
+    Tooltip: 角色在蹲伏状态下移动时使用的音频配置和片段池。
+  PlayerAudioController_crouchUpSettings:
+    DisplayName: 起立音效
+    Tooltip: 角色退出蹲伏状态并站起时触发的音频配置和片段池。
+  PlayerAudioController_jumpSettings:
+    DisplayName: 跳跃音效
+    Tooltip: 角色起跳时触发的音频配置和片段池。
+  PlayerAudioController_landSettings:
+    DisplayName: 落地音效
+    Tooltip: 角色成功落地时触发的音频配置和片段池。
+  PlayerAudioController_sprintStepSettings:
+    DisplayName: 冲刺脚步声
+    Tooltip: 角色在主动冲刺时使用的音频配置和片段池。
+  PlayerAudioController_stepSource:
+    DisplayName: 脚步音频源
+    Tooltip: 专门用于播放连续移动和脚步声效的 AudioSource。
+  PlayerAudioController_walkStepSettings:
+    DisplayName: 步行脚步声
+    Tooltip: 角色以正常步行速度移动时使用的音频配置和片段池。
+  Rotation:
+    DisplayName: 旋转
+    Tooltip: 角色模型基于移动或相机输入的旋转平滑设置。
+  RotationSettingsMovementRotationSmoothTime:
+    DisplayName: 旋转平滑时间 (移动)
+    Tooltip: 角色模型转向移动向量方向的插值平滑时间。
+  RotationSettingsRotateWithMovement:
+    DisplayName: 随移动旋转
+    Tooltip: 若为 True，角色面朝移动方向（冒险模式）；若为 False，角色面朝相机前方（侧移模式）。
+  RotationSettingsStrafeRotationSmoothTime:
+    DisplayName: 旋转平滑时间 (侧移)
+    Tooltip: 侧移模式下保持相机相对朝向的插值平滑时间。
+  Thresholds:
+    DisplayName: 阈值
+    Tooltip: 动画师状态切换和逻辑判断的数学边界。
+  ThresholdSettingsAirStateDebounceTime:
+    DisplayName: 空中状态防抖时间
+    Tooltip: 用于过滤由微小台阶或地面不平引起的短暂空中状态的时间缓冲（秒）。
+  ThresholdSettingsFallVelocityThreshold:
+    DisplayName: 坠落速度阈值
+    Tooltip: 触发坠落状态逻辑所需的向下垂直速度。
+  ThresholdSettingsIdleTransitionMultiplier:
+    DisplayName: 待机过渡乘数
+    Tooltip: 控制向待机（Idle）状态过渡时的动画混合速度系数。
+  ThresholdSettingsInputThreshold:
+    DisplayName: 输入死区阈值
+    Tooltip: 低于此值的任何手柄或键盘输入将被完全忽略的死区值。
+  ThresholdSettingsSprintDirectionThreshold:
+    DisplayName: 冲刺方向阈值
+    Tooltip: 偏离朝向视角方向仍允许冲刺的最大角度。
+  ThresholdSettingsVelocityThreshold:
+    DisplayName: 总速度阈值
+    Tooltip: 物理速度低于此值时，角色将被视为完全静止的最小速度幅度。
+  ThresholdSettingsVerticalVelocityThreshold:
+    DisplayName: 垂直速度阈值
+    Tooltip: 判定角色稳定着地的 Y 轴速度上限。
+  TouchInputReceiver_lookPad:
+    DisplayName: 触控视角板
+    Tooltip: 移动端用于滑动手指旋转相机视角的 RectTransform 边界区域。
+  TouchInputReceiver_sensitivity:
+    DisplayName: 触控灵敏度
+    Tooltip: 追踪相机旋转输入时应用于触摸 Delta 的灵敏度乘数。
+  UniversalJoystick_deadZone:
+    DisplayName: 摇杆死区
+    Tooltip: 触控摇杆中心完全无效的半径区域，用于防止模拟漂移或误触。
+  UniversalJoystick_handle:
+    DisplayName: 摇杆滑块
+    Tooltip: 代表虚拟摇杆旋钮的视觉 RectTransform 元素。
+  UniversalJoystick_handleLimit:
+    DisplayName: 滑块移动上限
+    Tooltip: 虚拟摇杆滑块能从中心向外拉伸的最大径向距离限制。

@@ -4253,7 +4253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6f87e9bb80c4c3408ca5f7e0bf69b1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeviceDetector
-  _strategies:
+  _detectors:
   - {fileID: 11400000, guid: fc48ffeb05e26b44e94d3c67799f7064, type: 2}
 --- !u!114 &672897891604694886
 MonoBehaviour:
@@ -4780,6 +4780,7 @@ MonoBehaviour:
     PitchRandomization: 0.08
     AvoidRepeatingLast: 1
   _antiSpamFactor: 0.75
+  _actionCooldown: 0.1
 --- !u!1 &3359516296826523912
 GameObject:
   m_ObjectHideFlags: 0
@@ -5435,17 +5436,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 5299332948423221709}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.StandaloneInputModule
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.UI.InputSystemUIInputModule
   m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!4 &7090648914898791416
 Transform:
   m_ObjectHideFlags: 0
@@ -5733,7 +5745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d7daf810a69cd94b88aea000b31c921, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShakeControl
-  _sawController: {fileID: 3602285893340501023}
+  _controller: {fileID: 3602285893340501023}
   _brain: {fileID: 6092211323302109258}
   _smoothTime: 0.5
   _maxShake: 5
@@ -6086,6 +6098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593f52b81af648b4985a5d0b56620a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _priority: 0
   _key: 306
   _dashSpeed: 25
   _dashDuration: 0.2
@@ -6104,9 +6117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: SAWC.Core::SAWC.Input.MasterInputProvider
   _cameraTransform: {fileID: 4217764165256681981}
-  _readers:
-  - {fileID: 9213079577649723370}
-  - {fileID: 9213079577649723373}
+  _readers: []
   _deadZone: 0.05
   _switchThreshold: 0.15
 --- !u!114 &9213079577649723373

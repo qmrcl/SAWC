@@ -13,6 +13,8 @@
 - **Overhauled `CharacterModifierBase` Lifecycle:** Reimplemented the base modifier class to automatically handle pipeline registration and deregistration via Unity's `OnEnable` and `OnDisable` callbacks. Introduced a protected `SetPriority(int)` method to safely mutate priority values while automatically triggering list re-sorting.
 - **Decoupled Core Architecture from New Input System:** Abstracted core input tracking to ensure complete operational stability and compilation fallback even when the New Input System package is completely missing or disabled in Player Settings.
 - **Implemented Dual Input System Support across Modules:** Refactored utility and detection modules to dynamically switch between Legacy Input Manager and New Input System APIs, utilizing preprocessor directives to eliminate cross-dependency errors in 'Both' or system-exclusive modes.
+- **Finalized Localization Pipeline:** Expanded and completed full inspector translations (EN, RU, ZH) using professional technical terminology, entirely replacing previous machine-generated artifacts and filling all missing property keys.
+- **Standardized Native Dual Input Support:** Hardened all peripheral modules (Audio, Camera, UI, Touch) to natively support and seamlessly fallback between Legacy Input Manager and New Input System without cross-dependency compilation errors.
 
 ## [0.7.0]
 

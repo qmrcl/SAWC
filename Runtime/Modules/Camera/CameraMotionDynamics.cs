@@ -1,30 +1,31 @@
-using UnityEngine;
-using Unity.Cinemachine;
 using SAWC.Core;
+using SAWC.Localization;
+using Unity.Cinemachine;
+using UnityEngine;
 
 namespace SAWC.Modules.CameraUtils
 {
     [AddComponentMenu("SAWC/Modules/Motion Dynamics")]
     public class CameraMotionDynamics : CinemachineExtension
     {
-        [SerializeField] private SAWController _controller;
+        [SerializeField, Loc] private SAWController _controller;
 
-        [Header("Strafe Sway")]
-        [SerializeField] private float _tiltAngle = 2.5f;
-        [SerializeField] private float _tiltSmoothTime = 0.15f;
-        [SerializeField] private float _panAngle = 5f;
-        [SerializeField] private float _panSmoothTime = 0.2f;
-        [SerializeField] private float _maxStrafeSpeed = 5f;
+        [Space(5)]
+        [SerializeField, Loc] private float _tiltAngle = 2.5f;
+        [SerializeField, Loc] private float _tiltSmoothTime = 0.15f;
+        [SerializeField, Loc] private float _panAngle = 5f;
+        [SerializeField, Loc] private float _panSmoothTime = 0.2f;
+        [SerializeField, Loc] private float _maxStrafeSpeed = 5f;
 
-        [Header("Forward Tilt")]
-        [SerializeField] private float _forwardPitchAngle = 3f;
-        [SerializeField] private float _forwardSmoothTime = 0.15f;
-        [SerializeField] private float _maxForwardSpeed = 5f;
+        [Space(5)]
+        [SerializeField, Loc] private float _forwardPitchAngle = 3f;
+        [SerializeField, Loc] private float _forwardSmoothTime = 0.15f;
+        [SerializeField, Loc] private float _maxForwardSpeed = 5f;
 
-        [Header("Vertical Sway")]
-        [SerializeField] private float _verticalPitchAngle = 5f;
-        [SerializeField] private float _verticalSmoothTime = 0.15f;
-        [SerializeField] private float _maxVerticalSpeed = 10f;
+        [Space(5)]
+        [SerializeField, Loc] private float _verticalPitchAngle = 5f;
+        [SerializeField, Loc] private float _verticalSmoothTime = 0.15f;
+        [SerializeField, Loc] private float _maxVerticalSpeed = 10f;
 
         private struct SmoothedAngle
         {

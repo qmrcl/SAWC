@@ -1,5 +1,6 @@
 using UnityEngine;
 using SAWC.Core;
+using SAWC.Localization;
 
 namespace SAWC.Modifiers
 {
@@ -7,7 +8,7 @@ namespace SAWC.Modifiers
     {
         protected SAWController Controller { get; private set; }
 
-        [SerializeField] private int _priority;
+        [SerializeField, Loc] private int _priority;
 
         public int Priority
         {

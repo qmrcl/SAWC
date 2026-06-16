@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using SAWC.Core;
+using SAWC.Localization;
 
 namespace SAWC.Modules.Audio
 {
@@ -13,23 +14,22 @@ namespace SAWC.Modules.Audio
         [Serializable]
         public class AudioContainerSettings
         {
-            [Header("Audio Clips")]
-            public List<AudioClip> Clips = new List<AudioClip>();
-            public PlaybackMode Playback = PlaybackMode.Random;
+            [Loc] public List<AudioClip> Clips = new List<AudioClip>();
+            [Loc] public PlaybackMode Playback = PlaybackMode.Random;
 
-            [Header("Pace Settings")]
+            [Space(5)]
             [Min(0.01f)] public float Interval = 0.4f;
 
-            [Header("Volume Settings")]
-            [Range(0f, 1f)] public float BaseVolume = 1f;
-            [Range(0f, 0.5f)] public float VolumeRandomization = 0.05f;
+            [Space(5)]
+            [Range(0f, 1f),Loc]   public float BaseVolume = 1f;
+            [Range(0f, 0.5f),Loc] public float VolumeRandomization = 0.05f;
 
-            [Header("Pitch Settings")]
-            [Range(0.1f, 3f)] public float BasePitch = 1f;
-            [Range(0f, 0.5f)] public float PitchRandomization = 0.08f;
+            [Space(5)]
+            [Range(0.1f, 3f),Loc] public float BasePitch = 1f;
+            [Range(0f, 0.5f),Loc] public float PitchRandomization = 0.08f;
 
-            [Header("Rules")]
-            [Min(0)] public int AvoidRepeatingLast = 1;
+            [Space(5)]
+            [Min(0),Loc] public int AvoidRepeatingLast = 1;
 
             private int _lastIndex = -1;
 
@@ -137,27 +137,26 @@ namespace SAWC.Modules.Audio
             }
         }
 
-        [Header("References")]
-        [SerializeField] private SAWController _controller;
+        [SerializeField, Loc] private SAWController _controller;
 
-        [Header("Audio Sources")]
-        [SerializeField] private AudioSource _stepSource;
-        [SerializeField] private AudioSource _actionSource;
+        [Space(5)]
+        [SerializeField, Loc] private AudioSource _stepSource;
+        [SerializeField, Loc] private AudioSource _actionSource;
 
-        [Header("Footstep Containers")]
-        [SerializeField] private AudioContainerSettings _walkStepSettings;
-        [SerializeField] private AudioContainerSettings _sprintStepSettings;
-        [SerializeField] private AudioContainerSettings _crouchStepSettings;
+        [Space(5)]
+        [SerializeField,Loc] private AudioContainerSettings _walkStepSettings;
+        [SerializeField,Loc] private AudioContainerSettings _sprintStepSettings;
+        [SerializeField,Loc] private AudioContainerSettings _crouchStepSettings;
 
-        [Header("Action Containers")]
-        [SerializeField] private AudioContainerSettings _jumpSettings;
-        [SerializeField] private AudioContainerSettings _landSettings;
-        [SerializeField] private AudioContainerSettings _crouchDownSettings;
-        [SerializeField] private AudioContainerSettings _crouchUpSettings;
+        [Space(5)]
+        [SerializeField,Loc] private AudioContainerSettings _jumpSettings;
+        [SerializeField,Loc] private AudioContainerSettings _landSettings;
+        [SerializeField,Loc] private AudioContainerSettings _crouchDownSettings;
+        [SerializeField,Loc] private AudioContainerSettings _crouchUpSettings;
 
-        [Header("Anti-Spam Settings")]
-        [SerializeField, Range(0f, 1f)] private float _antiSpamFactor = 0.75f;
-        [SerializeField, Range(0f, 1f)] private float _actionCooldown = 0.1f;
+        [Space(5)]
+        [SerializeField, Loc, Range(0f, 1f)] private float _antiSpamFactor = 0.75f;
+        [SerializeField, Loc, Range(0f, 1f)] private float _actionCooldown = 0.1f;
 
         private float _stepTimer;
         private float _antiSpamCooldown;

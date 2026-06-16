@@ -1,3 +1,4 @@
+using SAWC.Localization;
 using UnityEngine;
 
 #if SAWC_NEW_INPUT_AVAILABLE && ENABLE_INPUT_SYSTEM
@@ -10,10 +11,10 @@ namespace SAWC.Core.Input.Readers
     public class NewInputReader : BaseInputReader
     {
 #if SAWC_NEW_INPUT_AVAILABLE && ENABLE_INPUT_SYSTEM
-        [SerializeField] private InputActionReference _moveAction;
-        [SerializeField] private InputActionReference _jumpAction;
-        [SerializeField] private InputActionReference _sprintAction;
-        [SerializeField] private InputActionReference _crouchAction;
+        [SerializeField, Loc] private InputActionReference _moveAction;
+        [SerializeField, Loc] private InputActionReference _jumpAction;
+        [SerializeField, Loc] private InputActionReference _sprintAction;
+        [SerializeField, Loc] private InputActionReference _crouchAction;
 
         public override Vector2 Move => _moveAction != null ? _moveAction.action.ReadValue<Vector2>() : Vector2.zero;
         public override bool Jump => _jumpAction != null && _jumpAction.action.IsPressed();

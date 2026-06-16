@@ -193,13 +193,7 @@ namespace SAWC.Editor
                 var field = new PropertyField(childProp);
                 field.Bind(_settingsSerialized);
 
-                string childName = childProp.name;
-                if (childName.Length > 0 && char.IsLower(childName[0]))
-                {
-                    childName = char.ToUpper(childName[0]) + childName.Substring(1);
-                }
-
-                string fieldKey = $"{structName}{childName}";
+                string fieldKey = $"{structName}{childProp.name}";
                 string defaultName = childProp.displayName;
 
                 _locUpdates.Add(() =>

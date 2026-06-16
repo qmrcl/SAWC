@@ -1,20 +1,20 @@
 using UnityEngine;
 using Unity.Cinemachine;
 using SAWC.Core;
+using SAWC.Localization;
 
 namespace SAWC.Modules.CameraUtils
 {
     [AddComponentMenu("SAWC/Modules/Dynamic FOV")]
     public class DynamicFOV : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField] private SAWController _controller;
-        [SerializeField] private CinemachineCamera _cinemachineCam;
+        [SerializeField, Loc] private SAWController _controller;
+        [SerializeField, Loc] private CinemachineCamera _cinemachineCam;
 
-        [Header("FOV Settings")]
-        [SerializeField] private float _speedMultiplier = 1.5f;
-        [SerializeField] private float _maxFovOffset = 15f;
-        [SerializeField] private float _smoothTime = 0.15f;
+        [Space(5)]
+        [SerializeField, Loc] private float _speedMultiplier = 1.5f;
+        [SerializeField, Loc] private float _maxFovOffset = 15f;
+        [SerializeField, Loc] private float _smoothTime = 0.15f;
 
         private float _baseFov;
         private float _currentFov;

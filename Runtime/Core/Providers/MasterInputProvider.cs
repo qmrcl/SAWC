@@ -1,4 +1,5 @@
 using SAWC.Core.Input.Readers;
+using SAWC.Localization;
 using UnityEngine;
 
 namespace SAWC.Core.Input
@@ -8,12 +9,11 @@ namespace SAWC.Core.Input
     {
         private enum ButtonType { Jump, Sprint, Crouch }
 
-        [Header("Input Sources")]
         [SerializeField] private BaseInputReader[] _readers;
 
-        [Header("Anti-Drift Settings")]
-        [SerializeField] private float _deadZone = 0.05f;
-        [SerializeField] private float _switchThreshold = 0.15f;
+        [Space(5)]
+        [SerializeField, Loc] private float _deadZone = 0.05f;
+        [SerializeField, Loc] private float _switchThreshold = 0.15f;
 
         private BaseInputReader _activeReader;
 
