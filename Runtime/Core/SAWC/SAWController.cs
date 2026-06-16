@@ -1,107 +1,100 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using SAWC.Modifiers;
+using SAWC.Core.Input;
+using SAWC.Core.Data;
 
 namespace SAWC.Core
 {
     [AddComponentMenu("SAWC/Core/SAW Controller")]
     [RequireComponent(typeof(CharacterController))]
+    [DisallowMultipleComponent]
+    [SelectionBase]
     public class SAWController : MonoBehaviour
     {
+        public ICharacterState State => _stateTracker;
+        public IInputProvider Input { get; private set; }
+        public CharacterModifiers Modifiers { get; } = new CharacterModifiers();
+        public CharacterSettingsData BaseSettings => _settings.Data;
+
         [SerializeField] private CharacterSettings _settings;
-        
-        public event Action JumpPerformed;
-        public event Action LandPerformed;
-        public event Action StartMoving;
-        public event Action StopMoving;
-        public event Action SprintStarted;
-        public event Action SprintCanceled;
 
         private CharacterController _controller;
         private CharacterLocomotion _locomotion;
         private CharacterGravity _gravity;
-        private CharacterStateTracker _stateTracker;
-        private IInputProvider _input;
-
-        private bool _isSprinting;
-
-        public bool IsSprinting => _isSprinting;
-        public bool IsMoving => _stateTracker?.IsMoving ?? false;
-        public bool IsGrounded => _controller != null && _controller.isGrounded;
+        private CharacterPosture _posture;
+        private CharacterRotation _rotation;
+        private CharacterStateTracker _stateTracker = new CharacterStateTracker();
 
         private void Awake()
         {
             _controller = GetComponent<CharacterController>();
-            _controller.minMoveDistance = 0f;
-            
-            _input = GetComponent<IInputProvider>();
 
-            var cam = Camera.main?.transform;
-            if (cam == null || _settings == null) return;
+            if (Input == null) Input = GetComponent<IInputProvider>();
 
-            _locomotion = new CharacterLocomotion(_settings, transform, cam);
-            _gravity = new CharacterGravity(_settings);
-            _stateTracker = new CharacterStateTracker();
-
-            _gravity.JumpPerformed += () => JumpPerformed?.Invoke();
-        }
-
-        private void Start()
-        {
-            if (_input == null)
+            if (_settings == null)
             {
-                Debug.LogError("IInputProvider not found on GameObject!", this);
+                Debug.LogError($"{nameof(SAWController)}. Settings are not assigned on '{gameObject.name}'!", this);
                 enabled = false;
                 return;
             }
 
-            _stateTracker.Initialize(_controller.isGrounded);
-            _stateTracker.LandPerformed += () => LandPerformed?.Invoke();
-            _stateTracker.StartMoving += () => StartMoving?.Invoke();
-            _stateTracker.StopMoving += () => StopMoving?.Invoke();
-
-            _input.JumpStarted += OnJumpStarted;
-            _input.JumpCanceled += OnJumpCanceled;
-            _input.SprintStarted += OnSprintStarted;
-            _input.SprintCanceled += OnSprintCanceled;
+            _locomotion = new CharacterLocomotion();
+            _gravity = new CharacterGravity();
+            _posture = new CharacterPosture(_controller, transform, ref _settings.Data);
+            _rotation = new CharacterRotation(transform);
         }
 
-        private void OnDestroy()
+        private void Start()
         {
-            if (_input == null) return;
-            _input.JumpStarted -= OnJumpStarted;
-            _input.JumpCanceled -= OnJumpCanceled;
-            _input.SprintStarted -= OnSprintStarted;
-            _input.SprintCanceled -= OnSprintCanceled;
+            _controller.Move(Vector3.zero);
+            _stateTracker.Initialize(_controller.isGrounded);
         }
 
         private void Update()
         {
-            bool grounded = _controller.isGrounded;
+            if (Input == null) return;
 
-            _locomotion.Tick(_input.MoveInput, _isSprinting, grounded, Time.deltaTime);
-            _gravity.Tick(grounded, Time.deltaTime);
+            var context = new FrameContext
+            {
+                Settings = _settings.Data,
+                MoveInput = Input.MoveInput,
+                WorldMoveDirection = Input.WorldMoveDirection,
+                WorldLookDirection = Input.WorldLookDirection,
+                IsGrounded = _controller.isGrounded,
+                JumpInput = Input.JumpHeld,
+                SprintInput = Input.SprintHeld,
+                HitCeiling = (_controller.collisionFlags & CollisionFlags.Above) != 0,
+                DeltaTime = Time.deltaTime
+            };
 
-            Vector3 finalMovement = _locomotion.CurrentHorizontalVelocity + new Vector3(0f, _gravity.VerticalVelocity, 0f);
+            context.CanStandUp = _posture.CanStandUp(ref context.Settings);
+            context.CrouchInput = _posture.CheckCrouchState(Input.CrouchHeld, _stateTracker.IsCrouching, context.CanStandUp, ref context.Settings);
 
-            if (_controller.enabled)
-                _controller.Move(finalMovement * Time.deltaTime);
+            Modifiers.ProcessContext(ref context);
 
-            _stateTracker.Tick(_controller.isGrounded, _locomotion.CurrentHorizontalVelocity);
+            _locomotion.Tick(ref context);
+            _gravity.Tick(ref context);
+            _rotation.Tick(ref context);
+
+            Vector3 finalMovement = _locomotion.CurrentHorizontalVelocity + Vector3.up * _gravity.VerticalVelocity;
+            finalMovement = Modifiers.ProcessVelocity(finalMovement, ref context);
+
+            _posture.Tick(context.CrouchInput, ref context.Settings);
+            _controller.Move(finalMovement * context.DeltaTime);
+
+            context.IsGrounded = _controller.isGrounded;
+            context.GravityVerticalVelocity = _gravity.VerticalVelocity;
+
+            _stateTracker.Tick(ref context, _controller.velocity, _locomotion.IsSprintingActive);
         }
 
-        private void OnJumpStarted() => _gravity.SetJumpHeld(true);
-        private void OnJumpCanceled() => _gravity.SetJumpHeld(false);
-        
-        private void OnSprintStarted() 
-        { 
-            _isSprinting = true; 
-            SprintStarted?.Invoke(); 
-        }
-        
-        private void OnSprintCanceled() 
-        { 
-            _isSprinting = false; 
-            SprintCanceled?.Invoke(); 
+        public void SetInputProvider(IInputProvider newInputProvider)
+        {
+            if (newInputProvider == null)
+            {
+                Debug.Log($"{nameof(SAWController)}. Input provider on '{gameObject.name}' was set to null. Ensure this was intentional.");
+            }
+            Input = newInputProvider;
         }
     }
 }

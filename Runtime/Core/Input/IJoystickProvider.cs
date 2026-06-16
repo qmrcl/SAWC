@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace SAWC.Core
+namespace SAWC.Core.Input
 {
-    public interface IJoystickProvider
+    public abstract class BaseJoystick : MonoBehaviour
     {
-        Vector2 JoystickDirection { get; }
+        public abstract Vector2 JoystickDirection { get; }
     }
 }

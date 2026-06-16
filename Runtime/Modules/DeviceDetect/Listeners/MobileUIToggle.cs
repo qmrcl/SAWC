@@ -1,13 +1,23 @@
 using UnityEngine;
-using SAWC.Modules.Input.Detection; 
+using SAWC.Modules.Input.Detection;
+using SAWC.Localization;
 
 namespace SAWC.Modules.UI
 {
     [AddComponentMenu("SAWC/Modules/Mobile UI Toggle")]
     public class MobileUIToggle : MonoBehaviour
     {
-        [SerializeField] private Canvas _mobileControlsCanvas;
-        [SerializeField] private DeviceDetector _detector;
+        [SerializeField, Loc] private Canvas _mobileControlsCanvas;
+        [SerializeField, Loc] private DeviceDetector _detector;
+
+        private void Awake()
+        {
+            if (_mobileControlsCanvas == null)
+            {
+                Debug.LogError($"Mobile controls Canvas reference is null on '{gameObject.name}'!", this);
+                enabled = false;
+            }
+        }
 
         private void OnEnable()
         {

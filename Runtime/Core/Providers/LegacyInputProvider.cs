@@ -1,65 +1,30 @@
+using SAWC.Localization;
 using UnityEngine;
-using System;
 
-namespace SAWC.Core
+namespace SAWC.Core.Input.Readers
 {
-    [AddComponentMenu("SAWC/Input/Legacy Input Provider (Old)")]
-    public class LegacyInputProvider : MonoBehaviour, IInputProvider
+    [AddComponentMenu("SAWC/Core/Input/Readers/Legacy Input Reader")]
+    public class LegacyInputReader : BaseInputReader
     {
-        [SerializeField] private string _horAxis = "Horizontal";
-        [SerializeField] private string _verAxis = "Vertical";
-        [SerializeField] private string _jumpButton = "Jump";
-        [SerializeField] private string _sprintButton = "Fire3";
+#if ENABLE_LEGACY_INPUT_MANAGER
+        [SerializeField, Loc] private string _horAxis = "Horizontal";
+        [SerializeField, Loc] private string _verAxis = "Vertical";
 
-        [Header("Mobile Support")]
-        [SerializeField] private GameObject _joystickObject;
-        private IJoystickProvider _joystick;
+        [Space(5)]
+        [SerializeField, Loc] private KeyCode _jumpKey = KeyCode.Space;
+        [SerializeField, Loc] private KeyCode _sprintKey = KeyCode.LeftShift;
+        [SerializeField, Loc] private KeyCode _crouchKey = KeyCode.LeftControl;
 
-        public Vector2 MoveInput 
-        {
-            get 
-            {
-                Vector2 joy = _joystick?.JoystickDirection ?? Vector2.zero;
-                if (joy.sqrMagnitude > 0.01f) return joy;
-                return new Vector2(Input.GetAxisRaw(_horAxis), Input.GetAxisRaw(_verAxis));
-            }
-        }
-        
-        public event Action JumpStarted;
-        public event Action JumpCanceled;
-        public event Action SprintStarted;
-        public event Action SprintCanceled;
+        public override Vector2 Move => new Vector2(UnityEngine.Input.GetAxisRaw(_horAxis), UnityEngine.Input.GetAxisRaw(_verAxis));
 
-        private bool _isJumpPressed;
-        private bool _isSprintPressed;
-
-        private void Awake() => _joystick = _joystickObject?.GetComponent<IJoystickProvider>();
-
-        private void Update()
-        {
-            HandleButton(_jumpButton, ref _isJumpPressed, JumpStarted, JumpCanceled);
-            HandleButton(_sprintButton, ref _isSprintPressed, SprintStarted, SprintCanceled);
-        }
-
-        private void HandleButton(string buttonName, ref bool state, Action startEvent, Action cancelEvent)
-        {
-            try
-            {
-                if (Input.GetButtonDown(buttonName) && !state)
-                {
-                    state = true;
-                    startEvent?.Invoke();
-                }
-                else if (Input.GetButtonUp(buttonName) && state)
-                {
-                    state = false;
-                    cancelEvent?.Invoke();
-                }
-            }
-            catch { }
-        }
-
-        public void UIJump(bool start) { if(start) JumpStarted?.Invoke(); else JumpCanceled?.Invoke(); }
-        public void UISprint(bool start) { if(start) SprintStarted?.Invoke(); else SprintCanceled?.Invoke(); }
+        public override bool Jump => UnityEngine.Input.GetKey(_jumpKey);
+        public override bool Sprint => UnityEngine.Input.GetKey(_sprintKey);
+        public override bool Crouch => UnityEngine.Input.GetKey(_crouchKey);
+#else
+        public override Vector2 Move => Vector2.zero;
+        public override bool Jump => false;
+        public override bool Sprint => false;
+        public override bool Crouch => false;
+#endif
     }
 }

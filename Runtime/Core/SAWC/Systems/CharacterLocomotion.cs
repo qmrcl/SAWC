@@ -1,92 +1,110 @@
 using UnityEngine;
+using System;
+using SAWC.Core.Data;
 
 namespace SAWC.Core
 {
     internal sealed class CharacterLocomotion
     {
-        private readonly CharacterSettings _settings;
-        private readonly Transform _transform;
-        private readonly Transform _cameraTransform;
-
         private Vector3 _currentHorizontalVelocity;
-        private float _rotationVelocity;
-        private float _lastCameraYRotation;
 
         internal Vector3 CurrentHorizontalVelocity => _currentHorizontalVelocity;
+        internal bool IsSprintingActive { get; private set; }
 
-        internal CharacterLocomotion(CharacterSettings settings, Transform transform, Transform cameraTransform)
+        internal void Tick(ref FrameContext ctx)
         {
-            _settings = settings;
-            _transform = transform;
-            _cameraTransform = cameraTransform;
-            _lastCameraYRotation = cameraTransform.eulerAngles.y;
-        }
+            float targetSpeed = EvaluateTargetSpeed(ref ctx);
+            Vector3 targetVelocity = ctx.WorldMoveDirection * targetSpeed;
 
-        internal void Tick(Vector2 moveInput, bool isSprinting, bool isGrounded, float deltaTime)
-        {
-            Vector3 inputDirection = GetInputDirection(moveInput);
-            HandleRotation(inputDirection);
-
-            float speed = CalculateSpeed(moveInput, isSprinting);
-            Vector3 targetVelocity = inputDirection.normalized * speed;
-            float smoothing = GetSmoothingRate(targetVelocity, isGrounded);
-
-            _currentHorizontalVelocity = Vector3.MoveTowards(
-                _currentHorizontalVelocity,
-                targetVelocity,
-                smoothing * deltaTime
-            );
-        }
-
-        private Vector3 GetInputDirection(Vector2 moveInput)
-        {
-            Vector3 camForward = Vector3.ProjectOnPlane(_cameraTransform.forward, Vector3.up);
-            Vector3 camRight = Vector3.ProjectOnPlane(_cameraTransform.right, Vector3.up);
-
-            if (camForward.sqrMagnitude < 0.001f || camRight.sqrMagnitude < 0.001f)
+            if (ctx.Settings.Movement.UseInertia)
             {
-                camForward = Quaternion.Euler(0f, _lastCameraYRotation, 0f) * Vector3.forward;
-                camRight = Quaternion.Euler(0f, _lastCameraYRotation, 0f) * Vector3.right;
+                float smoothing = CalculateSmoothingRate(_currentHorizontalVelocity, targetVelocity, ctx.IsGrounded, ref ctx.Settings);
+
+                _currentHorizontalVelocity = Vector3.MoveTowards(
+                    _currentHorizontalVelocity,
+                    targetVelocity,
+                    smoothing * ctx.DeltaTime
+                );
             }
             else
             {
-                _lastCameraYRotation = Mathf.Atan2(camForward.x, camForward.z) * Mathf.Rad2Deg;
-                camForward.Normalize();
-                camRight.Normalize();
+                _currentHorizontalVelocity = targetVelocity;
             }
-
-            return camRight * moveInput.x + camForward * moveInput.y;
         }
 
-        private float CalculateSpeed(Vector2 moveInput, bool isSprinting)
+        private float EvaluateTargetSpeed(ref FrameContext ctx)
         {
-            bool canSprint = isSprinting && moveInput.y > 0.1f && _settings.CanSprint;
-            return canSprint ? _settings.SprintSpeed : _settings.MoveSpeed;
-        }
+            var move = ctx.Settings.Movement;
 
-        private float GetSmoothingRate(Vector3 targetVelocity, bool isGrounded)
-        {
-            float rate = targetVelocity.sqrMagnitude > 0.01f ? _settings.Acceleration : _settings.Deceleration;
-            if (!isGrounded) rate *= _settings.AirControlMultiplier;
-            return rate;
-        }
-
-        private void HandleRotation(Vector3 inputDirection)
-        {
-            if (_settings.RotateWithMovement)
+            if (!move.CanMove)
             {
-                if (inputDirection.sqrMagnitude >= 0.01f)
-                {
-                    float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg;
-                    float angle = Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetAngle, ref _rotationVelocity, _settings.MovementRotationSmoothTime);
-                    _transform.rotation = Quaternion.Euler(0f, angle, 0f);
-                }
+                IsSprintingActive = false;
+                return 0f;
             }
-            else
+
+            if (ctx.CrouchInput)
             {
-                float angle = Mathf.SmoothDampAngle(_transform.eulerAngles.y, _cameraTransform.eulerAngles.y, ref _rotationVelocity, _settings.StrafeRotationSmoothTime);
-                _transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                IsSprintingActive = false;
+                return ctx.Settings.Crouch.CrouchSpeed;
             }
+
+            IsSprintingActive = ctx.SprintInput && move.CanSprint && IsSprintDirectionAllowed(ctx.MoveInput, ref ctx.Settings);
+
+            return IsSprintingActive ? move.SprintSpeed : move.MoveSpeed;
+        }
+
+        private bool IsSprintDirectionAllowed(Vector2 moveInput, ref CharacterSettingsData settings)
+        {
+            if (moveInput.sqrMagnitude <= settings.Thresholds.InputThresholdSq) return false;
+
+            Vector2 dir = moveInput.normalized;
+            var allowed = settings.Movement.AllowedSprintDirections;
+            float dirThreshold = settings.Thresholds.SprintDirectionThreshold;
+
+            bool isForward = dir.y > dirThreshold;
+            bool isBackward = dir.y < -dirThreshold;
+            bool isLeft = dir.x < -dirThreshold;
+            bool isRight = dir.x > dirThreshold;
+
+            if (isForward && (allowed & SprintAllowedDirections.Forward) != 0) return true;
+            if (isBackward && (allowed & SprintAllowedDirections.Backward) != 0) return true;
+            if (isLeft && (allowed & SprintAllowedDirections.Left) != 0) return true;
+            if (isRight && (allowed & SprintAllowedDirections.Right) != 0) return true;
+
+            return false;
+        }
+
+        private float CalculateSmoothingRate(Vector3 currentVelocity, Vector3 targetVelocity, bool isGrounded, ref CharacterSettingsData settings)
+        {
+            bool isBraking = targetVelocity.sqrMagnitude <= settings.Thresholds.InputThresholdSq
+                          || Vector3.Dot(currentVelocity.normalized, targetVelocity.normalized) < 0f;
+
+            float baseRate = isBraking
+                ? EvaluateDeceleration(currentVelocity, ref settings)
+                : EvaluateAcceleration(currentVelocity, targetVelocity, ref settings);
+
+            return isGrounded ? baseRate : baseRate * settings.Jump.AirControlMultiplier;
+        }
+
+        private float EvaluateDeceleration(Vector3 currentVelocity, ref CharacterSettingsData settings)
+        {
+            float sprintSpeed = settings.Movement.SprintSpeed;
+            float brakeRatio = sprintSpeed > 0.001f ? Mathf.Clamp01(currentVelocity.magnitude / sprintSpeed) : 0f;
+
+            return settings.Movement.BaseDeceleration * settings.Movement.DecelerationCurve.Evaluate(brakeRatio);
+        }
+
+        private float EvaluateAcceleration(Vector3 currentVelocity, Vector3 targetVelocity, ref CharacterSettingsData settings)
+        {
+            if (targetVelocity.sqrMagnitude < settings.Thresholds.VelocityThreshold * settings.Thresholds.VelocityThreshold)
+                return settings.Movement.BaseAcceleration;
+
+            float speedInTargetDirection = Vector3.Dot(currentVelocity, targetVelocity.normalized);
+
+            float maxSpeed = targetVelocity.magnitude > settings.Thresholds.VelocityThreshold ? targetVelocity.magnitude : settings.Movement.MoveSpeed;
+
+            float speedRatio = Mathf.Clamp01(speedInTargetDirection / maxSpeed);
+            return settings.Movement.BaseAcceleration * settings.Movement.AccelerationCurve.Evaluate(speedRatio);
         }
     }
 }

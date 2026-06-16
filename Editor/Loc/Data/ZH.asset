@@ -1,0 +1,414 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60691bd447c276440a62364335174adf, type: 3}
+  m_Name: ZH
+  m_EditorClassIdentifier: ::SAWC.Localization::LanguageAsset
+  LanguageName: 简体中文
+  AudioContainerSettingsAvoidRepeatingLast:
+    DisplayName: 避免连续重复
+    Tooltip: 历史记录中缓存的最近播放片段数量，用于防止同一个音效连续重复播放。
+  AudioContainerSettingsBasePitch:
+    DisplayName: 基础音调
+    Tooltip: 从该容器播放音频片段时应用的默认音调（Pitch）乘数。
+  AudioContainerSettingsBaseVolume:
+    DisplayName: 基础音量
+    Tooltip: 从该容器播放音频片段时应用的默认音量大小。
+  AudioContainerSettingsClips:
+    DisplayName: 音频片段
+    Tooltip: 用于此特定声音类别的音频片段（AudioClip）列表。
+  AudioContainerSettingsPitchRandomization:
+    DisplayName: 音调随机偏移
+    Tooltip: 基础音调的最大随机浮动范围，用于增加声音的自然感和有机性。
+  AudioContainerSettingsPlayback:
+    DisplayName: 播放模式
+    Tooltip: 从列表中选择下一个音频片段的逻辑（顺序、洗牌或随机）。
+  AudioContainerSettingsVolumeRandomization:
+    DisplayName: 音量随机偏移
+    Tooltip: 基础音量的最大随机浮动范围，用于增加声音的自然感。
+  BaseInputProvider_cameraTransform:
+    DisplayName: 相机 Transform
+    Tooltip: 用于精确计算相对移动向量和视线方向的相机 Transform 引用。
+  CameraHeightOffset_controller:
+    DisplayName: 核心控制器
+    Tooltip: 用于追踪蹲伏状态的 SAWController 组件引用。
+  CameraHeightOffset_crouchingHeight:
+    DisplayName: 蹲伏相机高度
+    Tooltip: 角色完全蹲伏时相机的局部 Y 轴高度。
+  CameraHeightOffset_smoothTime:
+    DisplayName: 高度平滑时间
+    Tooltip: 相机在站立和蹲伏高度之间进行插值过渡的平滑时间（秒）。
+  CameraHeightOffset_standingHeight:
+    DisplayName: 站立相机高度
+    Tooltip: 角色完全站立时相机的默认局部 Y 轴高度。
+  CameraMotionDynamics_controller:
+    DisplayName: 核心控制器
+    Tooltip: 用于读取当前物理速度的 SAWController 组件引用。
+  CameraMotionDynamics_forwardPitchAngle:
+    DisplayName: 前倾俯仰角
+    Tooltip: 角色向前加速时，相机产生的最大垂直俯仰角（Pitch）。
+  CameraMotionDynamics_forwardSmoothTime:
+    DisplayName: 前倾平滑时间
+    Tooltip: 相机前倾效果的插值平滑时间。
+  CameraMotionDynamics_maxForwardSpeed:
+    DisplayName: 最大前向速度
+    Tooltip: 达到最大前倾俯仰角所需的角色前向速度阈值。
+  CameraMotionDynamics_maxStrafeSpeed:
+    DisplayName: 最大侧移速度
+    Tooltip: 达到最大侧移滚转角所需的角色侧向速度阈值。
+  CameraMotionDynamics_maxVerticalSpeed:
+    DisplayName: 最大垂直速度
+    Tooltip: 达到最大垂直俯仰角所需的角色垂直速度（下落/跳跃）阈值。
+  CameraMotionDynamics_panAngle:
+    DisplayName: 侧移滚转角
+    Tooltip: 角色急转弯或侧移时，相机产生的最大侧倾角（Roll）。
+  CameraMotionDynamics_panSmoothTime:
+    DisplayName: 侧倾平滑时间
+    Tooltip: 相机侧倾效果的插值平滑时间。
+  CameraMotionDynamics_tiltAngle:
+    DisplayName: 动态侧倾角
+    Tooltip: 相机受动态力影响时的最大滚转偏移角度。
+  CameraMotionDynamics_tiltSmoothTime:
+    DisplayName: 侧倾恢复平滑时间
+    Tooltip: 相机从受力侧倾恢复到初始中性状态的平滑时间。
+  CameraMotionDynamics_verticalPitchAngle:
+    DisplayName: 垂直俯仰角
+    Tooltip: 角色高度骤变或下落时，相机产生的垂直俯仰角。
+  CameraMotionDynamics_verticalSmoothTime:
+    DisplayName: 垂直俯仰平滑时间
+    Tooltip: 跳跃和下落过程中，相机垂直俯仰变化的平滑时间。
+  CameraShakeControl_brain:
+    DisplayName: Cinemachine Brain
+    Tooltip: 管理活跃虚拟相机的主 CinemachineBrain 组件引用。
+  CameraShakeControl_controller:
+    DisplayName: 核心控制器
+    Tooltip: 用于读取移动和冲刺状态的 SAWController 组件引用。
+  CameraShakeControl_maxShake:
+    DisplayName: 最大震动振幅
+    Tooltip: 剧烈运动或冲刺时，相机震动噪音的最大振幅限制。
+  CameraShakeControl_smoothTime:
+    DisplayName: 震动平滑时间
+    Tooltip: 相机震动效果淡入和淡出时的插值平滑时间。
+  CameraShakeControl_sprintFrequency:
+    DisplayName: 冲刺震动频率
+    Tooltip: 冲刺时，相机周期性晃动或步伐震动的噪音目标频率。
+  CharacterModifierBase_priority:
+    DisplayName: 执行优先级
+    Tooltip: 决定此修改器在管线中的处理顺序。数值越大，越先执行。
+  Configuration:
+    DisplayName: 配置
+    Tooltip: 角色控制器的核心配置区块。
+  Crouch:
+    DisplayName: 蹲伏
+    Tooltip: 蹲伏高度、速度及头顶障碍物射线检测设置。
+  CrouchSettingsCanCrouch:
+    DisplayName: 允许蹲伏
+    Tooltip: 全局启用或禁用蹲伏机制。
+  CrouchSettingsCanJumpWhileCrouching:
+    DisplayName: 蹲伏时跳跃
+    Tooltip: 允许角色直接从蹲伏状态起跳，无需先站立。
+  CrouchSettingsCrouchHeight:
+    DisplayName: 蹲伏高度
+    Tooltip: 蹲伏状态下角色胶囊碰撞体（Capsule Collider）的高度。
+  CrouchSettingsCrouchSpeed:
+    DisplayName: 蹲伏速度
+    Tooltip: 蹲伏状态下允许的最大移动速度。
+  CrouchSettingsEnvironmentMask:
+    DisplayName: 顶部障碍遮罩
+    Tooltip: 用于向上射线检测的层级遮罩（LayerMask），防止角色在低矮天花板下站起。
+  CrouchSettingsStandingHeight:
+    DisplayName: 站立高度
+    Tooltip: 角色完全站立时胶囊碰撞体的默认高度。
+  CursorSystem_defaultLockMode:
+    DisplayName: 光标锁定模式
+    Tooltip: 场景启动时鼠标光标的默认锁定状态（自由、锁定或限制在窗口内）。
+  CursorSystem_startLocked:
+    DisplayName: 启动时锁定光标
+    Tooltip: 在 Awake 时自动隐藏并将鼠标光标锁定在屏幕中央。
+  CursorSystem_toggleAction:
+    DisplayName: 切换光标动作
+    Tooltip: 运行时用于手动切换鼠标光标锁定状态的 Input System 动作。
+  DashboardAssignConfig:
+    DisplayName: 请指定配置 ScriptableObject 以部署面板。
+    Tooltip: 设置槽位为空时的提示信息。
+  DashboardCharacterSettingsLabel:
+    DisplayName: 角色设置
+    Tooltip: 用于分配角色配置 ScriptableObject 的槽位。
+  DashboardErrorNoSettingsField:
+    DisplayName: 错误：在 SAWController 中未找到 CharacterSettings 字段。
+    Tooltip: 检查器初始化发生关键性错误（反射查找失败）。
+  DashboardValidationCrouchHeight:
+    DisplayName: 逻辑错误：蹲伏高度不能高于站立高度。
+    Tooltip: 物理胶囊碰撞体几何尺寸的严重错误。
+  DashboardValidationCrouchSpeed:
+    DisplayName: 警告：蹲伏速度高于普通步行速度。
+    Tooltip: 游戏设计逻辑警告。
+  DashboardValidationGravity:
+    DisplayName: 严重：重力参数为正值（角色将向上飞走）。
+    Tooltip: 物理设置严重错误。贴地重力和终端速度必须为负数。
+  DashboardValidationSprint:
+    DisplayName: 警告：冲刺速度慢于普通步行速度。
+    Tooltip: 游戏设计逻辑警告。
+  DashMechanic_cooldown:
+    DisplayName: 冲刺冷却
+    Tooltip: 执行下一次冲刺前必须等待的冷却时间（秒）。
+  DashMechanic_dashDuration:
+    DisplayName: 冲刺持续时间
+    Tooltip: 角色保持高速冲刺突进状态的时长（秒）。
+  DashMechanic_dashSpeed:
+    DisplayName: 冲刺速度
+    Tooltip: 触发冲刺突进期间强制应用于角色的物理速度。
+  DashMechanic_inputBufferTime:
+    DisplayName: 冲刺输入缓冲
+    Tooltip: 当角色当前无法冲刺时，允许提前缓存冲刺按键输入的窗口时间（秒）。
+  DashMechanic_key:
+    DisplayName: 冲刺按键
+    Tooltip: 用于激活冲刺机制的 Legacy 键盘按键。
+  DynamicFOV_cinemachineCam:
+    DisplayName: 目标虚拟相机
+    Tooltip: 其视野（FOV）将被动态调整的 CinemachineCamera 组件。
+  DynamicFOV_controller:
+    DisplayName: 核心控制器
+    Tooltip: 用于读取当前移动速度的 SAWController 组件引用。
+  DynamicFOV_maxFovOffset:
+    DisplayName: 最大 FOV 扩展
+    Tooltip: 达到极限冲刺速度时，相机视野（FOV）向外扩展的最大附加值。
+  DynamicFOV_smoothTime:
+    DisplayName: FOV 平滑时间
+    Tooltip: 相机视野放大与缩小的插值平滑时间。
+  DynamicFOV_speedMultiplier:
+    DisplayName: FOV 速度权重
+    Tooltip: 决定当前角色物理速度对 FOV 变化影响程度的乘数。
+  Editor_ActiveLangLabel:
+    DisplayName: 当前语言
+    Tooltip: 当前用于本地化整个 Unity 检查器界面的目标语言。
+  Editor_DocButton:
+    DisplayName: "\U0001F4D6 打开文档"
+    Tooltip: 在默认浏览器中打开该资产的官方文档与用户指南。
+  Editor_DocMessage:
+    DisplayName: 在下方选择语言以即时翻译检查器界面。需要帮助？请查看文档。
+    Tooltip: SAWC Hub 面板的信息提示。
+  Editor_Hello:
+    DisplayName: 欢迎来到 SAW Hub
+    Tooltip: SAWC Hub 编辑器窗口的主标题文本。
+  Editor_InstalledPacksLabel:
+    DisplayName: 已安装语言包
+    Tooltip: 可用语言包列表的标题。
+  Jump:
+    DisplayName: 跳跃
+    Tooltip: 跳跃力度、输入缓冲及土狼时间（Coyote Time）等设置。
+  JumpSettingsAirControlMultiplier:
+    DisplayName: 空中控制乘数
+    Tooltip: 角色滞空时的转向响应和方向调整能力乘数（0=无控制，1=完全控制）。
+  JumpSettingsCanJump:
+    DisplayName: 允许跳跃
+    Tooltip: 全局启用或禁用跳跃机制。
+  JumpSettingsCeilingBounceVelocity:
+    DisplayName: 撞顶反弹速度
+    Tooltip: 跳跃时头部撞击天花板后施加的向下垂直反弹速度。
+  JumpSettingsCoyoteTime:
+    DisplayName: 土狼时间
+    Tooltip: 角色离开平台边缘后，仍允许执行跳跃操作的宽限期（秒）。
+  JumpSettingsEnableAutoJump:
+    DisplayName: 自动跳跃
+    Tooltip: 按住跳跃键时启用连续自动跳跃（Bunny Hop / 连跳）。
+  JumpSettingsJumpBufferTime:
+    DisplayName: 跳跃缓冲时间
+    Tooltip: 落地前的窗口时间（秒）。在此期间按下跳跃键将被缓存，并在触地时自动触发。
+  JumpSettingsJumpCooldownDuration:
+    DisplayName: 跳跃冷却间隔
+    Tooltip: 连续执行两次跳跃动作之间强制锁定的重置等待时间。
+  JumpSettingsJumpForce:
+    DisplayName: 跳跃力度
+    Tooltip: 角色离开地面时施加的初始垂直向上速度脉冲。
+  LegacyInputReader_crouchKey:
+    DisplayName: 蹲伏按键
+    Tooltip: 用于保持或切换蹲伏状态的 Legacy 按键。
+  LegacyInputReader_horAxis:
+    DisplayName: 水平轴
+    Tooltip: Legacy Input Manager 中用于左右移动的水平轴名称。
+  LegacyInputReader_jumpKey:
+    DisplayName: 跳跃按键
+    Tooltip: 用于触发跳跃的 Legacy 按键。
+  LegacyInputReader_sprintKey:
+    DisplayName: 冲刺按键
+    Tooltip: 用于保持或切换冲刺状态的 Legacy 按键。
+  LegacyInputReader_verAxis:
+    DisplayName: 垂直轴
+    Tooltip: Legacy Input Manager 中用于前后移动的垂直轴名称。
+  MasterInputProvider_deadZone:
+    DisplayName: 输入死区
+    Tooltip: 注册移动输入所需的最小摇杆幅度（Magnitude）。
+  MasterInputProvider_switchThreshold:
+    DisplayName: 设备切换阈值
+    Tooltip: 触发自动切换活跃输入设备所需的摇杆幅度。
+  MobileUIReader_joystick:
+    DisplayName: 触控摇杆
+    Tooltip: 移动端用于角色移动的屏幕虚拟摇杆引用。
+  MobileUIToggle_detector:
+    DisplayName: 平台检测器
+    Tooltip: 用于自动判断是否需要显示移动端 UI 的组件。
+  MobileUIToggle_mobileControlsCanvas:
+    DisplayName: 移动端 UI 画布
+    Tooltip: 包含所有触控按键的 UI Canvas，根据活跃设备自动切换显示。
+  Movement:
+    DisplayName: 移动
+    Tooltip: 基础移动、速度和冲刺行为设置。
+  MovementSettingsAccelerationCurve:
+    DisplayName: 加速曲线
+    Tooltip: 定义角色随时间推移加速动态的动画曲线。
+  MovementSettingsAllowedSprintDirections:
+    DisplayName: 允许冲刺方向
+    Tooltip: 限制允许激活冲刺的输入向量方向（例如：仅限向前）。
+  MovementSettingsBaseAcceleration:
+    DisplayName: 基础加速度
+    Tooltip: 角色加速至最大移动速度的基础速率系数。
+  MovementSettingsBaseDeceleration:
+    DisplayName: 基础减速度
+    Tooltip: 角色松开输入后减速至完全停止的基础速率系数。
+  MovementSettingsCanMove:
+    DisplayName: 允许移动
+    Tooltip: 全局启用或禁用角色基础移动。
+  MovementSettingsCanSprint:
+    DisplayName: 允许冲刺
+    Tooltip: 决定角色是否允许切换到冲刺状态。
+  MovementSettingsDecelerationCurve:
+    DisplayName: 减速曲线
+    Tooltip: 无移动输入时评估制动动态的动画曲线。
+  MovementSettingsMinMoveThreshold:
+    DisplayName: 最小移动阈值
+    Tooltip: 触发物理移动所需的最小输入幅度。
+  MovementSettingsMoveSpeed:
+    DisplayName: 移动速度
+    Tooltip: 角色正常行走时的目标最大速度。
+  MovementSettingsSprintSpeed:
+    DisplayName: 冲刺速度
+    Tooltip: 冲刺激活时角色的目标最大速度。
+  MovementSettingsUseInertia:
+    DisplayName: 使用惯性
+    Tooltip: 启用基于曲线的平滑加速和减速，而非速度瞬间突变。
+  NewInputReader_crouchAction:
+    DisplayName: 蹲伏动作
+    Tooltip: 映射到保持或切换蹲伏状态的 Input System 动作。
+  NewInputReader_jumpAction:
+    DisplayName: 跳跃动作
+    Tooltip: 映射到触发跳跃的 Input System 动作。
+  NewInputReader_moveAction:
+    DisplayName: 移动动作
+    Tooltip: 映射到多方向移动的 Vector2 Input System 动作。
+  NewInputReader_sprintAction:
+    DisplayName: 冲刺动作
+    Tooltip: 映射到保持或切换冲刺状态的 Input System 动作。
+  Physics:
+    DisplayName: 物理
+    Tooltip: 自定义重力、终端速度及贴地吸附设置。
+  PhysicsSettingsFallMultiplier:
+    DisplayName: 下落重力倍率
+    Tooltip: 角色向下移动时放大重力权重，使下落感更“重”，防止月球漫步感。
+  PhysicsSettingsGravity:
+    DisplayName: 重力大小
+    Tooltip: 应用于自由落体模拟的自定义加速度值（通常为负数，如 -9.81）。
+  PhysicsSettingsGroundedGravity:
+    DisplayName: 贴地重力
+    Tooltip: 角色着地时施加的恒定向下力，使其“吸附”在斜坡和台阶上。
+  PhysicsSettingsTerminalVelocity:
+    DisplayName: 终端速度
+    Tooltip: 角色向下坠落时的绝对最大速度限制，防止物理穿模。
+  PhysicsSettingsUseGravity:
+    DisplayName: 使用重力
+    Tooltip: 启用或禁用此控制器的自定义重力计算。
+  PlayerAudioController_actionCooldown:
+    DisplayName: 动作音效冷却
+    Tooltip: 播放离散动作音效之间的最小延迟（秒），防止声音重叠。
+  PlayerAudioController_actionSource:
+    DisplayName: 动作音频源
+    Tooltip: 专门用于播放跳跃、落地、蹲伏等单次动作音效的 AudioSource。
+  PlayerAudioController_antiSpamFactor:
+    DisplayName: 步伐防刷系数
+    Tooltip: 应用于步频间隔的冷却乘数，防止频繁启停时产生音效刷屏。
+  PlayerAudioController_controller:
+    DisplayName: 角色控制器
+    Tooltip: 核心 SAWController 引用，用于追踪移动状态并订阅物理事件。
+  PlayerAudioController_crouchDownSettings:
+    DisplayName: 蹲下音效
+    Tooltip: 角色进入蹲伏状态时触发的音频配置和片段池。
+  PlayerAudioController_crouchStepSettings:
+    DisplayName: 蹲伏脚步声
+    Tooltip: 角色在蹲伏状态下移动时使用的音频配置和片段池。
+  PlayerAudioController_crouchUpSettings:
+    DisplayName: 起立音效
+    Tooltip: 角色退出蹲伏状态并站起时触发的音频配置和片段池。
+  PlayerAudioController_jumpSettings:
+    DisplayName: 跳跃音效
+    Tooltip: 角色起跳时触发的音频配置和片段池。
+  PlayerAudioController_landSettings:
+    DisplayName: 落地音效
+    Tooltip: 角色成功落地时触发的音频配置和片段池。
+  PlayerAudioController_sprintStepSettings:
+    DisplayName: 冲刺脚步声
+    Tooltip: 角色在主动冲刺时使用的音频配置和片段池。
+  PlayerAudioController_stepSource:
+    DisplayName: 脚步音频源
+    Tooltip: 专门用于播放连续移动和脚步声效的 AudioSource。
+  PlayerAudioController_walkStepSettings:
+    DisplayName: 步行脚步声
+    Tooltip: 角色以正常步行速度移动时使用的音频配置和片段池。
+  Rotation:
+    DisplayName: 旋转
+    Tooltip: 角色模型基于移动或相机输入的旋转平滑设置。
+  RotationSettingsMovementRotationSmoothTime:
+    DisplayName: 旋转平滑时间 (移动)
+    Tooltip: 角色模型转向移动向量方向的插值平滑时间。
+  RotationSettingsRotateWithMovement:
+    DisplayName: 随移动旋转
+    Tooltip: 若为 True，角色面朝移动方向（冒险模式）；若为 False，角色面朝相机前方（侧移模式）。
+  RotationSettingsStrafeRotationSmoothTime:
+    DisplayName: 旋转平滑时间 (侧移)
+    Tooltip: 侧移模式下保持相机相对朝向的插值平滑时间。
+  Thresholds:
+    DisplayName: 阈值
+    Tooltip: 动画师状态切换和逻辑判断的数学边界。
+  ThresholdSettingsAirStateDebounceTime:
+    DisplayName: 空中状态防抖时间
+    Tooltip: 用于过滤由微小台阶或地面不平引起的短暂空中状态的时间缓冲（秒）。
+  ThresholdSettingsFallVelocityThreshold:
+    DisplayName: 坠落速度阈值
+    Tooltip: 触发坠落状态逻辑所需的向下垂直速度。
+  ThresholdSettingsIdleTransitionMultiplier:
+    DisplayName: 待机过渡乘数
+    Tooltip: 控制向待机（Idle）状态过渡时的动画混合速度系数。
+  ThresholdSettingsInputThreshold:
+    DisplayName: 输入死区阈值
+    Tooltip: 低于此值的任何手柄或键盘输入将被完全忽略的死区值。
+  ThresholdSettingsSprintDirectionThreshold:
+    DisplayName: 冲刺方向阈值
+    Tooltip: 偏离朝向视角方向仍允许冲刺的最大角度。
+  ThresholdSettingsVelocityThreshold:
+    DisplayName: 总速度阈值
+    Tooltip: 物理速度低于此值时，角色将被视为完全静止的最小速度幅度。
+  ThresholdSettingsVerticalVelocityThreshold:
+    DisplayName: 垂直速度阈值
+    Tooltip: 判定角色稳定着地的 Y 轴速度上限。
+  TouchInputReceiver_lookPad:
+    DisplayName: 触控视角板
+    Tooltip: 移动端用于滑动手指旋转相机视角的 RectTransform 边界区域。
+  TouchInputReceiver_sensitivity:
+    DisplayName: 触控灵敏度
+    Tooltip: 追踪相机旋转输入时应用于触摸 Delta 的灵敏度乘数。
+  UniversalJoystick_deadZone:
+    DisplayName: 摇杆死区
+    Tooltip: 触控摇杆中心完全无效的半径区域，用于防止模拟漂移或误触。
+  UniversalJoystick_handle:
+    DisplayName: 摇杆滑块
+    Tooltip: 代表虚拟摇杆旋钮的视觉 RectTransform 元素。
+  UniversalJoystick_handleLimit:
+    DisplayName: 滑块移动上限
+    Tooltip: 虚拟摇杆滑块能从中心向外拉伸的最大径向距离限制。

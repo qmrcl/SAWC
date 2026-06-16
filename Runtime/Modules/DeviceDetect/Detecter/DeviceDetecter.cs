@@ -7,7 +7,7 @@ namespace SAWC.Modules.Input.Detection
     [AddComponentMenu("SAWC/Modules/Device Detector")]
     public class DeviceDetector : MonoBehaviour
     {
-        [SerializeField] private List<DeviceDetectionStrategy> _strategies;
+        [SerializeField] private List<DeviceDetection> _detectors;
 
         public event Action<InputDeviceType> DeviceDetected;
 
@@ -24,13 +24,13 @@ namespace SAWC.Modules.Input.Detection
 
         private InputDeviceType GetCurrentDeviceType()
         {
-            if (_strategies == null || _strategies.Count == 0)
+            if (_detectors == null || _detectors.Count == 0)
             {
-                Debug.LogWarning($"Список стратегий пуст на объекте {gameObject.name}", this);
+                Debug.LogWarning($"Strategy list is empty on object '{gameObject.name}'!", this);
                 return InputDeviceType.Unknown;
             }
 
-            foreach (var strategy in _strategies)
+            foreach (var strategy in _detectors)
             {
                 if (strategy == null) continue;
 
@@ -38,7 +38,7 @@ namespace SAWC.Modules.Input.Detection
                 if (result != InputDeviceType.Unknown) return result;
             }
 
-            Debug.LogWarning($"Устройство не определено на {gameObject.name}", this);
+            Debug.LogWarning($"Device type could not be determined on '{gameObject.name}'!", this);
             return InputDeviceType.Unknown;
         }
     }

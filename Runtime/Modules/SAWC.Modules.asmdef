@@ -1,6 +1,6 @@
 {
     "name": "SAWC.Modules",
-    "rootNamespace": "",
+    "rootNamespace": "SAWC.Modules",
     "references": [
         "GUID:98c56e5813aff064da1af5d152c5c12b",
         "GUID:75469ad4d38634e559750d17036d5f7c",
@@ -13,6 +13,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "1.0.0",
+            "define": "SAWC_NEW_INPUT_AVAILABLE"
+        }
+    ],
     "noEngineReferences": false
 }
