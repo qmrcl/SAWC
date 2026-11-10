@@ -2,7 +2,7 @@
     "name": "SAWC.Editor",
     "rootNamespace": "SAWC.Editor",
     "references": [
-        "GUID:98c56e5813aff064da1af5d152c5c12b"
+        "GUID:91484c9f783d03d45acfc07fcfb193f0"
     ],
     "includePlatforms": [
         "Editor"

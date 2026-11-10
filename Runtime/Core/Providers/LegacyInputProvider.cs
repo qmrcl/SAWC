@@ -1,4 +1,3 @@
-using SAWC.Localization;
 using UnityEngine;
 
 namespace SAWC.Core.Input.Readers
@@ -7,13 +6,13 @@ namespace SAWC.Core.Input.Readers
     public class LegacyInputReader : BaseInputReader
     {
 #if ENABLE_LEGACY_INPUT_MANAGER
-        [SerializeField, Loc] private string _horAxis = "Horizontal";
-        [SerializeField, Loc] private string _verAxis = "Vertical";
+        [SerializeField] private string _horAxis = "Horizontal";
+        [SerializeField] private string _verAxis = "Vertical";
 
         [Space(5)]
-        [SerializeField, Loc] private KeyCode _jumpKey = KeyCode.Space;
-        [SerializeField, Loc] private KeyCode _sprintKey = KeyCode.LeftShift;
-        [SerializeField, Loc] private KeyCode _crouchKey = KeyCode.LeftControl;
+        [SerializeField] private KeyCode _jumpKey = KeyCode.Space;
+        [SerializeField] private KeyCode _sprintKey = KeyCode.LeftShift;
+        [SerializeField] private KeyCode _crouchKey = KeyCode.LeftControl;
 
         public override Vector2 Move => new Vector2(UnityEngine.Input.GetAxisRaw(_horAxis), UnityEngine.Input.GetAxisRaw(_verAxis));
 

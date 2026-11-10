@@ -1,101 +1,70 @@
 using SAWC.Core.Input.Readers;
-using SAWC.Localization;
 using UnityEngine;
 
 namespace SAWC.Core.Input
 {
     [AddComponentMenu("SAWC/Core/Input/Master Input Provider")]
+    [DefaultExecutionOrder(10)]
     public class MasterInputProvider : BaseInputProvider
     {
-        private enum ButtonType { Jump, Sprint, Crouch }
-
         [SerializeField] private BaseInputReader[] _readers;
+        [SerializeField, Min(0f)] private float _deadZone = 0.05f;
 
-        [Space(5)]
-        [SerializeField, Loc] private float _deadZone = 0.05f;
-        [SerializeField, Loc] private float _switchThreshold = 0.15f;
+        private Vector2 _cachedMove;
+        private bool _cachedJump;
+        private bool _cachedSprint;
+        private bool _cachedCrouch;
 
-        private BaseInputReader _activeReader;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            if (_readers != null && _readers.Length > 0 && _readers[0] != null)
-            {
-                _activeReader = _readers[0];
-            }
-        }
-
-        public override Vector2 MoveInput
-        {
-            get
-            {
-                if (_activeReader == null) return Vector2.zero;
-                Vector2 move = _activeReader.Move;
-                return move.sqrMagnitude > _deadZone * _deadZone ? move : Vector2.zero;
-            }
-        }
+        public override Vector2 MoveInput => _cachedMove;
+        public override bool JumpHeld => _cachedJump;
+        public override bool SprintHeld => _cachedSprint;
+        public override bool CrouchHeld => _cachedCrouch;
 
         protected override void Update()
         {
-            EvaluateActiveDeviceByMovement();
+            PollReaders();
             base.Update();
         }
 
-        private void EvaluateActiveDeviceByMovement()
+        protected override void OnDisable()
         {
+            ClearInput();
+            base.OnDisable();
+        }
+
+        private void PollReaders()
+        {
+            ClearInput();
+
             if (_readers == null) return;
 
-            if (_activeReader != null && _activeReader.Move.sqrMagnitude > _switchThreshold * _switchThreshold)
-            {
-                return;
-            }
-
-            float maxMoveSq = _activeReader != null ? _activeReader.Move.sqrMagnitude : 0f;
-            float thresholdSq = _switchThreshold * _switchThreshold;
+            float bestMoveSq = _deadZone * _deadZone;
 
             for (int i = 0; i < _readers.Length; i++)
             {
                 var reader = _readers[i];
-                if (reader == null || reader == _activeReader) continue;
+                if (reader == null || !reader.isActiveAndEnabled) continue;
 
-                float moveSq = reader.Move.sqrMagnitude;
-
-                if (moveSq > thresholdSq && moveSq > maxMoveSq)
+                Vector2 move = reader.Move;
+                float moveSq = move.sqrMagnitude;
+                if (moveSq > bestMoveSq)
                 {
-                    _activeReader = reader;
-                    maxMoveSq = moveSq;
+                    bestMoveSq = moveSq;
+                    _cachedMove = move;
                 }
+
+                if (reader.Jump) _cachedJump = true;
+                if (reader.Sprint) _cachedSprint = true;
+                if (reader.Crouch) _cachedCrouch = true;
             }
         }
 
-        protected override bool GetJumpInput() => GetButtonInput(ButtonType.Jump);
-        protected override bool GetSprintInput() => GetButtonInput(ButtonType.Sprint);
-        protected override bool GetCrouchInput() => GetButtonInput(ButtonType.Crouch);
-
-        private bool GetButtonInput(ButtonType buttonType)
+        private void ClearInput()
         {
-            if (_activeReader != null && CheckButtonState(_activeReader, buttonType))
-                return true;
-
-            if (_readers == null) return false;
-
-            for (int i = 0; i < _readers.Length; i++)
-            {
-                var reader = _readers[i];
-                if (reader == null || reader == _activeReader) continue;
-
-                if (CheckButtonState(reader, buttonType)) return true;
-            }
-            return false;
+            _cachedMove = Vector2.zero;
+            _cachedJump = false;
+            _cachedSprint = false;
+            _cachedCrouch = false;
         }
-
-        private bool CheckButtonState(BaseInputReader reader, ButtonType buttonType) => buttonType switch
-        {
-            ButtonType.Jump => reader.Jump,
-            ButtonType.Sprint => reader.Sprint,
-            ButtonType.Crouch => reader.Crouch,
-            _ => false
-        };
     }
 }

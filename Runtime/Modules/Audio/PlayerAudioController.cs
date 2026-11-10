@@ -1,287 +1,182 @@
-using UnityEngine;
 using System;
-using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Audio;
 using SAWC.Core;
-using SAWC.Localization;
 
 namespace SAWC.Modules.Audio
 {
-    [AddComponentMenu("SAWC/Modules/Player Audio")]
+    [Serializable]
+    public struct LocomotionAudio
+    {
+        public AudioResource Walk;
+        public AudioResource Sprint;
+        public AudioResource Crouch;
+        public AudioResource Land;
+    }
+
+    [Serializable]
+    public struct SurfaceAudioConfig
+    {
+        public string SurfaceTag;
+        public LocomotionAudio Audio;
+    }
+
+    [AddComponentMenu("SAWC/Modules/Audio/Player Audio")]
     public class PlayerAudioController : MonoBehaviour
     {
-        public enum PlaybackMode { Sequential, Shuffle, Random }
+        [Header("Core Dependencies")]
+        [SerializeField] private SAWController _controller;
+        [SerializeField] private AudioMixerGroup _mixerGroup;
 
-        [Serializable]
-        public class AudioContainerSettings
-        {
-            [Loc] public List<AudioClip> Clips = new List<AudioClip>();
-            [Loc] public PlaybackMode Playback = PlaybackMode.Random;
+        [Header("Step Timing")]
+        [SerializeField, Min(0.01f)] private float _walkInterval = 0.4f;
+        [SerializeField, Min(0.01f)] private float _sprintInterval = 0.25f;
+        [SerializeField, Min(0.01f)] private float _crouchInterval = 0.5f;
 
-            [Space(5)]
-            [Min(0.01f)] public float Interval = 0.4f;
+        [Header("Default Audio")]
+        [SerializeField] private LocomotionAudio _defaultLocomotion;
+        [SerializeField] private AudioResource _jump;
+        [SerializeField] private AudioResource _crouchDown;
+        [SerializeField] private AudioResource _crouchUp;
 
-            [Space(5)]
-            [Range(0f, 1f),Loc]   public float BaseVolume = 1f;
-            [Range(0f, 0.5f),Loc] public float VolumeRandomization = 0.05f;
+        [Header("Surface Detection")]
+        [SerializeField, Range(0f, 1f)] private float _rayOriginOffset = 0.2f;
+        [SerializeField, Range(0.1f, 2f)] private float _raycastDistance = 0.5f;
+        [SerializeField] private LayerMask _surfaceLayerMask = ~0;
+        [SerializeField] private SurfaceAudioConfig[] _surfaces;
 
-            [Space(5)]
-            [Range(0.1f, 3f),Loc] public float BasePitch = 1f;
-            [Range(0f, 0.5f),Loc] public float PitchRandomization = 0.08f;
-
-            [Space(5)]
-            [Min(0),Loc] public int AvoidRepeatingLast = 1;
-
-            private int _lastIndex = -1;
-
-            private readonly HashSet<int> _history = new HashSet<int>();
-            private readonly List<int> _historyOrder = new List<int>();
-            private readonly List<int> _shufflePool = new List<int>();
-            private readonly List<int> _validIndicesBuffer = new List<int>();
-
-            public void Play(AudioSource source)
-            {
-                if (Clips == null || Clips.Count == 0 || source == null) return;
-
-                int index = GetNextIndex();
-                if (index < 0 || index >= Clips.Count) return;
-
-                float finalVolume = Mathf.Clamp01(BaseVolume + UnityEngine.Random.Range(-VolumeRandomization, VolumeRandomization));
-                float finalPitch = Mathf.Max(0.1f, BasePitch + UnityEngine.Random.Range(-PitchRandomization, PitchRandomization));
-
-                source.pitch = finalPitch;
-                source.PlayOneShot(Clips[index], finalVolume);
-            }
-
-            public void ResetState()
-            {
-                _lastIndex = -1;
-                _history.Clear();
-                _historyOrder.Clear();
-                _shufflePool.Clear();
-                _validIndicesBuffer.Clear();
-            }
-
-            private int GetNextIndex()
-            {
-                if (Clips.Count == 1) return 0;
-                int index = -1;
-
-                switch (Playback)
-                {
-                    case PlaybackMode.Sequential:
-                        _lastIndex = (_lastIndex + 1) % Clips.Count;
-                        index = _lastIndex;
-                        break;
-
-                    case PlaybackMode.Shuffle:
-                        if (_shufflePool.Count == 0) PopulateShufflePool();
-                        int poolIndex = UnityEngine.Random.Range(0, _shufflePool.Count);
-                        index = _shufflePool[poolIndex];
-                        _shufflePool.RemoveAt(poolIndex);
-                        break;
-
-                    case PlaybackMode.Random:
-                        _validIndicesBuffer.Clear();
-                        for (int i = 0; i < Clips.Count; i++)
-                        {
-                            if (!_history.Contains(i)) _validIndicesBuffer.Add(i);
-                        }
-
-                        if (_validIndicesBuffer.Count == 0)
-                        {
-                            _history.Clear();
-                            _historyOrder.Clear();
-                            index = UnityEngine.Random.Range(0, Clips.Count);
-                        }
-                        else
-                        {
-                            index = _validIndicesBuffer[UnityEngine.Random.Range(0, _validIndicesBuffer.Count)];
-                        }
-                        break;
-                }
-
-                UpdateHistory(index);
-                return index;
-            }
-
-            private void PopulateShufflePool()
-            {
-                _shufflePool.Clear();
-                for (int i = 0; i < Clips.Count; i++) _shufflePool.Add(i);
-            }
-
-            private void UpdateHistory(int idx)
-            {
-                int maxHistory = Mathf.Max(0, Clips.Count - 1);
-                int allowedHistorySize = Mathf.Min(AvoidRepeatingLast, maxHistory);
-
-                if (allowedHistorySize <= 0)
-                {
-                    _history.Clear();
-                    _historyOrder.Clear();
-                    return;
-                }
-
-                if (!_history.Contains(idx))
-                {
-                    _history.Add(idx);
-                    _historyOrder.Add(idx);
-                }
-
-                while (_historyOrder.Count > allowedHistorySize)
-                {
-                    int oldest = _historyOrder[0];
-                    _historyOrder.RemoveAt(0);
-                    _history.Remove(oldest);
-                }
-            }
-        }
-
-        [SerializeField, Loc] private SAWController _controller;
-
-        [Space(5)]
-        [SerializeField, Loc] private AudioSource _stepSource;
-        [SerializeField, Loc] private AudioSource _actionSource;
-
-        [Space(5)]
-        [SerializeField,Loc] private AudioContainerSettings _walkStepSettings;
-        [SerializeField,Loc] private AudioContainerSettings _sprintStepSettings;
-        [SerializeField,Loc] private AudioContainerSettings _crouchStepSettings;
-
-        [Space(5)]
-        [SerializeField,Loc] private AudioContainerSettings _jumpSettings;
-        [SerializeField,Loc] private AudioContainerSettings _landSettings;
-        [SerializeField,Loc] private AudioContainerSettings _crouchDownSettings;
-        [SerializeField,Loc] private AudioContainerSettings _crouchUpSettings;
-
-        [Space(5)]
-        [SerializeField, Loc, Range(0f, 1f)] private float _antiSpamFactor = 0.75f;
-        [SerializeField, Loc, Range(0f, 1f)] private float _actionCooldown = 0.1f;
-
+        private AudioSource _stepSource;
+        private AudioSource _actionSource;
+        private CharacterController _characterController;
         private float _stepTimer;
-        private float _antiSpamCooldown;
-        private float _actionCooldownTimer;
-        private bool _wasMovingLastFrame;
 
         private void Awake()
         {
-            if (_controller == null)
-                Debug.LogError($"[{nameof(PlayerAudioController)}] Controller reference is null on '{gameObject.name}'!", this);
+            if (_controller == null && !TryGetComponent(out _controller))
+            {
+                Debug.LogError($"[{nameof(PlayerAudioController)}] SAWController is missing on '{name}'!", this);
+                enabled = false;
+                return;
+            }
 
-            if (_stepSource == null)
-                Debug.LogError($"[{nameof(PlayerAudioController)}] Step AudioSource is not assigned on '{gameObject.name}'!", this);
+            _characterController = _controller.GetComponent<CharacterController>();
+            _stepSource = CreateSource();
+            _actionSource = CreateSource();
+        }
 
-            if (_actionSource == null)
-                Debug.LogError($"[{nameof(PlayerAudioController)}] Action AudioSource is not assigned on '{gameObject.name}'!", this);
-
-            _walkStepSettings?.ResetState();
-            _sprintStepSettings?.ResetState();
-            _crouchStepSettings?.ResetState();
-            _jumpSettings?.ResetState();
-            _landSettings?.ResetState();
-            _crouchDownSettings?.ResetState();
-            _crouchUpSettings?.ResetState();
+        private AudioSource CreateSource()
+        {
+            var source = gameObject.AddComponent<AudioSource>();
+            source.outputAudioMixerGroup = _mixerGroup;
+            source.playOnAwake = false;
+            source.spatialBlend = 1f;
+            return source;
         }
 
         private void OnEnable()
         {
             if (_controller == null) return;
-            _controller.State.JumpPerformed += OnJumpPerformed;
-            _controller.State.LandPerformed += OnLandPerformed;
-            _controller.State.CrouchStarted += OnCrouchStarted;
-            _controller.State.CrouchCanceled += OnCrouchCanceled;
+            _controller.State.JumpPerformed += OnJump;
+            _controller.State.LandPerformed += OnLand;
+            _controller.State.CrouchStarted += OnCrouchDown;
+            _controller.State.CrouchCanceled += OnCrouchUp;
         }
 
         private void OnDisable()
         {
             if (_controller == null) return;
-            _controller.State.JumpPerformed -= OnJumpPerformed;
-            _controller.State.LandPerformed -= OnLandPerformed;
-            _controller.State.CrouchStarted -= OnCrouchStarted;
-            _controller.State.CrouchCanceled -= OnCrouchCanceled;
+            _controller.State.JumpPerformed -= OnJump;
+            _controller.State.LandPerformed -= OnLand;
+            _controller.State.CrouchStarted -= OnCrouchDown;
+            _controller.State.CrouchCanceled -= OnCrouchUp;
         }
 
-        private void Update()
+        // Опрос состояния идет строго в LateUpdate после того, как контроллер закончил движение
+        private void LateUpdate()
         {
-            if (_controller == null || _stepSource == null) return;
-
-            if (_antiSpamCooldown > 0f)
+            if (!_controller.State.IsMoving || !_controller.State.IsGrounded)
             {
-                _antiSpamCooldown -= Time.deltaTime;
+                _stepTimer = Mathf.Max(_stepTimer, 0.15f);
+                return;
             }
 
-            if (_actionCooldownTimer > 0f)
+            float currentInterval = GetCurrentInterval();
+
+            if (_stepTimer > currentInterval)
+                _stepTimer = currentInterval;
+
+            _stepTimer -= Time.deltaTime;
+
+            if (_stepTimer <= 0f)
             {
-                _actionCooldownTimer -= Time.deltaTime;
+                _stepTimer = currentInterval;
+
+                LocomotionAudio surfaceAudio = GetCurrentLocomotionAudio();
+                PlayResource(_stepSource, GetStepResource(in surfaceAudio));
             }
+        }
 
-            bool isMovingAndGrounded = _controller.State.IsMoving && _controller.State.IsGrounded;
+        private void PlayResource(AudioSource source, AudioResource resource)
+        {
+            if (resource == null || source == null) return;
 
-            if (isMovingAndGrounded)
+            if (source.resource != resource)
+                source.resource = resource;
+
+            source.Play();
+        }
+
+        private float GetCurrentInterval()
+        {
+            if (_controller.State.IsCrouching) return _crouchInterval;
+            if (_controller.State.IsSprinting) return _sprintInterval;
+            return _walkInterval;
+        }
+
+        private AudioResource GetStepResource(in LocomotionAudio audio)
+        {
+            if (_controller.State.IsCrouching)
+                return audio.Crouch != null ? audio.Crouch : _defaultLocomotion.Crouch;
+
+            if (_controller.State.IsSprinting)
+                return audio.Sprint != null ? audio.Sprint : _defaultLocomotion.Sprint;
+
+            return audio.Walk != null ? audio.Walk : _defaultLocomotion.Walk;
+        }
+
+        private LocomotionAudio GetCurrentLocomotionAudio()
+        {
+            if (_surfaces == null || _surfaces.Length == 0)
+                return _defaultLocomotion;
+
+            if (_characterController == null || !_characterController.enabled)
+                return _defaultLocomotion;
+
+            Bounds bounds = _characterController.bounds;
+            Vector3 origin = new Vector3(bounds.center.x, bounds.min.y + _rayOriginOffset, bounds.center.z);
+            float distance = _rayOriginOffset + _raycastDistance;
+
+            if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, distance, _surfaceLayerMask, QueryTriggerInteraction.Ignore))
             {
-                AudioContainerSettings currentStepSettings = GetCurrentStepSettings();
-                _stepTimer += Time.deltaTime;
-
-                if (_stepTimer >= currentStepSettings.Interval || (!_wasMovingLastFrame && _antiSpamCooldown <= 0f))
+                string surfaceTag = hit.collider.tag;
+                for (int i = 0; i < _surfaces.Length; i++)
                 {
-                    currentStepSettings.Play(_stepSource);
-                    _stepTimer = 0f;
-                    _antiSpamCooldown = currentStepSettings.Interval * _antiSpamFactor;
+                    if (surfaceTag == _surfaces[i].SurfaceTag)
+                        return _surfaces[i].Audio;
                 }
             }
-            else
-            {
-                _stepTimer = 0f;
-            }
 
-            _wasMovingLastFrame = isMovingAndGrounded;
+            return _defaultLocomotion;
         }
 
-        private AudioContainerSettings GetCurrentStepSettings()
+        private void OnJump() => PlayResource(_actionSource, _jump);
+        private void OnCrouchDown() => PlayResource(_actionSource, _crouchDown);
+        private void OnCrouchUp() => PlayResource(_actionSource, _crouchUp);
+
+        private void OnLand()
         {
-            if (_controller.State.IsCrouching && _crouchStepSettings != null)
-                return _crouchStepSettings;
-
-            if (_controller.State.IsSprinting && _sprintStepSettings != null)
-                return _sprintStepSettings;
-
-            return _walkStepSettings;
-        }
-
-        private void OnJumpPerformed()
-        {
-            if (_actionCooldownTimer <= 0f && _jumpSettings != null)
-            {
-                _jumpSettings.Play(_actionSource);
-                _actionCooldownTimer = _actionCooldown;
-            }
-        }
-
-        private void OnLandPerformed()
-        {
-            if (_actionCooldownTimer <= 0f && _landSettings != null)
-            {
-                _landSettings.Play(_actionSource);
-                _actionCooldownTimer = _actionCooldown;
-            }
-        }
-
-        private void OnCrouchStarted()
-        {
-            if (_actionCooldownTimer <= 0f && _crouchDownSettings != null)
-            {
-                _crouchDownSettings.Play(_actionSource);
-                _actionCooldownTimer = _actionCooldown;
-            }
-        }
-
-        private void OnCrouchCanceled()
-        {
-            if (_actionCooldownTimer <= 0f && _crouchUpSettings != null)
-            {
-                _crouchUpSettings.Play(_actionSource);
-                _actionCooldownTimer = _actionCooldown;
-            }
+            LocomotionAudio audio = GetCurrentLocomotionAudio();
+            PlayResource(_actionSource, audio.Land != null ? audio.Land : _defaultLocomotion.Land);
         }
     }
 }

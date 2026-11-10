@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.8.0]
+
+### Fixed
+- Made gamepad and touch look independent of frame rate. Starter look sensitivity is migrated to preserve its previous 60 FPS response.
+- Read touch deltas after UI events, preserve the final drag on release, and prevent a second pointer from taking over a joystick, look pad or button.
+- Release held mobile controls when hidden or unfocused; clear disabled input providers and normalize joystick movement independently of handle travel.
+- Resolve player input and dash actions through each PlayerInput instance's own action asset.
+- Accept immediate jump and dash presses when their input buffers are zero; only emit FallStarted while actually falling.
+- Check standing clearance in world space, including initial overlaps; keep crouching under an obstruction when crouching is disabled.
+- Keep modifier iteration stable when a modifier unregisters itself; reuse snapshot storage without per-frame allocations.
+- Update input before dash and movement. Prevent camera and character smoothing from producing NaN while time is paused.
+- Repair starter Dash/FOV references, remove unused desktop mobile readers, and use one shake controller per camera brain.
+- Remove the extra standing-height Body collider so CharacterController controls crouched collision size.
+- Probe audio surfaces from the character's feet and ignore the character's own colliders.
+- Repair default settings and script icon references; declare Input System and uGUI dependencies and remove the nonexistent sample import entry.
+
+### Changed
+- Context modifiers now receive raw crouch intent. Standing clearance and crouch restrictions are validated after modifiers using their final settings; CanStandUp can still be set false to prevent standing.
+- Touch sensitivity is expressed in degrees per pixel. Existing starter values of 10 are migrated to 1/6.
+- Starter prefabs and the demo remain available directly under StarterAssets.
+
+### Tests
+- Added Unity Editor regression tests for input, frame-rate scaling, jump/dash buffers, physics clearance, modifiers, audio and starter prefab references.
+
 ## [0.7.1]
 
 ### Added

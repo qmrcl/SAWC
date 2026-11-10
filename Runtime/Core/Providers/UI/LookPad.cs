@@ -4,26 +4,29 @@ using UnityEngine.EventSystems;
 namespace SAWC.Core.Input
 {
     [AddComponentMenu("SAWC/Core/Input/Readers/UI/Look Pad")]
-    public class LookPad : MonoBehaviour, IDragHandler, IPointerUpHandler
+    public class LookPad : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {
-        public Vector2 Delta { get; private set; }
-
         private Vector2 _accumulatedDelta;
+        private int? _pointerId;
+
+        public Vector2 Delta => _accumulatedDelta;
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (!isActiveAndEnabled || _pointerId != eventData.pointerId) return;
             _accumulatedDelta += eventData.delta;
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (isActiveAndEnabled && !_pointerId.HasValue)
+                _pointerId = eventData.pointerId;
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _accumulatedDelta = Vector2.zero;
-            Delta = Vector2.zero;
-        }
-
-        private void Update()
-        {
-            Delta = _accumulatedDelta;
+            if (_pointerId == eventData.pointerId)
+                _pointerId = null;
         }
 
         private void LateUpdate()
@@ -33,8 +36,13 @@ namespace SAWC.Core.Input
 
         private void OnDisable()
         {
+            _pointerId = null;
             _accumulatedDelta = Vector2.zero;
-            Delta = Vector2.zero;
+        }
+
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            if (!hasFocus) OnDisable();
         }
     }
 }

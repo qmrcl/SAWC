@@ -9,6 +9,7 @@ namespace SAWC.Core
     [RequireComponent(typeof(CharacterController))]
     [DisallowMultipleComponent]
     [SelectionBase]
+    [DefaultExecutionOrder(20)]
     public class SAWController : MonoBehaviour
     {
         public ICharacterState State => _stateTracker;
@@ -63,14 +64,16 @@ namespace SAWC.Core
                 IsGrounded = _controller.isGrounded,
                 JumpInput = Input.JumpHeld,
                 SprintInput = Input.SprintHeld,
+                CrouchInput = Input.CrouchHeld,
+                CanStandUp = true,
                 HitCeiling = (_controller.collisionFlags & CollisionFlags.Above) != 0,
                 DeltaTime = Time.deltaTime
             };
 
-            context.CanStandUp = _posture.CanStandUp(ref context.Settings);
-            context.CrouchInput = _posture.CheckCrouchState(Input.CrouchHeld, _stateTracker.IsCrouching, context.CanStandUp, ref context.Settings);
-
             Modifiers.ProcessContext(ref context);
+
+            context.CanStandUp &= _posture.CanStandUp(ref context.Settings);
+            context.CrouchInput = _posture.CheckCrouchState(context.CrouchInput, _stateTracker.IsCrouching, context.CanStandUp, ref context.Settings);
 
             _locomotion.Tick(ref context);
             _gravity.Tick(ref context);
