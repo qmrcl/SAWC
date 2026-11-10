@@ -1,5 +1,4 @@
-﻿using SAWC.Localization;
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace SAWC.Core.Data
@@ -28,13 +27,13 @@ namespace SAWC.Core.Data
         [Min(0f)] public float SprintSpeed;
 
         [Min(0.001f)] public float MinMoveThreshold;
+        public float MinMoveThresholdSq => MinMoveThreshold * MinMoveThreshold;
 
-        [Loc]
         [Min(0f)] public float BaseAcceleration;
-        [SerializeField] internal AnimationCurve AccelerationCurve;
+        public AnimationCurve AccelerationCurve;
 
         [Min(0f)] public float BaseDeceleration;
-        [SerializeField] internal AnimationCurve DecelerationCurve;
+        public AnimationCurve DecelerationCurve;
     }
 
     [Serializable]
@@ -91,32 +90,38 @@ namespace SAWC.Core.Data
         public float InputThresholdSq => InputThreshold * InputThreshold;
 
         [Min(0.01f)] public float VerticalVelocityThreshold;
-
         [Range(0.01f, 1f)] public float IdleTransitionMultiplier;
-
         public float FallVelocityThreshold;
 
         [Range(0f, 1f)] public float AirStateDebounceTime;
         [Range(0f, 1f)] public float SprintDirectionThreshold;
 
         [Min(0.001f)] public float VelocityThreshold;
+        public float VelocityThresholdSq => VelocityThreshold * VelocityThreshold;
     }
 
     [Serializable]
     public struct CharacterSettingsData
     {
-        [Loc] public MovementSettings Movement;
-        [Loc] public JumpSettings Jump;
-        [Loc] public CrouchSettings Crouch;
-        [Loc] public PhysicsSettings Physics;
-        [Loc] public RotationSettings Rotation;
-        [Loc] public ThresholdSettings Thresholds;
+        public MovementSettings Movement;
+        public JumpSettings Jump;
+        public CrouchSettings Crouch;
+        public PhysicsSettings Physics;
+        public RotationSettings Rotation;
+        public ThresholdSettings Thresholds;
     }
 
     [CreateAssetMenu(fileName = "CharacterSettings", menuName = "SAWC/Core/Character Settings")]
     public class CharacterSettings : ScriptableObject
     {
-        public CharacterSettingsData Data = new CharacterSettingsData
+        public CharacterSettingsData Data = CreateDefaultData();
+
+        private void Reset()
+        {
+            Data = CreateDefaultData();
+        }
+
+        private static CharacterSettingsData CreateDefaultData() => new CharacterSettingsData
         {
             Movement = new MovementSettings
             {
@@ -128,7 +133,9 @@ namespace SAWC.Core.Data
                 SprintSpeed = 6f,
                 MinMoveThreshold = 0.5f,
                 BaseAcceleration = 30f,
-                BaseDeceleration = 30f
+                AccelerationCurve = AnimationCurve.Linear(0f, 1f, 1f, 0.2f),
+                BaseDeceleration = 30f,
+                DecelerationCurve = AnimationCurve.Linear(0f, 1f, 1f, 0.5f)
             },
             Jump = new JumpSettings
             {
@@ -166,7 +173,7 @@ namespace SAWC.Core.Data
             },
             Thresholds = new ThresholdSettings
             {
-                InputThreshold = 0.05f, 
+                InputThreshold = 0.05f,
                 VerticalVelocityThreshold = 0.1f,
                 IdleTransitionMultiplier = 0.2f,
                 FallVelocityThreshold = -0.1f,
@@ -175,11 +182,5 @@ namespace SAWC.Core.Data
                 VelocityThreshold = 0.1f
             }
         };
-
-        private void Reset()
-        {
-            Data.Movement.AccelerationCurve = AnimationCurve.Linear(0f, 1f, 1f, 0.2f);
-            Data.Movement.DecelerationCurve = AnimationCurve.Linear(0f, 1f, 1f, 0.5f);
-        }
     }
 }

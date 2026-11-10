@@ -5,16 +5,5 @@
             <ui:Label name="doc-label" class="subtitle" />
             <ui:Button name="doc-button" class="main-button" />
         </ui:VisualElement>
-
-        <ui:VisualElement class="card loc-card">
-            <ui:VisualElement>
-                <ui:Label name="active-lang-title" class="badge-title" />
-                <ui:Label name="active-lang-value" class="active-lang-text" />
-            </ui:VisualElement>
-        </ui:VisualElement>
-
-        <ui:Label name="installed-packs-label" class="section-title" />
-
-        <ui:ScrollView name="list-container" class="card list-scroll" />
     </ui:VisualElement>
 </ui:UXML>

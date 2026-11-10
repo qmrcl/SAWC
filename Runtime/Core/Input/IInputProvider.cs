@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace SAWC.Core.Input
@@ -12,13 +11,5 @@ namespace SAWC.Core.Input
         bool SprintHeld { get; }
         bool CrouchHeld { get; }
         bool JumpHeld { get; }
-
-        event Action JumpStarted;
-        event Action JumpCanceled;
-
-        event Action SprintStarted;
-        event Action SprintCanceled;
-        event Action CrouchStarted;
-        event Action CrouchCanceled;
     }
 }

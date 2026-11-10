@@ -1,4 +1,3 @@
-using SAWC.Localization;
 using System;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -6,23 +5,35 @@ using UnityEngine;
 namespace SAWC.Core.Input
 {
     [AddComponentMenu("SAWC/Core/Input/Readers/UI/Touch Input Receiver")]
+    [DefaultExecutionOrder(-100)]
     public class TouchInputReceiver : InputAxisControllerBase<TouchInputReceiver.TouchReader>
     {
-        [SerializeField, Loc] private LookPad _lookPad;
+        [SerializeField] private LookPad _lookPad;
 
         [Space(5)]
-        [SerializeField,Loc, Range(0.1f, 100f)] private float _sensitivity = 10f;
+        [SerializeField, Range(0.1f, 100f)] private float _sensitivity = 1f / 6f;
 
-        private Vector2 CurrentSensitivityDelta => _lookPad != null ? _lookPad.Delta * _sensitivity : Vector2.zero;
-
-        protected override void OnDisable()
+        private Vector2 CurrentSensitivityDelta
         {
-            base.OnDisable();
+            get
+            {
+                float deltaTime = IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
+                // Pointer delta is already a displacement. Cancel the axis driver's
+                // integration so sensitivity is expressed in degrees per pixel.
+                return _lookPad != null && deltaTime > 0f
+                    ? _lookPad.Delta * (_sensitivity / deltaTime)
+                    : Vector2.zero;
+            }
         }
 
-        private void Update()
+        // EventSystem dispatches drag events in Update. Read them before LookPad's
+        // LateUpdate clears the shared delta and before CinemachineBrain updates.
+        private void LateUpdate()
         {
-            UpdateControllers();
+            if (Application.isPlaying)
+            {
+                UpdateControllers();
+            }
         }
 
         public void SetSensitivity(float newSensitivity)

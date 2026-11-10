@@ -1,35 +1,18 @@
-using SAWC.Localization;
-using System;
 using UnityEngine;
 
 namespace SAWC.Core.Input
 {
     public abstract class BaseInputProvider : MonoBehaviour, IInputProvider
     {
-        [SerializeField, Loc] protected Transform _cameraTransform;
-
-        private bool _jumpState;
-        private bool _sprintState;
-        private bool _crouchState;
+        [SerializeField] protected Transform _cameraTransform;
 
         public Vector3 WorldMoveDirection { get; private set; }
         public Vector3 WorldLookDirection { get; private set; }
 
-        public bool SprintHeld => _sprintState;
-        public bool CrouchHeld => _crouchState;
-        public bool JumpHeld => _jumpState;
-
         public abstract Vector2 MoveInput { get; }
-        protected abstract bool GetJumpInput();
-        protected abstract bool GetSprintInput();
-        protected abstract bool GetCrouchInput();
-
-        public event Action JumpStarted;
-        public event Action JumpCanceled;
-        public event Action SprintStarted;
-        public event Action SprintCanceled;
-        public event Action CrouchStarted;
-        public event Action CrouchCanceled;
+        public abstract bool JumpHeld { get; }
+        public abstract bool SprintHeld { get; }
+        public abstract bool CrouchHeld { get; }
 
         protected virtual void Awake()
         {
@@ -39,15 +22,18 @@ namespace SAWC.Core.Input
 
         protected virtual void Update()
         {
-            ProcessAction(GetJumpInput(), ref _jumpState, JumpStarted, JumpCanceled);
-            ProcessAction(GetSprintInput(), ref _sprintState, SprintStarted, SprintCanceled);
-            ProcessAction(GetCrouchInput(), ref _crouchState, CrouchStarted, CrouchCanceled);
             CalculateWorldDirection();
+        }
+
+        protected virtual void OnDisable()
+        {
+            WorldMoveDirection = Vector3.zero;
         }
 
         private void CalculateWorldDirection()
         {
-            Vector2 currentInput = MoveInput;
+            if (_cameraTransform == null && Camera.main != null)
+                _cameraTransform = Camera.main.transform;
 
             if (_cameraTransform == null)
             {
@@ -56,13 +42,24 @@ namespace SAWC.Core.Input
                 return;
             }
 
-            Vector3 camRight = _cameraTransform.right;
-            camRight.y = 0f;
-            camRight.Normalize();
-
-            Vector3 camForward = Vector3.Cross(camRight, Vector3.up);
+            // Build a yaw-only basis from the view direction. Flattening camera-right
+            // instead couples camera roll and pitch into the movement heading.
+            Vector3 camForward = Vector3.ProjectOnPlane(_cameraTransform.forward, Vector3.up);
+            Vector3 camRight;
+            if (camForward.sqrMagnitude > 0.000001f)
+            {
+                camForward.Normalize();
+                camRight = Vector3.Cross(Vector3.up, camForward);
+            }
+            else
+            {
+                // At a vertical view angle forward has no horizontal heading.
+                camRight = Vector3.ProjectOnPlane(_cameraTransform.right, Vector3.up).normalized;
+                camForward = Vector3.Cross(camRight, Vector3.up);
+            }
             WorldLookDirection = camForward;
 
+            Vector2 currentInput = MoveInput;
             if (currentInput.sqrMagnitude < 0.001f)
             {
                 WorldMoveDirection = Vector3.zero;
@@ -71,20 +68,6 @@ namespace SAWC.Core.Input
 
             Vector3 direction = camRight * currentInput.x + camForward * currentInput.y;
             WorldMoveDirection = Vector3.ClampMagnitude(direction, 1f);
-        }
-
-        private void ProcessAction(bool isPressedNow, ref bool previousState, Action onStarted, Action onCanceled)
-        {
-            if (isPressedNow && !previousState)
-            {
-                previousState = true;
-                onStarted?.Invoke();
-            }
-            else if (!isPressedNow && previousState)
-            {
-                previousState = false;
-                onCanceled?.Invoke();
-            }
         }
     }
 }
