@@ -121,7 +121,7 @@ namespace SAWC.Core.Data
             Data = CreateDefaultData();
         }
 
-        private static CharacterSettingsData CreateDefaultData() => new CharacterSettingsData
+        internal static CharacterSettingsData CreateDefaultData() => new CharacterSettingsData
         {
             Movement = new MovementSettings
             {

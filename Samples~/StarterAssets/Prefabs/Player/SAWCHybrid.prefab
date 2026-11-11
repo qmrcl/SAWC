@@ -1120,7 +1120,7 @@ GameObject:
   - component: {fileID: 4811703885510619462}
   - component: {fileID: 2968787374510041072}
   - component: {fileID: 3583998002863361089}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1203,8 +1203,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: SAWC.Modules::SAWC.Modules.Input.Detection.DeviceDetector
   _detectors:
-  - {fileID: 11400000, guid: aaa69b1f5d5da754c907e3cc0b01ede9, type: 2}
   - {fileID: 11400000, guid: 22baa28f457af48b49bca5e38dd6faa7, type: 2}
+  - {fileID: 11400000, guid: ead516ab844de4385831a16e5025be87, type: 2}
+  - {fileID: 11400000, guid: aaa69b1f5d5da754c907e3cc0b01ede9, type: 2}
 --- !u!114 &3583998002863361089
 MonoBehaviour:
   m_ObjectHideFlags: 0

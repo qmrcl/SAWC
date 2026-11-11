@@ -49,6 +49,7 @@ namespace SAWC.Modules.Audio
         private AudioSource _actionSource;
         private CharacterController _characterController;
         private float _stepTimer;
+        private RaycastHit[] _surfaceHits = new RaycastHit[8];
 
         private void Awake()
         {
@@ -156,9 +157,10 @@ namespace SAWC.Modules.Audio
             Vector3 origin = new Vector3(bounds.center.x, bounds.min.y + _rayOriginOffset, bounds.center.z);
             float distance = _rayOriginOffset + _raycastDistance;
 
-            if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, distance, _surfaceLayerMask, QueryTriggerInteraction.Ignore))
+            Collider surface = FindSurface(origin, distance);
+            if (surface != null)
             {
-                string surfaceTag = hit.collider.tag;
+                string surfaceTag = surface.tag;
                 for (int i = 0; i < _surfaces.Length; i++)
                 {
                     if (surfaceTag == _surfaces[i].SurfaceTag)
@@ -167,6 +169,33 @@ namespace SAWC.Modules.Audio
             }
 
             return _defaultLocomotion;
+        }
+
+        private Collider FindSurface(Vector3 origin, float distance)
+        {
+            int hitCount = Physics.RaycastNonAlloc(origin, Vector3.down, _surfaceHits, distance,
+                _surfaceLayerMask, QueryTriggerInteraction.Ignore);
+            while (hitCount == _surfaceHits.Length)
+            {
+                // A full buffer can omit the nearest external collider.
+                Array.Resize(ref _surfaceHits, _surfaceHits.Length * 2);
+                hitCount = Physics.RaycastNonAlloc(origin, Vector3.down, _surfaceHits, distance,
+                    _surfaceLayerMask, QueryTriggerInteraction.Ignore);
+            }
+
+            Collider closest = null;
+            float closestDistance = float.PositiveInfinity;
+            Transform character = _characterController.transform;
+            for (int i = 0; i < hitCount; i++)
+            {
+                RaycastHit hit = _surfaceHits[i];
+                if (hit.distance >= closestDistance || hit.collider.transform.IsChildOf(character))
+                    continue;
+
+                closest = hit.collider;
+                closestDistance = hit.distance;
+            }
+            return closest;
         }
 
         private void OnJump() => PlayResource(_actionSource, _jump);

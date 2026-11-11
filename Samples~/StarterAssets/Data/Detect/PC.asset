@@ -11,4 +11,4 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97d20a912c61f4d41ab8c649e001058b, type: 3}
   m_Name: PC
-  m_EditorClassIdentifier: SAWC.Modules::SAWC.Modules.Input.Detection.DefaultDetect
+  m_EditorClassIdentifier: SAWC.Modules::SAWC.Modules.Input.Detection.PCDetection

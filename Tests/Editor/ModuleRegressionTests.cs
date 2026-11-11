@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using SAWC.Core;
@@ -12,10 +13,12 @@ using SAWC.Modules.Camera;
 using SAWC.Modules.CameraUtils;
 using Unity.Cinemachine;
 using UnityEditor;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.TestTools;
 using Object = UnityEngine.Object;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace SAWC.Tests.Editor
 {
@@ -367,9 +370,10 @@ namespace SAWC.Tests.Editor
         [Test]
         public void DesktopPrefabs_DoNotKeepMobileReadersWithoutJoysticks()
         {
+            string root = PlayerPrefabRoot();
             foreach (string name in new[] { "SAWCFirstPerson", "SAWCThirdPerson", "SAWCHybridPerson" })
             {
-                string path = "Assets/SAWC/StarterAssets/Prefabs/Player/Default/" + name + ".prefab";
+                string path = root + "Default/" + name + ".prefab";
                 var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                 Assert.That(prefab, Is.Not.Null, path);
                 foreach (var reader in prefab.GetComponentsInChildren<MobileUIReader>(true))
@@ -399,8 +403,9 @@ namespace SAWC.Tests.Editor
         [TestCase(1f)]
         public void ThirdPersonCamera_SustainedStrafeDoesNotSteerBackward(float side)
         {
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-                "Assets/SAWC/StarterAssets/Prefabs/Player/Default/SAWCThirdPerson.prefab");
+            string path = PlayerPrefabRoot() + "Default/SAWCThirdPerson.prefab";
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            Assert.That(prefab, Is.Not.Null, path);
             var source = prefab.GetComponentInChildren<CinemachineOrbitalFollow>(true);
             Assert.That(source, Is.Not.Null);
             Assert.That(Get<float>(source.GetComponent<CameraMotionDynamics>(), "_panAngle"), Is.Zero,
@@ -537,13 +542,26 @@ namespace SAWC.Tests.Editor
 
         private static IEnumerable<string> PlayerPrefabPaths()
         {
-            const string root = "Assets/SAWC/StarterAssets/Prefabs/Player/";
+            string root = PlayerPrefabRoot();
             yield return root + "SAWCHybrid.prefab";
             yield return root + "Default/SAWCFirstPerson.prefab";
             yield return root + "Default/SAWCThirdPerson.prefab";
             yield return root + "Default/SAWCHybridPerson.prefab";
             yield return root + "Mobile/SAWCFirstPersonMobile 1.prefab";
             yield return root + "Mobile/SAWCThirdPersonMobile.prefab";
+        }
+
+        private static string PlayerPrefabRoot()
+        {
+            var package = PackageInfo.FindForAssembly(typeof(SAWController).Assembly);
+            Assert.That(package, Is.Not.Null, "Install SAWC as a Unity package before running these tests.");
+            var sample = Sample.FindByPackage(package.name, package.version)
+                .Single(candidate => candidate.displayName == "Starter Assets");
+            string importPath = FileUtil.GetProjectRelativePath(sample.importPath);
+            if (!AssetDatabase.IsValidFolder(importPath))
+                Assert.Ignore("Import the Starter Assets sample from Package Manager to run this test.");
+
+            return importPath + "/Prefabs/Player/";
         }
     }
 }

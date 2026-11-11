@@ -15,9 +15,13 @@ namespace SAWC.Core
         public ICharacterState State => _stateTracker;
         public IInputProvider Input { get; private set; }
         public CharacterModifiers Modifiers { get; } = new CharacterModifiers();
-        public CharacterSettingsData BaseSettings => _settings.Data;
+        public CharacterSettingsData BaseSettings => _settings != null
+            ? _settings.Data
+            : (_defaultSettings ??= CharacterSettings.CreateDefaultData());
 
         [SerializeField] private CharacterSettings _settings;
+
+        private CharacterSettingsData? _defaultSettings;
 
         private CharacterController _controller;
         private CharacterLocomotion _locomotion;
@@ -32,16 +36,10 @@ namespace SAWC.Core
 
             if (Input == null) Input = GetComponent<IInputProvider>();
 
-            if (_settings == null)
-            {
-                Debug.LogError($"{nameof(SAWController)}. Settings are not assigned on '{gameObject.name}'!", this);
-                enabled = false;
-                return;
-            }
-
+            CharacterSettingsData initialSettings = BaseSettings;
             _locomotion = new CharacterLocomotion();
             _gravity = new CharacterGravity();
-            _posture = new CharacterPosture(_controller, transform, ref _settings.Data);
+            _posture = new CharacterPosture(_controller, transform, ref initialSettings);
             _rotation = new CharacterRotation(transform);
         }
 
@@ -57,7 +55,7 @@ namespace SAWC.Core
 
             var context = new FrameContext
             {
-                Settings = _settings.Data,
+                Settings = BaseSettings,
                 MoveInput = Input.MoveInput,
                 WorldMoveDirection = Input.WorldMoveDirection,
                 WorldLookDirection = Input.WorldLookDirection,

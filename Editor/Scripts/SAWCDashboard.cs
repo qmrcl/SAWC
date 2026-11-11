@@ -13,6 +13,7 @@ namespace SAWC.Editor
     public class SAWCDashboard : UnityEditor.Editor
     {
         private const string SessionTabKey = "SAWC_Dashboard_SelectedTabIndex";
+        private const string UiAssetRoot = "Packages/com.qmrcl.sawc/Editor/UI/";
 
         private VisualElement _root;
         private VisualElement _warnings;
@@ -58,14 +59,11 @@ namespace SAWC.Editor
         {
             _root = new VisualElement();
 
-            string[] uxmlGuids = AssetDatabase.FindAssets($"{nameof(SAWCDashboard)} t:VisualTreeAsset");
-            string[] ussGuids = AssetDatabase.FindAssets($"{nameof(SAWCDashboard)} t:StyleSheet");
+            var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UiAssetRoot + nameof(SAWCDashboard) + ".uxml");
+            var uss = AssetDatabase.LoadAssetAtPath<StyleSheet>(UiAssetRoot + nameof(SAWCDashboard) + ".uss");
 
-            if (uxmlGuids.Length > 0 && ussGuids.Length > 0)
+            if (uxml != null && uss != null)
             {
-                var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(AssetDatabase.GUIDToAssetPath(uxmlGuids[0]));
-                var uss = AssetDatabase.LoadAssetAtPath<StyleSheet>(AssetDatabase.GUIDToAssetPath(ussGuids[0]));
-
                 uxml.CloneTree(_root);
                 _root.styleSheets.Add(uss);
             }
