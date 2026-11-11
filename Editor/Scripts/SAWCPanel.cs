@@ -6,6 +6,8 @@ namespace SAWC.Editor
 {
     public class SAWCPanel : EditorWindow
     {
+        private const string UiAssetRoot = "Packages/com.qmrcl.sawc/Editor/UI/";
+
         private Label _greetingLabel;
         private Label _docLabel;
         private Button _docButton;
@@ -24,8 +26,8 @@ namespace SAWC.Editor
             var root = rootVisualElement;
             root.Clear();
 
-            var uxml = LoadAsset<VisualTreeAsset>($"{nameof(SAWCPanel)} t:VisualTreeAsset");
-            var uss = LoadAsset<StyleSheet>($"{nameof(SAWCPanel)} t:StyleSheet");
+            var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UiAssetRoot + nameof(SAWCPanel) + ".uxml");
+            var uss = AssetDatabase.LoadAssetAtPath<StyleSheet>(UiAssetRoot + nameof(SAWCPanel) + ".uss");
 
             if (uxml != null && uss != null)
             {
@@ -50,13 +52,6 @@ namespace SAWC.Editor
                 _docButton.text = "📖 OPEN DOCUMENTATION";
                 _docButton.clicked += () => Application.OpenURL("https://qmrcl.github.io/SAWC-docs/");
             }
-        }
-
-        private T LoadAsset<T>(string filter) where T : UnityEngine.Object
-        {
-            string[] guids = AssetDatabase.FindAssets(filter);
-            if (guids.Length == 0) return null;
-            return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guids[0]));
         }
     }
 }

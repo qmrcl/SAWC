@@ -488,7 +488,7 @@ namespace SAWC.Tests.Editor
             Assert.That(processor, Is.Not.Null);
             InputSystem.RegisterProcessor(processor, "DeltaTimeScale");
             var source = AssetDatabase.LoadAssetAtPath<InputActionAsset>(
-                "Assets/SAWC/Runtime/Core/Input/SAWCInputAction.inputactions");
+                "Packages/com.qmrcl.sawc/Runtime/Core/Input/SAWCInputAction.inputactions");
             Assert.That(source, Is.Not.Null);
             return Keep(Object.Instantiate(source));
         }

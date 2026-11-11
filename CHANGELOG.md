@@ -12,6 +12,7 @@
 - Keep modifier iteration stable when a modifier unregisters itself; reuse snapshot storage without per-frame allocations.
 - Update input before dash and movement. Prevent camera and character smoothing from producing NaN while time is paused.
 - Repair starter Dash/FOV references, remove unused desktop mobile readers, and use one shake controller per camera brain.
+- Give the starter device detector a mobile strategy and let gamepad detection run before the desktop fallback.
 - Remove the extra standing-height Body collider so CharacterController controls crouched collision size.
 - Probe audio surfaces from the character's feet and ignore the character's own colliders.
 - Repair default settings and script icon references; declare Input System and uGUI dependencies and remove the nonexistent sample import entry.
@@ -19,7 +20,8 @@
 ### Changed
 - Context modifiers now receive raw crouch intent. Standing clearance and crouch restrictions are validated after modifiers using their final settings; CanStandUp can still be set false to prevent standing.
 - Touch sensitivity is expressed in degrees per pixel. Existing starter values of 10 are migrated to 1/6.
-- Starter prefabs and the demo remain available directly under StarterAssets.
+- Starter prefabs, demo scene and their assets are available as the optional Starter Assets sample in Package Manager.
+- Installing the UPM package registers the controller and its editor tools. Controllers without an assigned Character Settings asset use the built-in settings.
 
 ### Tests
 - Added Unity Editor regression tests for input, frame-rate scaling, jump/dash buffers, physics clearance, modifiers, audio and starter prefab references.

@@ -272,6 +272,25 @@ namespace SAWC.Tests.Editor
         }
 
         [Test]
+        public void ControllerUsesDefaultSettingsWithoutAnAssignedAsset()
+        {
+            GameObject player = CreateObject("Controller without settings");
+            player.SetActive(false);
+            var controller = player.AddComponent<SAWController>();
+            Assert.That(typeof(SAWController).GetField("_settings", InstanceMembers).GetValue(controller), Is.Null);
+
+            Invoke(controller, "Awake");
+
+            CharacterSettingsData settings = controller.BaseSettings;
+            Assert.That(controller.enabled, Is.True);
+            Assert.That(settings.Movement.MoveSpeed, Is.EqualTo(_settings.Data.Movement.MoveSpeed));
+            Assert.That(settings.Jump.JumpForce, Is.EqualTo(_settings.Data.Jump.JumpForce));
+            Assert.That(settings.Crouch.StandingHeight, Is.EqualTo(_settings.Data.Crouch.StandingHeight));
+            Assert.That(settings.Movement.AccelerationCurve.Evaluate(0.5f),
+                Is.EqualTo(_settings.Data.Movement.AccelerationCurve.Evaluate(0.5f)));
+        }
+
+        [Test]
         public void ContextModifierCanDisableCrouchInTheCurrentFrame()
         {
             var input = new TestInput { CrouchHeld = true };
